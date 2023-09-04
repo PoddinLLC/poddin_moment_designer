@@ -150,10 +150,10 @@ class ControlNotifier extends ChangeNotifier {
   }
 
   ///////
-  bool _enableTextShadow = true;
+  bool _enableTextShadow = false;
   bool get enableTextShadow => _enableTextShadow;
-  set enableTextShadow(bool filter) {
-    _enableTextShadow = filter;
+  set enableTextShadow(bool shadow) {
+    _enableTextShadow = shadow;
     notifyListeners();
   }
 
