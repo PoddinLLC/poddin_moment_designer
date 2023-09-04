@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vs_story_designer/src/presentation/utils/Extensions/hexColor.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/Extensions/hexColor.dart';
 
 List<List<Color>> gradientBackgroundColors = [
   [

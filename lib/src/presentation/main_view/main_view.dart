@@ -11,31 +11,31 @@ import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 import 'package:vs_media_picker/vs_media_picker.dart';
-import 'package:vs_story_designer/src/domain/models/editable_items.dart';
-import 'package:vs_story_designer/src/domain/models/painting_model.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/gradient_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/painting_notifier.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/rendering_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/scroll_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
-// import 'package:vs_story_designer/src/domain/sevices/save_as_gif_mp4.dart';
-import 'package:vs_story_designer/src/presentation/bar_tools/bottom_tools.dart';
-import 'package:vs_story_designer/src/presentation/bar_tools/top_tools.dart';
-import 'package:vs_story_designer/src/presentation/draggable_items/delete_item.dart';
-import 'package:vs_story_designer/src/presentation/draggable_items/draggable_widget.dart';
-// import 'package:vs_story_designer/src/presentation/main_view/widgets/rendering_indicator.dart';
-import 'package:vs_story_designer/src/presentation/painting_view/painting.dart';
-import 'package:vs_story_designer/src/presentation/painting_view/widgets/sketcher.dart';
-import 'package:vs_story_designer/src/presentation/text_editor_view/TextEditor.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/font_family.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dart';
-// import 'package:vs_story_designer/src/presentation/utils/constants/render_state.dart';
-import 'package:vs_story_designer/src/presentation/utils/modal_sheets.dart';
-import 'package:vs_story_designer/src/presentation/widgets/animated_onTap_button.dart';
-import 'package:vs_story_designer/src/presentation/widgets/scrollable_pageView.dart';
-import 'package:vs_story_designer/vs_story_designer.dart';
+import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
+import 'package:poddin_moment_designer/src/domain/models/painting_model.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/gradient_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/painting_notifier.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/rendering_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/scroll_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+// import 'package:poddin_moment_designer/src/domain/sevices/save_as_gif_mp4.dart';
+import 'package:poddin_moment_designer/src/presentation/bar_tools/bottom_tools.dart';
+import 'package:poddin_moment_designer/src/presentation/bar_tools/top_tools.dart';
+import 'package:poddin_moment_designer/src/presentation/draggable_items/delete_item.dart';
+import 'package:poddin_moment_designer/src/presentation/draggable_items/draggable_widget.dart';
+// import 'package:poddin_moment_designer/src/presentation/main_view/widgets/rendering_indicator.dart';
+import 'package:poddin_moment_designer/src/presentation/painting_view/painting.dart';
+import 'package:poddin_moment_designer/src/presentation/painting_view/widgets/sketcher.dart';
+import 'package:poddin_moment_designer/src/presentation/text_editor_view/TextEditor.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/font_family.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/render_state.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/modal_sheets.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageView.dart';
+import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 
 class MainView extends StatefulWidget {
   /// editor custom font families
@@ -138,7 +138,7 @@ class _MainViewState extends State<MainView> {
 
       /// initialize control variable provider
       _control.giphyKey = widget.giphyKey;
-      _control.folderName = widget.fileName ?? "VS_Story_Designer";
+      _control.folderName = widget.fileName ?? "poddin_moment_designer";
       _control.middleBottomWidget = widget.middleBottomWidget;
       _control.isCustomFontList = widget.isCustomFontList ?? false;
       _control.themeType = widget.themeType ?? ThemeType.dark;
@@ -356,7 +356,7 @@ class _MainViewState extends State<MainView> {
                                     .bodyText1!
                                     .merge(
                                       TextStyle(
-                                        package: 'vs_story_designer',
+                                        package: 'poddin_moment_designer',
                                         fontWeight: FontWeight.w500,
                                         fontSize: 25,
                                         color: Colors.white.withOpacity(0.5),

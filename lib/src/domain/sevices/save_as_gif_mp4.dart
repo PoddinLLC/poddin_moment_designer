@@ -6,12 +6,12 @@
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter/scheduler.dart';
 // import 'package:path_provider/path_provider.dart';
-// import 'package:vs_story_designer/src/domain/providers/FfmpegProvider.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/rendering_notifier.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/FfmpegProvider.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/rendering_notifier.dart';
 // import 'dart:ui' as ui show Image, ImageByteFormat;
 
-// import 'package:vs_story_designer/src/presentation/utils/constants/render_state.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/render_state.dart';
 
 // class WidgetRecorderController extends ChangeNotifier {
 //   WidgetRecorderController() : _containerKey = GlobalKey();

@@ -3,15 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/painting_notifier.dart';
-import 'package:vs_story_designer/src/domain/sevices/save_as_image.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/text_animation_type.dart';
-import 'package:vs_story_designer/src/presentation/utils/modal_sheets.dart';
-import 'package:vs_story_designer/src/presentation/widgets/animated_onTap_button.dart';
-import 'package:vs_story_designer/src/presentation/widgets/tool_button.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/painting_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/sevices/save_as_image.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/modal_sheets.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 
 class TopTools extends StatefulWidget {
   final GlobalKey contentKey;
@@ -86,7 +86,7 @@ class _TopToolsState extends State<TopTools> {
                           !controlNotifier.isTextEditing,
                       child: const ImageIcon(
                         AssetImage('assets/icons/text.png',
-                            package: 'vs_story_designer'),
+                            package: 'poddin_moment_designer'),
                         color: Colors.white,
                         size: 20,
                       ),
@@ -107,7 +107,7 @@ class _TopToolsState extends State<TopTools> {
                     // ToolButton(
                     //     child: const ImageIcon(
                     //       AssetImage('assets/icons/stickers.png',
-                    //           package: 'vs_story_designer'),
+                    //           package: 'poddin_moment_designer'),
                     //       color: Colors.white,
                     //       size: 20,
                     //     ),
@@ -123,7 +123,7 @@ class _TopToolsState extends State<TopTools> {
                         },
                         child: const ImageIcon(
                           AssetImage('assets/icons/draw.png',
-                              package: 'vs_story_designer'),
+                              package: 'poddin_moment_designer'),
                           color: Colors.white,
                           size: 20,
                         )),
@@ -133,7 +133,7 @@ class _TopToolsState extends State<TopTools> {
                 // ToolButton(
                 //   child: ImageIcon(
                 //     const AssetImage('assets/icons/photo_filter.png',
-                //         package: 'vs_story_designer'),
+                //         package: 'poddin_moment_designer'),
                 //     color: controlNotifier.isPhotoFilter ? Colors.black : Colors.white,
                 //     size: 20,
                 //   ),
@@ -198,7 +198,7 @@ class _TopToolsState extends State<TopTools> {
                     },
                     child: const ImageIcon(
                       AssetImage('assets/icons/download.png',
-                          package: 'vs_story_designer'),
+                          package: 'poddin_moment_designer'),
                       color: Colors.white,
                       size: 20,
                     )),

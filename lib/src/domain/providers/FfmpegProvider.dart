@@ -3,8 +3,8 @@
 // import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
 // import 'package:flutter/cupertino.dart';
 // import 'package:permission_handler/permission_handler.dart';
-// import 'package:vs_story_designer/src/presentation/utils/constants/directory_path.dart';
-// import 'package:vs_story_designer/src/presentation/utils/constants/render_type.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/directory_path.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/render_type.dart';
 
 // class FfmpegProvider with ChangeNotifier {
 //   bool loading = false, isPlaying = false;

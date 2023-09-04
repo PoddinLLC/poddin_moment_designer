@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:vs_story_designer/src/presentation/utils/color_detection.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/color_detection.dart';
 
 class FileImageBG extends StatefulWidget {
   final File? filePath;

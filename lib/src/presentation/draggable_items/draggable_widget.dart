@@ -7,16 +7,16 @@ import 'package:align_positioned/align_positioned.dart';
 import 'package:flutter/material.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_story_designer/src/domain/models/editable_items.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/gradient_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/font_family.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dart';
-// import 'package:vs_story_designer/src/presentation/utils/constants/text_animation_type.dart';
-import 'package:vs_story_designer/src/presentation/widgets/animated_onTap_button.dart';
-import 'package:vs_story_designer/src/presentation/widgets/file_image_bg.dart';
+import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/gradient_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/font_family.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/file_image_bg.dart';
 
 class DraggableWidget extends StatelessWidget {
   final EditableItem draggableWidget;
@@ -232,7 +232,7 @@ class DraggableWidget extends StatelessWidget {
         .merge(
           TextStyle(
             // fontFamily: controlNotifier.fontList![draggableWidget.fontFamily],
-            // package: controlNotifier.isCustomFontList ? null : 'vs_story_designer',
+            // package: controlNotifier.isCustomFontList ? null : 'poddin_moment_designer',
             fontWeight: FontWeight.w500,
             shadows: !controlNotifier.enableTextShadow
                 ? []

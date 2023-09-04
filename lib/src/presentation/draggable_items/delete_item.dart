@@ -1,8 +1,8 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
-import 'package:vs_story_designer/src/domain/models/editable_items.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dart';
+import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
 
 class DeleteItem extends StatelessWidget {
   const DeleteItem({
@@ -40,7 +40,7 @@ class DeleteItem extends StatelessWidget {
                 ),
                 child: const ImageIcon(
                   AssetImage('assets/icons/trash.png',
-                      package: 'vs_story_designer'),
+                      package: 'poddin_moment_designer'),
                   color: Colors.white,
                   size: 23,
                 ),

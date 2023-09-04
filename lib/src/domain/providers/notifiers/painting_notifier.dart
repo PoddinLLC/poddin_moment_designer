@@ -3,8 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:vs_story_designer/src/domain/models/painting_model.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/painting_type.dart';
+import 'package:poddin_moment_designer/src/domain/models/painting_model.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/painting_type.dart';
 
 class PaintingNotifier extends ChangeNotifier {
   /// here all line Paths will be save

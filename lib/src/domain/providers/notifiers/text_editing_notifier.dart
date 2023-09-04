@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/text_animation_type.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
 
 class TextEditingNotifier extends ChangeNotifier {
   String _text = '';

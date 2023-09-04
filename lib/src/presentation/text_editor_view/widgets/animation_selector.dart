@@ -2,10 +2,10 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:provider/provider.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
-// import 'package:vs_story_designer/src/presentation/utils/constants/text_animation_type.dart';
-// import 'package:vs_story_designer/src/presentation/widgets/animated_onTap_button.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
+// import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
 
 // class AnimationSelector extends StatelessWidget {
 //   const AnimationSelector({Key? key}) : super(key: key);
@@ -52,7 +52,7 @@
 //                                 .fontList![editorNotifier.fontFamilyIndex],
 //                             package: controlNotifier.isCustomFontList
 //                                 ? null
-//                                 : 'vs_story_designer')
+//                                 : 'poddin_moment_designer')
 //                         .copyWith(
 //                             color: index == editorNotifier.fontAnimationIndex
 //                                 ? Colors.red

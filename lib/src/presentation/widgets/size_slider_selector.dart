@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/painting_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/painting_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
 
 class SizeSliderWidget extends StatefulWidget {
   const SizeSliderWidget({Key? key}) : super(key: key);

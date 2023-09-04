@@ -1,8 +1,8 @@
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-// import 'package:vs_story_designer/src/domain/providers/notifiers/rendering_notifier.dart';
-// import 'package:vs_story_designer/src/presentation/utils/constants/render_state.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+// import 'package:poddin_moment_designer/src/domain/providers/notifiers/rendering_notifier.dart';
+// import 'package:poddin_moment_designer/src/presentation/utils/constants/render_state.dart';
 
 // class RenderingIndicator extends StatelessWidget {
 //   const RenderingIndicator({

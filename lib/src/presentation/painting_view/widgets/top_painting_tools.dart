@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/painting_notifier.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/painting_type.dart';
-import 'package:vs_story_designer/src/presentation/widgets/tool_button.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/painting_notifier.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/painting_type.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 
 class TopPaintingTools extends StatefulWidget {
   const TopPaintingTools({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                         scale: 0.6,
                         child: const ImageIcon(
                           AssetImage('assets/icons/return.png',
-                              package: 'vs_story_designer'),
+                              package: 'poddin_moment_designer'),
                           color: Colors.white,
                         )),
                   ),
@@ -63,7 +63,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           scale: 1.2,
                           child: ImageIcon(
                             const AssetImage('assets/icons/pen.png',
-                                package: 'vs_story_designer'),
+                                package: 'poddin_moment_designer'),
                             color: paintingNotifier.paintingType ==
                                     PaintingType.pen
                                 ? Colors.black
@@ -91,7 +91,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           scale: 1.2,
                           child: ImageIcon(
                             const AssetImage('assets/icons/marker.png',
-                                package: 'vs_story_designer'),
+                                package: 'poddin_moment_designer'),
                             color: paintingNotifier.paintingType ==
                                     PaintingType.marker
                                 ? Colors.black
@@ -120,7 +120,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           scale: 1.2,
                           child: ImageIcon(
                             const AssetImage('assets/icons/neon.png',
-                                package: 'vs_story_designer'),
+                                package: 'poddin_moment_designer'),
                             color: paintingNotifier.paintingType ==
                                     PaintingType.neon
                                 ? Colors.black
@@ -200,7 +200,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                 //       scale: 0.7,
                 //       child: const ImageIcon(
                 //         AssetImage('assets/icons/check.png',
-                //             package: 'vs_story_designer'),
+                //             package: 'poddin_moment_designer'),
                 //         color: Colors.white,
                 //       )),
                 // ),

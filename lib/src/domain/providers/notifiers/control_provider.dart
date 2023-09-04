@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/colors.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/font_family.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/gradients.dart';
-import 'package:vs_story_designer/vs_story_designer.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/colors.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/font_family.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/gradients.dart';
+import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 
 class ControlNotifier extends ChangeNotifier {
   String _giphyKey = '';

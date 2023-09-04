@@ -2,17 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_story_designer/src/domain/models/editable_items.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/control_provider.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
-import 'package:vs_story_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
-// import 'package:vs_story_designer/src/presentation/text_editor_view/widgets/animation_selector.dart';
-import 'package:vs_story_designer/src/presentation/text_editor_view/widgets/font_selector.dart';
-import 'package:vs_story_designer/src/presentation/text_editor_view/widgets/text_field_widget.dart';
-import 'package:vs_story_designer/src/presentation/text_editor_view/widgets/top_text_tools.dart';
-import 'package:vs_story_designer/src/presentation/utils/constants/item_type.dart';
-import 'package:vs_story_designer/src/presentation/widgets/color_selector.dart';
-import 'package:vs_story_designer/src/presentation/widgets/size_slider_selector.dart';
+import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
+// import 'package:poddin_moment_designer/src/presentation/text_editor_view/widgets/animation_selector.dart';
+import 'package:poddin_moment_designer/src/presentation/text_editor_view/widgets/font_selector.dart';
+import 'package:poddin_moment_designer/src/presentation/text_editor_view/widgets/text_field_widget.dart';
+import 'package:poddin_moment_designer/src/presentation/text_editor_view/widgets/top_text_tools.dart';
+import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/color_selector.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/size_slider_selector.dart';
 
 class TextEditor extends StatefulWidget {
   final BuildContext context;

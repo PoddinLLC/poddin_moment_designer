@@ -1,8 +1,8 @@
 ## 1.5.2
--- Fixed Readme guidelines and removed not necessary imports from AndroidManifest.xml, for more check issue https://github.com/VickySalunkhe/vs_story_designer/issues/3
+-- Fixed Readme guidelines and removed not necessary imports from AndroidManifest.xml, for more check issue https://github.com/VickySalunkhe/poddin_moment_designer/issues/3
 
 ## 1.5.0
-- Fixed Issue https://github.com/VickySalunkhe/vs_story_designer/issues/2
+- Fixed Issue https://github.com/VickySalunkhe/poddin_moment_designer/issues/2
 - Reduced the radius of area near Text Widget Deletion.
 
 ## 1.4.1
