@@ -2,7 +2,6 @@ name: vs_story_designer
 description: This is a package created in the style of the instagram story creator, with which you can create images with images, texts, finger drawing.
 version: 1.5.2
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-#homepage:  https://github.com/VickySalunkhe/vs_story_designer
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
