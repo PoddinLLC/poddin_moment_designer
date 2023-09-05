@@ -376,7 +376,7 @@ class _MainViewState extends State<MainView> {
 
                         /// top tools
                         Visibility(
-                          visible: !controlNotifier.isTextEditing &&
+                          visible: !controlNotifier.isTextEditing ||
                               !controlNotifier.isPainting,
                           child: Align(
                               alignment: Alignment.topCenter,
@@ -399,7 +399,7 @@ class _MainViewState extends State<MainView> {
 
                         /// bottom tools
                         Visibility(
-                          visible: !controlNotifier.isTextEditing &&
+                          visible: !controlNotifier.isTextEditing ||
                               !controlNotifier.isPainting,
                           child: Align(
                             alignment: Alignment.bottomCenter,
