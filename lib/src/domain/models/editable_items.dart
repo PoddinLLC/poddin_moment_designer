@@ -24,6 +24,9 @@ class EditableItem {
   Color backGroundColor = Colors.transparent;
   TextAnimationType animationType = TextAnimationType.none;
 
+  /// Image
+  String path = '';
+
   /// Gif
-  // GiphyGif gif = GiphyGif(id: '0');
+// GiphyGif gif = GiphyGif(id: '0');
 }

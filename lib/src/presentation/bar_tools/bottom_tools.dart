@@ -1,7 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'dart:io';
-import 'package:whatsapp_camera/whatsapp_camera.dart';
+import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +57,7 @@ class BottomTools extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   child: _preViewContainer(
+
                       /// if [model.imagePath] is null/empty return preview image
                       child: //controlNotifier.mediaPath.isEmpty ?
                           ClipRRect(
@@ -65,25 +65,52 @@ class BottomTools extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: () async {
                                   // Launch camera
-                                  List<File>? paths = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const WhatsappCamera(
-                                        multiple: false,
+                                  ImagePickerPlus picker =
+                                      ImagePickerPlus(context);
+                                  //
+                                  SelectedImagesDetails? details =
+                                      await picker.pickImage(
+                                    source: ImageSource.both,
+                                    galleryDisplaySettings:
+                                        GalleryDisplaySettings(
+                                      maximumSelection: 1,
+                                      appTheme: AppTheme(
+                                          focusColor: Colors.white,
+                                          primaryColor: Colors.black),
+                                      showImagePreview: true,
+                                      tabsTexts: TabsTexts(
+                                          noImagesFounded: 'No images found',
+                                          acceptAllPermissions:
+                                              'To use this feature, grant Poddin the permission to access your device storage and camera.'),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 1.7,
+                                        mainAxisSpacing: 1.5,
+                                        childAspectRatio: .5,
                                       ),
                                     ),
-                                  );
-                                  if (paths!.isNotEmpty) {
-                                    controlNotifier.mediaPath = paths[0].path;
-                                    if (controlNotifier.mediaPath.isNotEmpty) {
-                                      itemNotifier.draggableWidget.insert(
+                                  ); //
+                                  final paths = details!.selectedFiles
+                                      .map((e) => e.selectedFile.path)
+                                      .toList();
+                                  //
+                                  if (paths.isNotEmpty) {
+                                    if (itemNotifier.uploadedMedia == 0) {
+                                      controlNotifier.mediaPath = paths[0];
+                                    }
+                                    //
+                                    itemNotifier
+                                      ..draggableWidget.insert(
                                           0,
                                           EditableItem()
                                             ..type = ItemType.image
-                                            ..position = const Offset(0.0, 0));
-                                    }
+                                            ..path = paths[0]
+                                            ..position = const Offset(0.0, 0))
+                                      ..addMedia()
+                                      ..clearMediaPath(controlNotifier);
                                   }
+
                                   /// scroll to gridView page
                                   //  if (controlNotifier.mediaPath.isEmpty) {
                                   // scrollNotifier.pageController.animateToPage(1,
@@ -93,8 +120,8 @@ class BottomTools extends StatelessWidget {
                                   //  }
                                 },
                                 child: const CoverThumbnail(
-                                  thumbnailQuality: 150,
-                                ),
+                                    // thumbnailQuality: 150,
+                                    ),
                               ))
 
                       /// return clear [imagePath] provider
@@ -220,8 +247,7 @@ class BottomTools extends StatelessWidget {
                         });
                       }
                     } else {
-                      Fluttertoast.showToast(
-                          msg: 'Add image or text to post Moment');
+                      Fluttertoast.showToast(msg: 'Add a picture or text');
                     }
                     // setState(() {
                     _createVideo = false;

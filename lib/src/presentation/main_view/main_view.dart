@@ -146,6 +146,7 @@ class _MainViewState extends State<MainView> {
             0,
             EditableItem()
               ..type = ItemType.image
+              ..path = widget.mediaPath!
               ..position = const Offset(0.0, 0));
       }
       if (widget.gradientColors != null) {
@@ -208,11 +209,12 @@ class _MainViewState extends State<MainView> {
                           onTap: () {
                             controlNotifier.isTextEditing =
                                 !controlNotifier.isTextEditing;
+                            setState(() {});
                           },
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(15),
                               child: SizedBox(
                                 width: _screenSize.size.width,
                                 height: Platform.isIOS
@@ -259,7 +261,7 @@ class _MainViewState extends State<MainView> {
                                             child: Container(),
                                           ),
 
-                                          ///list items
+                                          /// list content items
                                           ...itemProvider.draggableWidget.map(
                                             (editableItem) => DraggableWidget(
                                               context: context,
@@ -375,10 +377,9 @@ class _MainViewState extends State<MainView> {
                           ),
 
                         /// top tools
-                        Visibility(
-                          visible: !controlNotifier.isTextEditing ||
-                              !controlNotifier.isPainting,
-                          child: Align(
+                        if (controlNotifier.isTextEditing == false &&
+                            controlNotifier.isPainting == false)
+                          Align(
                               alignment: Alignment.topCenter,
                               child: TopTools(
                                 contentKey: contentKey,
@@ -388,7 +389,6 @@ class _MainViewState extends State<MainView> {
                                 //     renderingNotifier: renderingNotifier,
                                 //     saveOnGallery: true),
                               )),
-                        ),
 
                         /// delete item when the item is in position
                         DeleteItem(
@@ -398,10 +398,9 @@ class _MainViewState extends State<MainView> {
                         ),
 
                         /// bottom tools
-                        Visibility(
-                          visible: !controlNotifier.isTextEditing ||
-                              !controlNotifier.isPainting,
-                          child: Align(
+                        if (controlNotifier.isTextEditing == false &&
+                            controlNotifier.isPainting == false)
+                          Align(
                             alignment: Alignment.bottomCenter,
                             child: BottomTools(
                               contentKey: contentKey,
@@ -419,7 +418,6 @@ class _MainViewState extends State<MainView> {
                                   widget.editorBackgroundColor,
                             ),
                           ),
-                        ),
 
                         /// show text editor
                         Visibility(
@@ -634,8 +632,8 @@ class _MainViewState extends State<MainView> {
       });
     } else if (item.type == ItemType.image &&
         item.position.dy >= 0.21 &&
-        item.position.dx >= -0.25 &&
-        item.position.dx <= 0.25) {
+        item.position.dx >= -0.15 &&
+        item.position.dx <= 0.15) {
       setState(() {
         _isDeletePosition = true;
         item.deletePosition = true;
@@ -653,18 +651,26 @@ class _MainViewState extends State<MainView> {
     var _itemProvider =
         Provider.of<DraggableWidgetNotifier>(context, listen: false)
             .draggableWidget;
+    var widgetProvider =
+        Provider.of<DraggableWidgetNotifier>(context, listen: false);
+    var control = Provider.of<ControlNotifier>(context, listen: false);
+
     _inAction = false;
-    // if (item.type == ItemType.image) {
-    // } else
+
     if (item.type == ItemType.text &&
             item.position.dy >= 0.32 &&
             item.position.dx >= -0.122 &&
             item.position.dx <= 0.122 ||
         item.type == ItemType.image &&
             item.position.dy >= 0.21 &&
-            item.position.dx >= -0.25 &&
-            item.position.dx <= 0.25) {
+            item.position.dx >= -0.15 &&
+            item.position.dx <= 0.15) {
       setState(() {
+        if (item.type == ItemType.image) {
+          widgetProvider
+            ..clearMediaPath(control)
+            ..deleteMedia();
+        }
         _itemProvider.removeAt(_itemProvider.indexOf(item));
         HapticFeedback.heavyImpact();
       });

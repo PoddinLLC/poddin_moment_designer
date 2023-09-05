@@ -39,6 +39,8 @@ class DraggableWidget extends StatelessWidget {
         Provider.of<GradientNotifier>(this.context, listen: false);
     var _controlProvider =
         Provider.of<ControlNotifier>(this.context, listen: false);
+    var _widgetProvider =
+        Provider.of<DraggableWidgetNotifier>(context, listen: false);
     Widget overlayWidget;
 
     switch (draggableWidget.type) {
@@ -95,11 +97,11 @@ class DraggableWidget extends StatelessWidget {
 
       /// image [file_image_gb.dart]
       case ItemType.image:
-        if (_controlProvider.mediaPath.isNotEmpty) {
+        if (_widgetProvider.uploadedMedia >= 1) {
           overlayWidget = SizedBox(
             width: _size.width - 72,
             child: FileImageBG(
-              filePath: File(_controlProvider.mediaPath),
+              filePath: File(draggableWidget.path),
               generatedGradient: (color1, color2) {
                 _colorProvider.color1 = color1;
                 _colorProvider.color2 = color2;
@@ -109,9 +111,7 @@ class DraggableWidget extends StatelessWidget {
         } else {
           overlayWidget = Container();
         }
-
         break;
-
       case ItemType.gif:
         overlayWidget = SizedBox(
           width: 150,
@@ -159,6 +159,7 @@ class DraggableWidget extends StatelessWidget {
             onPointerDown: onPointerDown,
             onPointerUp: onPointerUp,
             onPointerMove: onPointerMove,
+
             /// show widget
             child: overlayWidget,
           ),
@@ -274,7 +275,7 @@ class DraggableWidget extends StatelessWidget {
       scale = 0.4;
     } else if ( //draggableWidget.type == ItemType.gif ||
         draggableWidget.type == ItemType.image) {
-      scale = 0.3;
+      scale = 0.4;
     }
     return scale;
   }

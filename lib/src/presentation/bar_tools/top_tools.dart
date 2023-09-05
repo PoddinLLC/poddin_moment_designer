@@ -63,24 +63,24 @@ class _TopToolsState extends State<TopTools> {
                 Row(
                   children: [
                     // Change background color
-                    // if (controlNotifier.mediaPath.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 0),
-                      child: _selectColor(
-                          controlProvider: controlNotifier,
-                          onTap: () {
-                            if (controlNotifier.gradientIndex >=
-                                controlNotifier.gradientColors!.length - 1) {
-                              setState(() {
-                                controlNotifier.gradientIndex = 0;
-                              });
-                            } else {
-                              setState(() {
-                                controlNotifier.gradientIndex += 1;
-                              });
-                            }
-                          }),
-                    ),
+                    if (controlNotifier.mediaPath.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0),
+                        child: _selectColor(
+                            controlProvider: controlNotifier,
+                            onTap: () {
+                              if (controlNotifier.gradientIndex >=
+                                  controlNotifier.gradientColors!.length - 1) {
+                                setState(() {
+                                  controlNotifier.gradientIndex = 0;
+                                });
+                              } else {
+                                setState(() {
+                                  controlNotifier.gradientIndex += 1;
+                                });
+                              }
+                            }),
+                      ),
                     // Add text
                     ToolButton(
                       backGroundColor: Colors.black12,
@@ -166,8 +166,8 @@ class _TopToolsState extends State<TopTools> {
                                           margin: const EdgeInsets.all(50),
                                           child:
                                               const CircularProgressIndicator(
-                                                color: Colors.white,
-                                              ))),
+                                            color: Colors.white,
+                                          ))),
                                 ],
                               );
                             });
@@ -190,14 +190,15 @@ class _TopToolsState extends State<TopTools> {
                               saveToGallery: true,
                               fileName: controlNotifier.folderName);
                           if (response) {
-                            Fluttertoast.showToast(msg: 'Successfully downloaded!');
+                            Fluttertoast.showToast(
+                                msg: 'Successfully downloaded!');
                           } else {}
                         }
                         // ignore: use_build_context_synchronously
                         Navigator.of(context, rootNavigator: true).pop();
                       } else {
                         Fluttertoast.showToast(
-                            msg: 'Add text or image to download Moment');
+                            msg: 'Add a picture or text');
                       }
                       setState(() {
                         _createVideo = false;
