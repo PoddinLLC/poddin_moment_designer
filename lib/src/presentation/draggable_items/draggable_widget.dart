@@ -1,7 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
-
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -160,7 +159,6 @@ class DraggableWidget extends StatelessWidget {
             onPointerDown: onPointerDown,
             onPointerUp: onPointerUp,
             onPointerMove: onPointerMove,
-
             /// show widget
             child: overlayWidget,
           ),
@@ -228,7 +226,7 @@ class DraggableWidget extends StatelessWidget {
       bool background = false}) {
     return AppFonts.getTextThemeENUM(
             controlNotifier.fontList![draggableWidget.fontFamily])
-        .bodyText1!
+        .bodyLarge!
         .merge(
           TextStyle(
             // fontFamily: controlNotifier.fontList![draggableWidget.fontFamily],
@@ -264,22 +262,21 @@ class DraggableWidget extends StatelessWidget {
     double top = 0.0;
     if (draggableWidget.type == ItemType.text) {
       top = size.width / 1.3;
-      return top;
-    } else if (draggableWidget.type == ItemType.gif) {
+    } else if (draggableWidget.type == ItemType.image) {
       top = size.width / 1.3;
-      return top;
     }
+    return top;
   }
 
   _deleteScale() {
     double scale = 0.0;
     if (draggableWidget.type == ItemType.text) {
       scale = 0.4;
-      return scale;
-    } else if (draggableWidget.type == ItemType.gif) {
+    } else if ( //draggableWidget.type == ItemType.gif ||
+        draggableWidget.type == ItemType.image) {
       scale = 0.3;
-      return scale;
     }
+    return scale;
   }
 
   /// onTap text

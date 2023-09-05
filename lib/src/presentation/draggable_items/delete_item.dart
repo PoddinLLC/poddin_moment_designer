@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -22,7 +22,7 @@ class DeleteItem extends StatelessWidget {
     var _mediaQuery = MediaQuery.of(context);
 
     return Visibility(
-      visible: _activeItem != null && _activeItem!.type != ItemType.image,
+      visible: _activeItem != null, // && _activeItem!.type != ItemType.image,
       child: Positioned(
           bottom: 130,
           child: SizedBox(

@@ -1,8 +1,6 @@
-// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
-
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -188,14 +186,14 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
-              //top: false,
               child: Stack(
                 children: [
                   ScrollablePageView(
-                    scrollPhysics: controlNotifier.mediaPath.isEmpty &&
-                        itemProvider.draggableWidget.isEmpty &&
-                        !controlNotifier.isPainting &&
-                        !controlNotifier.isTextEditing,
+                    // scrollPhysics: controlNotifier.mediaPath.isEmpty &&
+                    //     itemProvider.draggableWidget.isEmpty &&
+                    //     !controlNotifier.isPainting &&
+                    //     !controlNotifier.isTextEditing,
+                    scrollPhysics: false,
                     pageController: scrollProvider.pageController,
                     gridController: scrollProvider.gridController,
                     mainView: Stack(
@@ -228,7 +226,6 @@ class _MainViewState extends State<MainView> {
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 200),
                                     decoration: BoxDecoration(
-                                        //borderRadius: BorderRadius.circular(25),
                                         gradient:
                                             controlNotifier.mediaPath.isEmpty
                                                 ? LinearGradient(
@@ -264,29 +261,29 @@ class _MainViewState extends State<MainView> {
 
                                           ///list items
                                           ...itemProvider.draggableWidget.map(
-                                              (editableItem) => DraggableWidget(
-                                                    context: context,
-                                                    draggableWidget:
-                                                        editableItem,
-                                                    onPointerDown: (details) {
-                                                      _updateItemPosition(
-                                                        editableItem,
-                                                        details,
-                                                      );
-                                                    },
-                                                    onPointerUp: (details) {
-                                                      _deleteItemOnCoordinates(
-                                                        editableItem,
-                                                        details,
-                                                      );
-                                                    },
-                                                    onPointerMove: (details) {
-                                                      _deletePosition(
-                                                        editableItem,
-                                                        details,
-                                                      );
-                                                    },
-                                                  )),
+                                            (editableItem) => DraggableWidget(
+                                              context: context,
+                                              draggableWidget: editableItem,
+                                              onPointerDown: (details) {
+                                                _updateItemPosition(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                              onPointerUp: (details) {
+                                                _deleteItemOnCoordinates(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                              onPointerMove: (details) {
+                                                _deletePosition(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                            ),
+                                          ),
 
                                           /// finger paint
                                           IgnorePointer(
@@ -353,7 +350,7 @@ class _MainViewState extends State<MainView> {
                                 widget.centerText!,
                                 style: AppFonts.getTextThemeENUM(
                                         FontType.garamond)
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .merge(
                                       TextStyle(
                                         package: 'poddin_moment_designer',
@@ -401,8 +398,10 @@ class _MainViewState extends State<MainView> {
                         ),
 
                         /// bottom tools
-                        if (!kIsWeb)
-                          Align(
+                        Visibility(
+                          visible: !controlNotifier.isTextEditing &&
+                              !controlNotifier.isPainting,
+                          child: Align(
                             alignment: Alignment.bottomCenter,
                             child: BottomTools(
                               contentKey: contentKey,
@@ -420,6 +419,7 @@ class _MainViewState extends State<MainView> {
                                   widget.editorBackgroundColor,
                             ),
                           ),
+                        ),
 
                         /// show text editor
                         Visibility(
@@ -632,7 +632,7 @@ class _MainViewState extends State<MainView> {
         _isDeletePosition = true;
         item.deletePosition = true;
       });
-    } else if (item.type == ItemType.gif &&
+    } else if (item.type == ItemType.image &&
         item.position.dy >= 0.21 &&
         item.position.dx >= -0.25 &&
         item.position.dx <= 0.25) {
@@ -654,22 +654,19 @@ class _MainViewState extends State<MainView> {
         Provider.of<DraggableWidgetNotifier>(context, listen: false)
             .draggableWidget;
     _inAction = false;
-    if (item.type == ItemType.image) {
-    } else if (item.type == ItemType.text &&
+    // if (item.type == ItemType.image) {
+    // } else
+    if (item.type == ItemType.text &&
             item.position.dy >= 0.32 &&
             item.position.dx >= -0.122 &&
             item.position.dx <= 0.122 ||
-        item.type == ItemType.gif &&
+        item.type == ItemType.image &&
             item.position.dy >= 0.21 &&
             item.position.dx >= -0.25 &&
             item.position.dx <= 0.25) {
       setState(() {
         _itemProvider.removeAt(_itemProvider.indexOf(item));
         HapticFeedback.heavyImpact();
-      });
-    } else {
-      setState(() {
-        _activeItem = null;
       });
     }
     setState(() {
@@ -682,7 +679,6 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-
     _inAction = true;
     _activeItem = item;
     _initPos = details.position;

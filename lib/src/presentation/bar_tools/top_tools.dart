@@ -62,24 +62,26 @@ class _TopToolsState extends State<TopTools> {
 
                 Row(
                   children: [
-                    if (controlNotifier.mediaPath.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 0),
-                        child: _selectColor(
-                            controlProvider: controlNotifier,
-                            onTap: () {
-                              if (controlNotifier.gradientIndex >=
-                                  controlNotifier.gradientColors!.length - 1) {
-                                setState(() {
-                                  controlNotifier.gradientIndex = 0;
-                                });
-                              } else {
-                                setState(() {
-                                  controlNotifier.gradientIndex += 1;
-                                });
-                              }
-                            }),
-                      ),
+                    // Change background color
+                    // if (controlNotifier.mediaPath.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0),
+                      child: _selectColor(
+                          controlProvider: controlNotifier,
+                          onTap: () {
+                            if (controlNotifier.gradientIndex >=
+                                controlNotifier.gradientColors!.length - 1) {
+                              setState(() {
+                                controlNotifier.gradientIndex = 0;
+                              });
+                            } else {
+                              setState(() {
+                                controlNotifier.gradientIndex += 1;
+                              });
+                            }
+                          }),
+                    ),
+                    // Add text
                     ToolButton(
                       backGroundColor: Colors.black12,
                       onTap: () => controlNotifier.isTextEditing =
@@ -91,19 +93,22 @@ class _TopToolsState extends State<TopTools> {
                         size: 20,
                       ),
                     ),
+                    // Toggle text shadow
                     ToolButton(
-                        backGroundColor: controlNotifier.enableTextShadow
-                            ? Colors.white
-                            : Colors.black12,
-                        onTap: () {
-                          controlNotifier.enableTextShadow =
-                              !controlNotifier.enableTextShadow;
-                        },
-                        child: Icon(Icons.text_fields_sharp,
-                            color: controlNotifier.enableTextShadow
-                                ? Colors.black
-                                : Colors.white,
-                            size: 30)),
+                      backGroundColor: controlNotifier.enableTextShadow
+                          ? Colors.white
+                          : Colors.black12,
+                      onTap: () {
+                        controlNotifier.enableTextShadow =
+                            !controlNotifier.enableTextShadow;
+                      },
+                      child: Icon(Icons.text_fields_sharp,
+                          color: controlNotifier.enableTextShadow
+                              ? Colors.black
+                              : Colors.white,
+                          size: 30),
+                    ),
+                    // Add sticker
                     // ToolButton(
                     //     child: const ImageIcon(
                     //       AssetImage('assets/icons/stickers.png',
@@ -114,7 +119,8 @@ class _TopToolsState extends State<TopTools> {
                     //     backGroundColor: Colors.black12,
                     //     onTap: () => createGiphyItem(
                     //         context: context,
-                    //         giphyKey: controlNotifier.giphyKey)),
+                    //         giphyKey: controlNotifier.giphyKey),),
+                    // Add drawing
                     ToolButton(
                         backGroundColor: Colors.black12,
                         onTap: () {
@@ -141,7 +147,7 @@ class _TopToolsState extends State<TopTools> {
                 //   onTap: () => controlNotifier.isPhotoFilter =
                 //   !controlNotifier.isPhotoFilter,
                 // ),
-
+                // Download image
                 ToolButton(
                     backGroundColor: Colors.black12,
                     onTap: () async {
@@ -155,11 +161,13 @@ class _TopToolsState extends State<TopTools> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Card(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       child: Container(
                                           margin: const EdgeInsets.all(50),
                                           child:
-                                              const CircularProgressIndicator())),
+                                              const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ))),
                                 ],
                               );
                             });
@@ -182,16 +190,15 @@ class _TopToolsState extends State<TopTools> {
                               saveToGallery: true,
                               fileName: controlNotifier.folderName);
                           if (response) {
-                            Fluttertoast.showToast(msg: 'Successfully saved');
+                            Fluttertoast.showToast(msg: 'Successfully downloaded!');
                           } else {}
                         }
                         // ignore: use_build_context_synchronously
                         Navigator.of(context, rootNavigator: true).pop();
                       } else {
                         Fluttertoast.showToast(
-                            msg: 'Design something to save image');
+                            msg: 'Add text or image to download Moment');
                       }
-
                       setState(() {
                         _createVideo = false;
                       });

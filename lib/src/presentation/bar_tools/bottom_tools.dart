@@ -1,5 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'dart:io';
+import 'package:whatsapp_camera/whatsapp_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ import 'package:poddin_moment_designer/src/domain/sevices/save_as_image.dart';
 import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
 import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
+import '../../domain/models/editable_items.dart';
 
 // import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 
@@ -55,46 +58,66 @@ class BottomTools extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   child: _preViewContainer(
-                    /// if [model.imagePath] is null/empty return preview image
-                    child: controlNotifier.mediaPath.isEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: GestureDetector(
-                              onTap: () {
-                                /// scroll to gridView page
-                                if (controlNotifier.mediaPath.isEmpty) {
-                                  scrollNotifier.pageController.animateToPage(1,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.ease);
-                                }
-                              },
-                              child: const CoverThumbnail(
-                                thumbnailQuality: 150,
-                              ),
-                            ))
-
-                        /// return clear [imagePath] provider
-                        : GestureDetector(
-                            onTap: () {
-                              /// clear image url variable
-                              controlNotifier.mediaPath = '';
-                              itemNotifier.draggableWidget.removeAt(0);
-                            },
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              color: Colors.transparent,
-                              child: Transform.scale(
-                                scale: 0.7,
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
+                      /// if [model.imagePath] is null/empty return preview image
+                      child: //controlNotifier.mediaPath.isEmpty ?
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  // Launch camera
+                                  List<File>? paths = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const WhatsappCamera(
+                                        multiple: false,
+                                      ),
+                                    ),
+                                  );
+                                  if (paths!.isNotEmpty) {
+                                    controlNotifier.mediaPath = paths[0].path;
+                                    if (controlNotifier.mediaPath.isNotEmpty) {
+                                      itemNotifier.draggableWidget.insert(
+                                          0,
+                                          EditableItem()
+                                            ..type = ItemType.image
+                                            ..position = const Offset(0.0, 0));
+                                    }
+                                  }
+                                  /// scroll to gridView page
+                                  //  if (controlNotifier.mediaPath.isEmpty) {
+                                  // scrollNotifier.pageController.animateToPage(1,
+                                  //     duration:
+                                  //         const Duration(milliseconds: 300),
+                                  //     curve: Curves.ease);
+                                  //  }
+                                },
+                                child: const CoverThumbnail(
+                                  thumbnailQuality: 150,
                                 ),
-                              ),
-                            ),
-                          ),
-                  ),
+                              ))
+
+                      /// return clear [imagePath] provider
+                      // : GestureDetector(
+                      //     onTap: () {
+                      //       /// clear image url variable
+                      //       controlNotifier.mediaPath = '';
+                      //       itemNotifier.draggableWidget.removeAt(0);
+                      //     },
+                      //     child: Container(
+                      //       height: 45,
+                      //       width: 45,
+                      //       color: Colors.transparent,
+                      //       child: Transform.scale(
+                      //         scale: 0.7,
+                      //         child: const Icon(
+                      //           Icons.delete,
+                      //           color: Colors.white,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      ),
                 ),
               ),
               // if (controlNotifier.mediaPath.isEmpty)
@@ -145,7 +168,6 @@ class BottomTools extends StatelessWidget {
                     ),
 
               /// save final image to gallery
-
               AnimatedOnTapButton(
                   onTap: () async {
                     String pngUri;
@@ -159,11 +181,12 @@ class BottomTools extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Card(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     child: Container(
                                         padding: const EdgeInsets.all(50),
-                                        child:
-                                            const CircularProgressIndicator())),
+                                        child: const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ))),
                               ],
                             );
                           });
@@ -192,13 +215,13 @@ class BottomTools extends StatelessWidget {
                             pngUri = bytes;
                             onDone(pngUri);
                           } else {
-                            print("error");
+                            debugPrint("error");
                           }
                         });
                       }
                     } else {
                       Fluttertoast.showToast(
-                          msg: 'Design something to save image');
+                          msg: 'Add image or text to post Moment');
                     }
                     // setState(() {
                     _createVideo = false;
@@ -212,9 +235,9 @@ class BottomTools extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                             border:
                                 Border.all(color: Colors.white, width: 1.5)),
-                        child: Row(
+                        child: const Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
+                            children: [
                               Padding(
                                 padding: EdgeInsets.only(left: 0, right: 2),
                                 child: Icon(Icons.share_sharp, size: 28),
@@ -295,5 +318,4 @@ class BottomTools extends StatelessWidget {
   //     ),
   //   );
   // }
-
 }
