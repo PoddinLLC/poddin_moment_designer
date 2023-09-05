@@ -4,7 +4,7 @@ version: 1.0.0
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: ">=3.1.0 <4.0.0" #'>=2.18.2 <3.0.0'
 
 dependencies:
   flutter:
@@ -40,7 +40,6 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.1
   # dotted_border: ^2.0.0+3
-  # whatsapp_camera: ^1.0.0
 
 
 flutter:
