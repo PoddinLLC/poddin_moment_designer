@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/services.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_media_picker/vs_media_picker.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
 import 'package:poddin_moment_designer/src/domain/models/painting_model.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
@@ -31,7 +29,6 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/font_fam
 import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
 // import 'package:poddin_moment_designer/src/presentation/utils/constants/render_state.dart';
 import 'package:poddin_moment_designer/src/presentation/utils/modal_sheets.dart';
-import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageView.dart';
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 
@@ -217,16 +214,8 @@ class _MainViewState extends State<MainView> {
                               borderRadius: BorderRadius.circular(15),
                               child: SizedBox(
                                 width: _screenSize.size.width,
-                                height: Platform.isIOS
-                                    ? (_screenSize.size.height -
-                                            (controlNotifier.isTextEditing
-                                                ? 0
-                                                : 70)) - //135
-                                        _screenSize.viewPadding.top
-                                    : (_screenSize.size.height -
-                                        (controlNotifier.isTextEditing
-                                            ? 0
-                                            : 70)), //132
+                                height: _screenSize.size.height -
+                                    _screenSize.viewPadding.top,
                                 // child: ScreenRecorder(
                                 //   controller: _recorderController,
                                 child: RepaintBoundary(
@@ -313,7 +302,7 @@ class _MainViewState extends State<MainView> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height -
-                                                            70, //132
+                                                            132,
                                                     child: StreamBuilder<
                                                         List<PaintingModel>>(
                                                       stream: paintingProvider
@@ -440,60 +429,7 @@ class _MainViewState extends State<MainView> {
                         )
                       ],
                     ),
-                    gallery: VSMediaPicker(
-                      gridViewController: scrollProvider.gridController,
-                      thumbnailQuality: widget.galleryThumbnailQuality,
-                      singlePick: true,
-                      onlyImages: true,
-                      appBarColor: widget.editorBackgroundColor ?? Colors.black,
-                      gridViewPhysics: itemProvider.draggableWidget.isEmpty
-                          ? const NeverScrollableScrollPhysics()
-                          : const ScrollPhysics(),
-                      pathList: (path) {
-                        controlNotifier.mediaPath = path[0].path!;
-                        if (controlNotifier.mediaPath.isNotEmpty) {
-                          itemProvider.draggableWidget.insert(
-                              0,
-                              EditableItem()
-                                ..type = ItemType.image
-                                ..position = const Offset(0.0, 0));
-                        }
-                        scrollProvider.pageController.animateToPage(0,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeIn);
-                      },
-                      appBarLeadingWidget: Padding(
-                        padding: const EdgeInsets.only(bottom: 15, right: 15),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: AnimatedOnTapButton(
-                            onTap: () {
-                              scrollProvider.pageController.animateToPage(0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeIn);
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 1.2,
-                                  )),
-                              child: const Text(
-                                'Cancel',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    gallery: const SizedBox(),
                   ),
                   //const RenderingIndicator()
                 ],
@@ -628,23 +564,26 @@ class _MainViewState extends State<MainView> {
 
   /// show delete btn when content is within offset region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.type == ItemType.text &&
+    if (
+        //item.type == ItemType.text &&
         item.position.dy >= 0.32 &&
-        item.position.dx >= -0.122 &&
-        item.position.dx <= 0.122) {
+            item.position.dx >= -0.122 &&
+            item.position.dx <= 0.122) {
       setState(() {
         _isDeletePosition = true;
         item.deletePosition = true;
       });
-    } else if (item.type == ItemType.image &&
-        item.position.dy >= 0.21 &&
-        item.position.dx >= -0.122 &&
-        item.position.dx <= 0.122) {
-      setState(() {
-        _isDeletePosition = true;
-        item.deletePosition = true;
-      });
-    } else {
+    }
+    // else if (item.type == ItemType.image &&
+    //     item.position.dy >= 0.21 &&
+    //     item.position.dx >= -0.122 &&
+    //     item.position.dx <= 0.122) {
+    //   setState(() {
+    //     _isDeletePosition = true;
+    //     item.deletePosition = true;
+    //   });
+    // }
+    else {
       setState(() {
         _isDeletePosition = false;
         item.deletePosition = false;
@@ -663,23 +602,32 @@ class _MainViewState extends State<MainView> {
 
     _inAction = false;
 
-    if (item.type == ItemType.text &&
-            item.position.dy >= 0.32 &&
+    if (
+        //item.type == ItemType.text &&
+        item.position.dy >= 0.21 &&
             item.position.dx >= -0.122 &&
-            item.position.dx <= 0.122 ||
-        item.type == ItemType.image &&
-            item.position.dy >= 0.21 &&
-            item.position.dx >= -0.122 &&
-            item.position.dx <= 0.122) {
-      setState(() {
-        if (item.type == ItemType.image) {
-          widgetProvider
-            ..clearMediaPath(control)
-            ..deleteMedia();
+            item.position.dx <= 0.122
+        //||
+        // item.type == ItemType.image &&
+        //     item.position.dy >= 0.21 &&
+        //     item.position.dx >= -0.122 &&
+        //     item.position.dx <= 0.122)
+        ) {
+      if (item.type == ItemType.image) {
+        widgetProvider
+          ..clearMediaPath(control)
+          ..uploadedMedia = 0;
+        setState(() {});
+        //
+        if (widgetProvider.uploadedMedia > 1 && control.mediaPath.isNotEmpty) {
+          control.mediaPath = '';
+          control.gradientIndex += 1;
+          setState(() {});
         }
-        _itemProvider.removeAt(_itemProvider.indexOf(item));
-        HapticFeedback.heavyImpact();
-      });
+      }
+      _itemProvider.removeAt(_itemProvider.indexOf(item));
+      setState(() {});
+      HapticFeedback.heavyImpact();
     }
     setState(() {
       _activeItem = null;

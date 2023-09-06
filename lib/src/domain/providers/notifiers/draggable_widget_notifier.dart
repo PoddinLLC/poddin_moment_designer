@@ -18,16 +18,13 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   // get uploaded pictures length
   set uploadedMedia(int index) {
     // set new length
-    _uploadedMedia = index;
-    notifyListeners();
-  }
-
-  addMedia() {
-    uploadedMedia++;
-  }
-
-  deleteMedia() {
-    --uploadedMedia;
+    if (index < 1) {
+      _uploadedMedia -= 1;
+      notifyListeners();
+    } else {
+      _uploadedMedia += 1;
+      notifyListeners();
+    }
   }
 
   // GiphyGif? _gif;
@@ -38,16 +35,15 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   // }
 
   setDefaults() {
-    draggableWidget = [];
-    uploadedMedia = 0;
+    _draggableWidget = [];
+    _uploadedMedia = 0;
   }
 
   clearMediaPath(ControlNotifier notifier) {
     var path = notifier.mediaPath;
-    if (uploadedMedia > 1 && path.isNotEmpty) {
+    if (_uploadedMedia > 1 && path.isNotEmpty) {
       notifier.mediaPath = '';
       notifier.gradientIndex += 1;
-      notifyListeners();
     }
   }
 }

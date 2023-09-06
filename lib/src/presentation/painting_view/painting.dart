@@ -185,7 +185,7 @@ class _PaintingState extends State<Painting> {
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 110),
+                    padding: EdgeInsets.only(bottom: 20),
                     child: ColorSelector(),
                   ),
                 ),

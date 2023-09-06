@@ -70,10 +70,6 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                                 : Colors.white,
                           )),
                     ),
-                    // ignore: prefer_const_constructors
-                    // SizedBox(
-                    //   width: 12,
-                    // ),
                     ToolButton(
                       onTap: () {
                         paintingNotifier.paintingType = PaintingType.marker;
@@ -98,9 +94,6 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                                 : Colors.white,
                           )),
                     ),
-                    // SizedBox(
-                    //   width: 12,
-                    // ),
 
                     /// select marker
                     ToolButton(
@@ -130,39 +123,6 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                   ],
                 ),
 
-                /// select marker
-
-                /// select neon marker
-
-                /// done button
-                // GestureDetector(
-                //   onTap: () {
-                //     controlNotifier.isPainting = !controlNotifier.isPainting;
-                //     paintingNotifier.resetDefaults();
-                //   },
-                //   child: Align(
-                //     alignment: Alignment.topRight,
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(right: 10, top: 10),
-                //       child: Container(
-                //         padding: const EdgeInsets.symmetric(
-                //             vertical: 6, horizontal: 12),
-                //         decoration: BoxDecoration(
-                //             color: Colors.transparent,
-                //             border: Border.all(color: Colors.white, width: 1.5),
-                //             borderRadius: BorderRadius.circular(15)),
-                //         child: const Text(
-                //           'Done',
-                //           style: TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 15,
-                //             fontWeight: FontWeight.w500,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 GestureDetector(
                   onTap: () {
                     controlNotifier.isPainting = !controlNotifier.isPainting;
@@ -175,7 +135,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           vertical: 6, horizontal: 12),
                       decoration: BoxDecoration(
                           color: Colors.black12,
-                          border: Border.all(color: Colors.white, width: 1.5),
+                          border: Border.all(color: Colors.white, width: 1.2),
                           borderRadius: BorderRadius.circular(15)),
                       child: const Text(
                         'Done',
@@ -188,22 +148,6 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                     ),
                   ),
                 ),
-
-                // ToolButton(
-                //   onTap: () {
-                //     controlNotifier.isPainting = !controlNotifier.isPainting;
-                //     paintingNotifier.resetDefaults();
-                //   },
-                //   padding: const EdgeInsets.symmetric(horizontal: 5),
-                //   backGroundColor: Colors.black12,
-                //   child: Transform.scale(
-                //       scale: 0.7,
-                //       child: const ImageIcon(
-                //         AssetImage('assets/icons/check.png',
-                //             package: 'poddin_moment_designer'),
-                //         color: Colors.white,
-                //       )),
-                // ),
               ],
             ),
           ),

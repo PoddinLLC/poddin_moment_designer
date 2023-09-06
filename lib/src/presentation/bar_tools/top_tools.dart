@@ -106,7 +106,7 @@ class _TopToolsState extends State<TopTools> {
                           color: controlNotifier.enableTextShadow
                               ? Colors.black
                               : Colors.white,
-                          size: 30),
+                          size: 24),
                     ),
                     // Add sticker
                     // ToolButton(
@@ -208,7 +208,7 @@ class _TopToolsState extends State<TopTools> {
                       AssetImage('assets/icons/download.png',
                           package: 'poddin_moment_designer'),
                       color: Colors.white,
-                      size: 20,
+                      size: 18,
                     )),
               ],
             ),
@@ -231,8 +231,8 @@ class _TopToolsState extends State<TopTools> {
             shape: BoxShape.circle,
           ),
           child: Container(
-            width: 30,
-            height: 30,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,

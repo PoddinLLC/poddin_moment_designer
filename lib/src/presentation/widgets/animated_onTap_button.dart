@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, library_private_types_in_public_api
+// ignore_for_file: file_names, library_private_types_in_public_api, unused_import
 
 import 'dart:async';
 
@@ -58,7 +58,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
       behavior: HitTestBehavior.translucent,
       onTap: () {
         /// set vibration
-        HapticFeedback.lightImpact();
+        //HapticFeedback.lightImpact();
         _controllerA!.reverse();
         widget.onTap();
       },

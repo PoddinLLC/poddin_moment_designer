@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -98,17 +99,24 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         if (_widgetProvider.uploadedMedia >= 1) {
-          overlayWidget = SizedBox(
-            width: _widgetProvider.uploadedMedia > 1
-                ? _size.width - 72
-                : _size.width,
-            height: _widgetProvider.uploadedMedia == 1 ? _size.height : null,
-            child: FileImageBG(
-              filePath: File(draggableWidget.path),
-              generatedGradient: (color1, color2) {
-                _colorProvider.color1 = color1;
-                _colorProvider.color2 = color2;
-              },
+          overlayWidget = GestureDetector(
+            onLongPress: () {
+              _onTap(context, draggableWidget, _controlProvider);
+            },
+            child: SizedBox(
+              width: _controlProvider.mediaPath.isEmpty
+                  ? _size.width
+                  : _size.width - 70,
+              height: _controlProvider.mediaPath.isEmpty
+                  ? _size.height
+                  : _size.height - 135,
+              child: FileImageBG(
+                filePath: File(draggableWidget.path),
+                generatedGradient: (color1, color2) {
+                  _colorProvider.color1 = color1;
+                  _colorProvider.color2 = color2;
+                },
+              ),
             ),
           );
         } else {
@@ -233,8 +241,6 @@ class DraggableWidget extends StatelessWidget {
         .bodyLarge!
         .merge(
           TextStyle(
-            // fontFamily: controlNotifier.fontList![draggableWidget.fontFamily],
-            // package: controlNotifier.isCustomFontList ? null : 'poddin_moment_designer',
             fontWeight: FontWeight.w500,
             shadows: !controlNotifier.enableTextShadow
                 ? []
@@ -278,7 +284,7 @@ class DraggableWidget extends StatelessWidget {
       scale = 0.4;
     } else if ( //draggableWidget.type == ItemType.gif ||
         draggableWidget.type == ItemType.image) {
-      scale = 0.4;
+      scale = 0.2;
     }
     return scale;
   }
@@ -291,26 +297,34 @@ class DraggableWidget extends StatelessWidget {
     var _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
 
-    /// load text attributes
-    _editorProvider.textController.text = item.text.trim();
-    _editorProvider.text = item.text.trim();
-    _editorProvider.fontFamilyIndex = item.fontFamily;
-    _editorProvider.textSize = item.fontSize;
-    _editorProvider.backGroundColor = item.backGroundColor;
-    _editorProvider.textAlign = item.textAlign;
-    _editorProvider.textColor =
-        controlNotifier.colorList!.indexOf(item.textColor);
-    _editorProvider.animationType = item.animationType;
-    _editorProvider.textList = item.textList;
-    _editorProvider.fontAnimationIndex = item.fontAnimationIndex;
-    _itemProvider.draggableWidget
-        .removeAt(_itemProvider.draggableWidget.indexOf(item));
-    _editorProvider.fontFamilyController = PageController(
-      initialPage: item.fontFamily,
-      viewportFraction: .1,
-    );
+    /// change image position when tapped
+    if (item.type == ItemType.image) {
+      _itemProvider.draggableWidget
+        ..removeAt(_itemProvider.draggableWidget.indexOf(item))
+        ..add(item);
+      HapticFeedback.lightImpact();
+    } else {
+      /// load text attributes
+      _editorProvider.textController.text = item.text.trim();
+      _editorProvider.text = item.text.trim();
+      _editorProvider.fontFamilyIndex = item.fontFamily;
+      _editorProvider.textSize = item.fontSize;
+      _editorProvider.backGroundColor = item.backGroundColor;
+      _editorProvider.textAlign = item.textAlign;
+      _editorProvider.textColor =
+          controlNotifier.colorList!.indexOf(item.textColor);
+      _editorProvider.animationType = item.animationType;
+      _editorProvider.textList = item.textList;
+      _editorProvider.fontAnimationIndex = item.fontAnimationIndex;
+      _itemProvider.draggableWidget
+          .removeAt(_itemProvider.draggableWidget.indexOf(item));
+      _editorProvider.fontFamilyController = PageController(
+        initialPage: item.fontFamily,
+        viewportFraction: .1,
+      );
 
-    /// create new text item
-    controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
+      /// create new text item
+      controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
+    }
   }
 }

@@ -41,7 +41,7 @@ class TopTextTools extends StatelessWidget {
                             ? const ImageIcon(
                                 AssetImage('assets/icons/text.png',
                                     package: 'poddin_moment_designer'),
-                                size: 20,
+                                size: 24,
                                 color: Colors.white,
                               )
                             : Image.asset(
@@ -62,6 +62,7 @@ class TopTextTools extends StatelessWidget {
                                   ? Icons.format_align_right
                                   : Icons.format_align_left,
                           color: Colors.white,
+                          size: 24,
                         )),
                   ),
 
@@ -84,6 +85,7 @@ class TopTextTools extends StatelessWidget {
                                     Colors.transparent
                                 ? Colors.black
                                 : Colors.white,
+                            size: 24,
                           ),
                         ))),
                     //////////////////////////
@@ -144,7 +146,7 @@ class TopTextTools extends StatelessWidget {
                           vertical: 6, horizontal: 12),
                       decoration: BoxDecoration(
                           color: Colors.black12,
-                          border: Border.all(color: Colors.white, width: 1.5),
+                          border: Border.all(color: Colors.white, width: 1.2),
                           borderRadius: BorderRadius.circular(15)),
                       child: const Text(
                         'Done',
