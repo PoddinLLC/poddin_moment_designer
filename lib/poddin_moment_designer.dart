@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api
 library poddin_moment_designer;
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -201,32 +200,34 @@ class _MomentDesignerState extends State<MomentDesigner> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ControlNotifier()),
-        ChangeNotifierProvider(create: (_) => ScrollNotifier()),
-        ChangeNotifierProvider(create: (_) => DraggableWidgetNotifier()),
-        ChangeNotifierProvider(create: (_) => GradientNotifier()),
-        ChangeNotifierProvider(create: (_) => PaintingNotifier()),
-        ChangeNotifierProvider(create: (_) => TextEditingNotifier()),
-        // ChangeNotifierProvider(create: (_) => RenderingNotifier()),
-      ],
-      child: MainView(
-        themeType: widget.themeType ?? ThemeType.dark,
-        giphyKey: widget.giphyKey ?? 'C4dMA7Q19nqEGdpfj82T8ssbOeZIylD4',
-        onDone: widget.onDone,
-        fontFamilyList: widget.fontFamilyList,
-        isCustomFontList: widget.isCustomFontList,
-        middleBottomWidget: widget.middleBottomWidget,
-        gradientColors: widget.gradientColors,
-        fileName: widget.fileName,
-        colorList: widget.colorList,
-        onDoneButtonStyle: widget.onDoneButtonStyle,
-        onBackPress: widget.onBackPress,
-        editorBackgroundColor: widget.editorBackgroundColor,
-        galleryThumbnailQuality: widget.galleryThumbnailQuality,
-        centerText: widget.centerText,
-        mediaPath: widget.mediaPath,
+    return Scaffold(
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => ControlNotifier()),
+          ChangeNotifierProvider(create: (_) => ScrollNotifier()),
+          ChangeNotifierProvider(create: (_) => DraggableWidgetNotifier()),
+          ChangeNotifierProvider(create: (_) => GradientNotifier()),
+          ChangeNotifierProvider(create: (_) => PaintingNotifier()),
+          ChangeNotifierProvider(create: (_) => TextEditingNotifier()),
+          // ChangeNotifierProvider(create: (_) => RenderingNotifier()),
+        ],
+        child: MainView(
+          themeType: widget.themeType ?? ThemeType.dark,
+          giphyKey: widget.giphyKey ?? 'C4dMA7Q19nqEGdpfj82T8ssbOeZIylD4',
+          onDone: widget.onDone,
+          fontFamilyList: widget.fontFamilyList,
+          isCustomFontList: widget.isCustomFontList,
+          middleBottomWidget: widget.middleBottomWidget,
+          gradientColors: widget.gradientColors,
+          fileName: widget.fileName,
+          colorList: widget.colorList,
+          onDoneButtonStyle: widget.onDoneButtonStyle,
+          onBackPress: widget.onBackPress,
+          editorBackgroundColor: widget.editorBackgroundColor,
+          galleryThumbnailQuality: widget.galleryThumbnailQuality,
+          centerText: widget.centerText,
+          mediaPath: widget.mediaPath,
+        ),
       ),
     );
   }

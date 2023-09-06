@@ -218,9 +218,15 @@ class _MainViewState extends State<MainView> {
                               child: SizedBox(
                                 width: _screenSize.size.width,
                                 height: Platform.isIOS
-                                    ? (_screenSize.size.height - 135) -
+                                    ? (_screenSize.size.height -
+                                            (controlNotifier.isTextEditing
+                                                ? 0
+                                                : 70)) - //135
                                         _screenSize.viewPadding.top
-                                    : (_screenSize.size.height - 132),
+                                    : (_screenSize.size.height -
+                                        (controlNotifier.isTextEditing
+                                            ? 0
+                                            : 70)), //132
                                 // child: ScreenRecorder(
                                 //   controller: _recorderController,
                                 child: RepaintBoundary(
@@ -307,7 +313,7 @@ class _MainViewState extends State<MainView> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height -
-                                                            132,
+                                                            70, //132
                                                     child: StreamBuilder<
                                                         List<PaintingModel>>(
                                                       stream: paintingProvider
@@ -620,7 +626,7 @@ class _MainViewState extends State<MainView> {
     });
   }
 
-  /// active delete widget with offset position
+  /// show delete btn when content is within offset region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
     if (item.type == ItemType.text &&
         item.position.dy >= 0.32 &&
@@ -632,8 +638,8 @@ class _MainViewState extends State<MainView> {
       });
     } else if (item.type == ItemType.image &&
         item.position.dy >= 0.21 &&
-        item.position.dx >= -0.15 &&
-        item.position.dx <= 0.15) {
+        item.position.dx >= -0.122 &&
+        item.position.dx <= 0.122) {
       setState(() {
         _isDeletePosition = true;
         item.deletePosition = true;
@@ -663,8 +669,8 @@ class _MainViewState extends State<MainView> {
             item.position.dx <= 0.122 ||
         item.type == ItemType.image &&
             item.position.dy >= 0.21 &&
-            item.position.dx >= -0.15 &&
-            item.position.dx <= 0.15) {
+            item.position.dx >= -0.122 &&
+            item.position.dx <= 0.122) {
       setState(() {
         if (item.type == ItemType.image) {
           widgetProvider

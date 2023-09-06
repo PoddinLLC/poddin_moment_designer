@@ -191,7 +191,7 @@ class _TopToolsState extends State<TopTools> {
                               fileName: controlNotifier.folderName);
                           if (response) {
                             Fluttertoast.showToast(
-                                msg: 'Successfully downloaded!');
+                                msg: 'Saved!');
                           } else {}
                         }
                         // ignore: use_build_context_synchronously

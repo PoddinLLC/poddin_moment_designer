@@ -13,16 +13,21 @@ class DraggableWidgetNotifier extends ChangeNotifier {
 
   /// Uploaded Pictures
   int _uploadedMedia = 0;
+  // current uploaded pictures length
   int get uploadedMedia => _uploadedMedia;
-
-  addMedia() {
-    _uploadedMedia++;
+  // get uploaded pictures length
+  set uploadedMedia(int index) {
+    // set new length
+    _uploadedMedia = index;
     notifyListeners();
   }
 
+  addMedia() {
+    uploadedMedia++;
+  }
+
   deleteMedia() {
-    --_uploadedMedia;
-    notifyListeners();
+    --uploadedMedia;
   }
 
   // GiphyGif? _gif;
@@ -33,13 +38,13 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   // }
 
   setDefaults() {
-    _draggableWidget = [];
-    _uploadedMedia = 0;
+    draggableWidget = [];
+    uploadedMedia = 0;
   }
 
   clearMediaPath(ControlNotifier notifier) {
-    final path = notifier.mediaPath;
-    if (uploadedMedia >= 1 && path.isNotEmpty) {
+    var path = notifier.mediaPath;
+    if (uploadedMedia > 1 && path.isNotEmpty) {
       notifier.mediaPath = '';
       notifier.gradientIndex += 1;
       notifyListeners();

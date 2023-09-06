@@ -1,6 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'package:image_picker_plus/image_picker_plus.dart';
+import "package:images_picker/images_picker.dart";
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -42,133 +42,75 @@ class BottomTools extends StatelessWidget {
         PaintingNotifier>(
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
-        return Container(
-          height: 95,
-          decoration: const BoxDecoration(color: Colors.transparent),
+        return SizedBox(
+          height: 70, //95
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               /// preview gallery
               Container(
-                // width: _size.width / 3,
-                // height: _size.width / 3,
                 padding: const EdgeInsets.only(left: 15),
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   child: _preViewContainer(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: GestureDetector(
+                        onTap: () async {
+                          // Launch camera
+                          final photos = await ImagesPicker.openCamera(
+                            pickType: PickType.image,
+                            maxSize: 6000,
+                            quality: 0.8,
+                            language: Language.English,
+                            maxTime: 15,
+                          );
+                          final paths = photos!.map((e) => e.path).toList();
+                          // set media path value
+                          if (itemNotifier.uploadedMedia == 0) {
+                            controlNotifier.mediaPath = paths[0];
+                          }
+                          // add media to view
+                          itemNotifier
+                            ..draggableWidget.add(EditableItem()
+                              ..type = ItemType.image
+                              ..path = paths[0]
+                              ..position = const Offset(0.0, 0))
+                            ..addMedia()
+                            ..clearMediaPath(controlNotifier);
+                          // clear media path
+                          if (itemNotifier.uploadedMedia >= 1 &&
+                              controlNotifier.mediaPath.isNotEmpty) {
+                            controlNotifier.mediaPath = '';
+                            controlNotifier.gradientIndex += 1;
+                          }
+                          // set uploadedMedia value
+                          itemNotifier.uploadedMedia++;
 
-                      /// if [model.imagePath] is null/empty return preview image
-                      child: //controlNotifier.mediaPath.isEmpty ?
-                          ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  // Launch camera
-                                  ImagePickerPlus picker =
-                                      ImagePickerPlus(context);
-                                  //
-                                  SelectedImagesDetails? details =
-                                      await picker.pickImage(
-                                    source: ImageSource.both,
-                                    galleryDisplaySettings:
-                                        GalleryDisplaySettings(
-                                      maximumSelection: 1,
-                                      appTheme: AppTheme(
-                                          focusColor: Colors.white,
-                                          primaryColor: Colors.black),
-                                      showImagePreview: true,
-                                      tabsTexts: TabsTexts(
-                                          noImagesFounded: 'No images found',
-                                          acceptAllPermissions:
-                                              'To use this feature, grant Poddin the permission to access your device storage and camera.'),
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        crossAxisSpacing: 1.7,
-                                        mainAxisSpacing: 1.5,
-                                        childAspectRatio: .5,
-                                      ),
-                                    ),
-                                  ); //
-                                  final paths = details!.selectedFiles
-                                      .map((e) => e.selectedFile.path)
-                                      .toList();
-                                  //
-                                  if (paths.isNotEmpty) {
-                                    if (itemNotifier.uploadedMedia == 0) {
-                                      controlNotifier.mediaPath = paths[0];
-                                    }
-                                    //
-                                    itemNotifier
-                                      ..draggableWidget.insert(
-                                          0,
-                                          EditableItem()
-                                            ..type = ItemType.image
-                                            ..path = paths[0]
-                                            ..position = const Offset(0.0, 0))
-                                      ..addMedia()
-                                      ..clearMediaPath(controlNotifier);
-                                  }
-
-                                  /// scroll to gridView page
-                                  //  if (controlNotifier.mediaPath.isEmpty) {
-                                  // scrollNotifier.pageController.animateToPage(1,
-                                  //     duration:
-                                  //         const Duration(milliseconds: 300),
-                                  //     curve: Curves.ease);
-                                  //  }
-                                },
-                                child: const CoverThumbnail(
-                                    // thumbnailQuality: 150,
-                                    ),
-                              ))
-
-                      /// return clear [imagePath] provider
-                      // : GestureDetector(
-                      //     onTap: () {
-                      //       /// clear image url variable
-                      //       controlNotifier.mediaPath = '';
-                      //       itemNotifier.draggableWidget.removeAt(0);
-                      //     },
-                      //     child: Container(
-                      //       height: 45,
-                      //       width: 45,
-                      //       color: Colors.transparent,
-                      //       child: Transform.scale(
-                      //         scale: 0.7,
-                      //         child: const Icon(
-                      //           Icons.delete,
-                      //           color: Colors.white,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
+                          /// scroll to gridView page
+                          //  if (controlNotifier.mediaPath.isEmpty) {
+                          // scrollNotifier.pageController.animateToPage(1,
+                          //     duration:
+                          //         const Duration(milliseconds: 300),
+                          //     curve: Curves.ease);
+                          //  }
+                        },
+                        child: const CoverThumbnail(
+                            // thumbnailQuality: 150,
+                            ),
                       ),
+                    ),
+                  ),
                 ),
               ),
-              // if (controlNotifier.mediaPath.isEmpty)
-              //   _selectColor(
-              //       controlProvider: controlNotifier,
-              //       onTap: () {
-              //         if (controlNotifier.gradientIndex >=
-              //             controlNotifier.gradientColors!.length - 1) {
-              //           setState() {
-              //             controlNotifier.gradientIndex = 0;
-              //           }
-              //         } else {
-              //           setState() {
-              //             controlNotifier.gradientIndex += 1;
-              //           }
-              //         }
-              //       }),
 
               /// center logo
               controlNotifier.middleBottomWidget != null
                   ? Center(
                       child: Container(
-                          width: _size.width / 3,
-                          height: 80,
+                          width: _size.width / 2,
+                          constraints: const BoxConstraints(maxHeight: 42),
                           alignment: Alignment.bottomCenter,
                           child: controlNotifier.middleBottomWidget),
                     )
@@ -208,22 +150,21 @@ class BottomTools extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Card(
-                                    color: Colors.black,
-                                    child: Container(
-                                        padding: const EdgeInsets.all(50),
-                                        child: const CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ))),
+                                  color: Colors.black,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(50),
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ],
                             );
                           });
-
                       for (var element in itemNotifier.draggableWidget) {
                         if (element.type == ItemType.gif ||
                             element.animationType != TextAnimationType.none) {
-                          // setState(() {
                           _createVideo = true;
-                          // });
                         }
                       }
                       if (_createVideo) {
@@ -249,9 +190,7 @@ class BottomTools extends StatelessWidget {
                     } else {
                       Fluttertoast.showToast(msg: 'Add a picture or text');
                     }
-                    // setState(() {
                     _createVideo = false;
-                    // });
                   },
                   child: onDoneButtonStyle ??
                       Container(
@@ -270,22 +209,6 @@ class BottomTools extends StatelessWidget {
                               ),
                             ]),
                       ))
-
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 10),
-              //   child: Container(
-              //     width: _size.width / 4,
-              //     alignment: Alignment.centerRight,
-              //     padding: const EdgeInsets.only(right: 0),
-              //     child: Transform.scale(
-              //       scale: 0.9,
-              //       child: StatefulBuilder(
-              //         builder: (_, setState) {
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         );

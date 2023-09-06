@@ -21,20 +21,10 @@ class TextFieldWidget extends StatelessWidget {
               maxWidth: _size.width - 100,
             ),
             child: IntrinsicWidth(
-
                 /// textField Box decoration
                 child: Stack(
               alignment: Alignment.center,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 2),
-                //   child: _text(
-                //     editorNotifier: editorNotifier,
-                //     textNode: _textNode,
-                //     controlNotifier: controlNotifier,
-                //     paintingStyle: PaintingStyle.fill,
-                //   ),
-                // ),
                 _textField(
                   editorNotifier: editorNotifier,
                   textNode: _textNode,
@@ -100,10 +90,6 @@ class TextFieldWidget extends StatelessWidget {
           .bodyLarge!
           .merge(
             TextStyle(
-              // fontFamily:
-              //     controlNotifier.fontList![editorNotifier.fontFamilyIndex],
-              // package:
-              //     controlNotifier.isCustomFontList ? null : 'poddin_moment_designer',
               shadows: !controlNotifier.enableTextShadow
                   ? []
                   : <Shadow>[
