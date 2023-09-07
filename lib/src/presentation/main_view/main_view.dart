@@ -1,8 +1,12 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import
 import 'dart:async';
+import 'dart:io';
+import 'package:camerawesome/pigeon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
@@ -31,6 +35,8 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/item_typ
 import 'package:poddin_moment_designer/src/presentation/utils/modal_sheets.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageView.dart';
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
+import 'package:camerawesome/camerawesome_plugin.dart';
+import "package:images_picker/images_picker.dart";
 
 class MainView extends StatefulWidget {
   /// editor custom font families
@@ -133,7 +139,7 @@ class _MainViewState extends State<MainView> {
 
       /// initialize control variable provider
       _control.giphyKey = widget.giphyKey;
-      _control.folderName = widget.fileName ?? "poddin_moment_designer";
+      _control.folderName = widget.fileName ?? "poddin_moment";
       _control.middleBottomWidget = widget.middleBottomWidget;
       _control.isCustomFontList = widget.isCustomFontList ?? false;
       _control.themeType = widget.themeType ?? ThemeType.dark;
@@ -429,7 +435,135 @@ class _MainViewState extends State<MainView> {
                         )
                       ],
                     ),
-                    gallery: const SizedBox(),
+                    gallery: CameraAwesomeBuilder.awesome(
+                      enablePhysicalButton: true,
+                      saveConfig: SaveConfig.photo(
+                        exifPreferences:
+                            ExifPreferences(saveGPSLocation: false),
+                        mirrorFrontCamera: true,
+                        pathBuilder: (sensors) async {
+                          final extDir =
+                              await getApplicationDocumentsDirectory();
+                          final testDir =
+                              await Directory('${extDir.path}/poddin_moment')
+                                  .create(recursive: true);
+                          // 2.
+                          if (sensors.length == 1) {
+                            final filePath =
+                                '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+                            // 3.
+                            return SingleCaptureRequest(
+                                filePath, sensors.first);
+                          } else {
+                            // 4.
+                            return MultipleCaptureRequest(
+                              {
+                                for (final sensor in sensors)
+                                  sensor:
+                                      '${testDir.path}/${sensor.position == SensorPosition.front ? 'front_' : "back_"}${DateTime.now().millisecondsSinceEpoch}.jpg',
+                              },
+                            );
+                          }
+                        },
+                      ),
+                      sensorConfig: SensorConfig.single(
+                        flashMode: FlashMode.auto,
+                        aspectRatio: CameraAspectRatios.ratio_4_3,
+                        sensor: Sensor.position(SensorPosition.front),
+                        zoom: 0.0,
+                      ),
+                      topActionsBuilder: (state) => AwesomeTopActions(
+                        state: state,
+                        children: [
+                          AwesomeFlashButton(state: state),
+                          AwesomeZoomSelector(state: state),
+                          if (state is PhotoCameraState)
+                            AwesomeAspectRatioButton(
+                              state: state,
+                            ),
+                        ],
+                      ),
+                      middleContentBuilder: (state) {
+                        // Use this to add widgets on the middle of the preview
+                        return Column(
+                          children: [
+                            const Spacer(),
+                            if (state.captureMode == CaptureMode.photo)
+                              AwesomeFilterWidget(
+                                state: state,
+                                filterListPosition:
+                                    FilterListPosition.belowButton,
+                              ),
+                          ],
+                        );
+                      },
+                      bottomActionsBuilder: (state) => AwesomeBottomActions(
+                        state: state,
+                        onMediaTap: (mediaCapture) async {
+                          HapticFeedback.lightImpact();
+                          if (mediaCapture.isPicture) {
+                            // Save the last captured photo to device storage
+                            var path = mediaCapture.captureRequest.when(
+                              single: (p0) => p0.file?.path,
+                              // multiple: (p0) => p0.fileBySensor.values.first!.path,
+                            );
+                            File capturedFile = File(path!);
+                            ImageGallerySaver.saveFile(capturedFile.path,
+                                name: "poddin_moment_${DateTime.now()}.png");
+                          }
+                          // then,
+                          // open gallery picker
+                          final selectedImages = await ImagesPicker.pick(
+                            count: 1,
+                            pickType: PickType.image,
+                            gif: false,
+                            quality: 0.8,
+                            language: Language.English,
+                          );
+                          if (selectedImages!.isNotEmpty) {
+                            //
+                            final path = selectedImages
+                                .map((e) => e.path)
+                                .toList()
+                                .first;
+                            // set media path value
+                            if (itemProvider.uploadedMedia == 0) {
+                              controlNotifier.mediaPath = path;
+                              setState(() {});
+                            }
+                            // add media to view
+                            itemProvider
+                              ..draggableWidget.insert(
+                                  0,
+                                  EditableItem()
+                                    ..type = ItemType.image
+                                    ..path = path
+                                    ..position = const Offset(0.0, 0))
+                              ..uploadedMedia = 1
+                              ..clearMediaPath(controlNotifier);
+                            setState(() {});
+                            /// scroll to editorView page
+                            scrollProvider.pageController.animateToPage(0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.ease);
+                          }
+                          //
+                        },
+                      ),
+                      filter: AwesomeFilter.LoFi,
+                      previewAlignment: Alignment.center,
+                      previewFit: CameraPreviewFit.fitWidth,
+                      previewPadding: const EdgeInsets.all(20),
+                      progressIndicator: const Center(
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   //const RenderingIndicator()
                 ],

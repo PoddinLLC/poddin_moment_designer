@@ -104,14 +104,9 @@ class DraggableWidget extends StatelessWidget {
               _onTap(context, draggableWidget, _controlProvider);
             },
             child: SizedBox(
-              width: _controlProvider.mediaPath.isEmpty
-                  ? _size.width
-                  : _size.width - 70,
-              height: _controlProvider.mediaPath.isEmpty
-                  ? _size.height
-                  : _size.height - 135,
+              width: _size.width - 72,
               child: FileImageBG(
-                filePath: File(draggableWidget.path),
+                filePath: File(_controlProvider.mediaPath),
                 generatedGradient: (color1, color2) {
                   _colorProvider.color1 = color1;
                   _colorProvider.color2 = color2;
@@ -301,7 +296,10 @@ class DraggableWidget extends StatelessWidget {
     if (item.type == ItemType.image) {
       _itemProvider.draggableWidget
         ..removeAt(_itemProvider.draggableWidget.indexOf(item))
-        ..add(item);
+        ..add(EditableItem()
+          ..position = item.position
+          ..path = item.path
+          ..type = item.type);
       HapticFeedback.lightImpact();
     } else {
       /// load text attributes

@@ -131,7 +131,7 @@ class _TopToolsState extends State<TopTools> {
                           AssetImage('assets/icons/draw.png',
                               package: 'poddin_moment_designer'),
                           color: Colors.white,
-                          size: 20,
+                          size: 18,
                         )),
                   ],
                 ),
@@ -190,15 +190,13 @@ class _TopToolsState extends State<TopTools> {
                               saveToGallery: true,
                               fileName: controlNotifier.folderName);
                           if (response) {
-                            Fluttertoast.showToast(
-                                msg: 'Saved!');
+                            Fluttertoast.showToast(msg: 'Saved!');
                           } else {}
                         }
                         // ignore: use_build_context_synchronously
                         Navigator.of(context, rootNavigator: true).pop();
                       } else {
-                        Fluttertoast.showToast(
-                            msg: 'Add a picture or text');
+                        Fluttertoast.showToast(msg: 'Add a picture or text');
                       }
                       setState(() {
                         _createVideo = false;
@@ -208,7 +206,7 @@ class _TopToolsState extends State<TopTools> {
                       AssetImage('assets/icons/download.png',
                           package: 'poddin_moment_designer'),
                       color: Colors.white,
-                      size: 18,
+                      size: 16,
                     )),
               ],
             ),
@@ -221,26 +219,20 @@ class _TopToolsState extends State<TopTools> {
   /// gradient color selector
   Widget _selectColor({onTap, controlProvider}) {
     return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 5, top: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AnimatedOnTapButton(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(1),
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white, width: 1.2),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: controlProvider
+                    .gradientColors![controlProvider.gradientIndex]),
             shape: BoxShape.circle,
-          ),
-          child: Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: controlProvider
-                      .gradientColors![controlProvider.gradientIndex]),
-              shape: BoxShape.circle,
-            ),
           ),
         ),
       ),

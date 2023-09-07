@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, library_private_types_in_public_api
+// ignore_for_file: no_leading_underscores_for_local_identifiers, library_private_types_in_public_api, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -58,6 +58,7 @@ class _BottomToolsState extends State<BottomTools> {
           fontSize: 14.0,
         );
       },
+      cameraConfig: const CameraConfig(),
       textTheme: const TextTheme(
         bodyMedium: TextStyle(fontSize: 16),
         titleMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
@@ -86,39 +87,36 @@ class _BottomToolsState extends State<BottomTools> {
                       child: GestureDetector(
                         onTap: () async {
                           // Launch camera
-                          final photos = await GalleryAssetPicker.pick(
-                            context,
-                            maxCount: 1,
-                            requestType: RequestType.image,
-                          );
-                          final paths =
-                              photos.map((e) => e.pickedFile!.path).toList();
-                          // set media path value
-                          if (itemNotifier.uploadedMedia == 0) {
-                            controlNotifier.mediaPath = paths[0];
-                            setState(() {});
-                          }
-                          // add media to view
-                          itemNotifier
-                            ..draggableWidget.add(EditableItem()
-                              ..type = ItemType.image
-                              ..path = paths[0]
-                              ..position = const Offset(0.0, 0))
-                            ..uploadedMedia = 1
-                            ..clearMediaPath(controlNotifier);
-                          setState(() {});
+                          // final photos = await GalleryAssetPicker.pick(
+                          //   context,
+                          //   maxCount: 1,
+                          //   requestType: RequestType.image,
+                          // );
+                          // final paths =
+                          //     photos.map((e) => e.pickedFile!.path).toList();
+                          // // set media path value
+                          // if (itemNotifier.uploadedMedia == 0) {
+                          //   controlNotifier.mediaPath = paths[0];
+                          //   setState(() {});
+                          // }
+                          // // add media to view
+                          // itemNotifier
+                          //   ..draggableWidget.add(EditableItem()
+                          //     ..type = ItemType.image
+                          //     ..path = paths[0]
+                          //     ..position = const Offset(0.0, 0))
+                          //   ..uploadedMedia = 1
+                          //   ..clearMediaPath(controlNotifier);
+                          // setState(() {});
 
                           /// scroll to gridView page
-                          //  if (controlNotifier.mediaPath.isEmpty) {
-                          // scrollNotifier.pageController.animateToPage(1,
-                          //     duration:
-                          //         const Duration(milliseconds: 300),
-                          //     curve: Curves.ease);
-                          //  }
+                          if (controlNotifier.mediaPath.isEmpty) {
+                            scrollNotifier.pageController.animateToPage(1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.ease);
+                          }
                         },
-                        child: const CoverThumbnail(
-                            // thumbnailQuality: 150,
-                            ),
+                        child: const CoverThumbnail(),
                       ),
                     ),
                   ),
@@ -185,6 +183,7 @@ class _BottomToolsState extends State<BottomTools> {
                         if (element.type == ItemType.gif ||
                             element.animationType != TextAnimationType.none) {
                           _createVideo = true;
+                          setState(() {});
                         }
                       }
                       if (_createVideo) {
