@@ -1,10 +1,12 @@
-// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, unused_import
 import 'dart:async';
 import 'dart:io';
 import 'package:camerawesome/pigeon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_asset_picker/gallery_asset_picker.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -37,6 +39,7 @@ import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageV
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import "package:images_picker/images_picker.dart";
+import 'package:vs_media_picker/vs_media_picker.dart';
 
 class MainView extends StatefulWidget {
   /// editor custom font families
@@ -162,6 +165,26 @@ class _MainViewState extends State<MainView> {
         _control.colorList = widget.colorList;
       }
     });
+    GalleryAssetPicker.initialize(GalleryConfig(
+      enableCamera: false,
+      crossAxisCount: 3,
+      colorScheme: const ColorScheme.dark(primary: Color(0xFFD91C54)),
+      onReachMaximum: () {
+        Fluttertoast.showToast(
+          msg: "You have reached the allowed number of images",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
+      },
+      cameraConfig: const CameraConfig(),
+      textTheme: const TextTheme(
+        bodyMedium: TextStyle(fontSize: 16),
+        titleMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+        titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+    ));
     super.initState();
   }
 
@@ -193,10 +216,6 @@ class _MainViewState extends State<MainView> {
               child: Stack(
                 children: [
                   ScrollablePageView(
-                    // scrollPhysics: controlNotifier.mediaPath.isEmpty &&
-                    //     itemProvider.draggableWidget.isEmpty &&
-                    //     !controlNotifier.isPainting &&
-                    //     !controlNotifier.isTextEditing,
                     scrollPhysics: false,
                     pageController: scrollProvider.pageController,
                     gridController: scrollProvider.gridController,
@@ -473,13 +492,20 @@ class _MainViewState extends State<MainView> {
                         zoom: 0.0,
                       ),
                       topActionsBuilder: (state) => AwesomeTopActions(
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 10),
                         state: state,
                         children: [
-                          AwesomeFlashButton(state: state),
-                         // AwesomeZoomSelector(state: state),
+                          SizedBox.square(
+                            dimension: 40,
+                            child: AwesomeFlashButton(state: state),
+                          ),
                           if (state is PhotoCameraState)
-                            AwesomeAspectRatioButton(
-                              state: state,
+                            SizedBox.square(
+                              dimension: 40,
+                              child: AwesomeAspectRatioButton(
+                                state: state,
+                              ),
                             ),
                         ],
                       ),
@@ -491,102 +517,108 @@ class _MainViewState extends State<MainView> {
                             if (state.captureMode == CaptureMode.photo)
                               AwesomeFilterWidget(
                                 state: state,
-                                filterListPadding: const EdgeInsets.only(top:8, right:10, left:10),
+                                filterListPadding: const EdgeInsets.all(10),
                               ),
+                            Builder(
+                              builder: (context) => Container(
+                                color: AwesomeThemeProvider.of(context)
+                                    .theme
+                                    .bottomActionsBackgroundColor,
+                                height: 8,
+                              ),
+                            ),
                           ],
                         );
                       },
                       bottomActionsBuilder: (state) => AwesomeBottomActions(
                         state: state,
-                        onMediaTap: (mediaCapture) async {
-                          HapticFeedback.lightImpact();
-                          if (mediaCapture.isPicture) {
-                            // Save the last captured photo to device storage
-                            var path = mediaCapture.captureRequest.when(
-                              single: (p0) => p0.file?.path,
-                              // multiple: (p0) => p0.fileBySensor.values.first!.path,
-                            );
-                            File capturedFile = File(path!);
-                            ImageGallerySaver.saveFile(capturedFile.path,
-                                name: "poddin_moment_${DateTime.now()}.png");
-                          }
-                          // then,
-                          // open gallery picker
-                          final selectedImages = await ImagesPicker.pick(
-                            count: 1,
-                            pickType: PickType.image,
-                            gif: false,
-                            quality: 0.8,
-                            language: Language.English,
-                          );
-                          if (selectedImages!.isNotEmpty) {
-                            //
-                            final path = selectedImages
-                                .map((e) => e.path)
-                                .toList()
-                                .first;
-                            // set media path value
-                            if (itemProvider.uploadedMedia == 0) {
-                              controlNotifier.mediaPath = path;
-                              setState(() {});
+                        left: SizedBox.square(
+                          dimension: 40,
+                          child: AwesomeCameraSwitchButton(
+                            state: state,
+                            iconBuilder: () {
+                              return const AwesomeCircleWidget.icon(
+                                icon: Icons.cameraswitch,
+                                scale: 1.0,
+                              );
+                            },
+                            scale: 1.0,
+                          ),
+                        ),
+                        right: StreamBuilder<MediaCapture?>(
+                          stream: state.captureState$,
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return GestureDetector(
+                                onTap: onPreviewTap(
+                                  null,
+                                  controlNotifier,
+                                  itemProvider,
+                                  scrollProvider,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(90),
+                                  child: Container(
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white38,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: const CoverThumbnail(),
+                                  ),
+                                ),
+                              );
                             }
-                            // add media to view
-                            itemProvider
-                              .draggableWidget.insert(
-                                  0,
-                                  EditableItem()
-                                    ..type = ItemType.image
-                                    ..path = path
-                                    ..position = const Offset(0.0, 0));
-                              itemProvider.uploadedMedia = 1;
-                              itemProvider.clearMediaPath(controlNotifier);
-                            setState(() {});
-                            /// scroll to editorView page
-                            scrollProvider.pageController.animateToPage(0,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.ease);
-                          }
-                          //
-                        },
+                            return SizedBox.square(
+                              dimension: 40,
+                              child: AwesomeMediaPreview(
+                                mediaCapture: snapshot.requireData,
+                                onMediaTap: (media) => onPreviewTap(
+                                  media,
+                                  controlNotifier,
+                                  itemProvider,
+                                  scrollProvider,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       theme: AwesomeTheme(
-    bottomActionsBackgroundColor: Colors.black38,
-    buttonTheme: AwesomeButtonTheme(
-      //backgroundColor: Colors.cyan.withOpacity(0.5),
-      iconSize: 20,
-      foregroundColor: Colors.white,
-      padding: const EdgeInsets.all(12),
-      // Tap visual feedback (ripple, bounce...)
-      buttonBuilder: (child, onTap) {
-        return ClipOval(
-          child: Material(
-            color: Colors.transparent,
-            shape: const CircleBorder(),
-            child: GestureDetector(
-              //splashColor: Colors.cyan,
-              //highlightColor: Colors.cyan.withOpacity(0.5),
-              onTap: onTap,
-              child: child,
-            ),
-          ),
-        );
-      },
-    ),
-                      //filter: AwesomeFilter.LoFi,
-                      //previewAlignment: Alignment.center,
-                      previewFit: CameraPreviewFit.cover,
-                      //previewPadding: const EdgeInsets.all(20),
+                        bottomActionsBackgroundColor: Colors.black12,
+                        buttonTheme: AwesomeButtonTheme(
+                          padding: const EdgeInsets.all(10),
+                          iconSize: 20,
+                          buttonBuilder: (child, onTap) {
+                            return ClipOval(
+                              child: Material(
+                                color: Colors.transparent,
+                                shape: const CircleBorder(),
+                                child: GestureDetector(
+                                  onTap: onTap,
+                                  child: child,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      filter: AwesomeFilter.Clarendon,
                       progressIndicator: const Center(
                         child: SizedBox(
                           width: 30,
                           height: 30,
-                          child: CircularProgressIndicator(
+                          child: CircularProgressIndicator.adaptive(
                             strokeWidth: 2,
                           ),
                         ),
                       ),
                     ),
                   ),
+                  //
                   //const RenderingIndicator()
                 ],
               ),
@@ -597,6 +629,63 @@ class _MainViewState extends State<MainView> {
         ),
       ),
     );
+  }
+
+  /// Preview tap action
+  onPreviewTap(
+    MediaCapture? media,
+    ControlNotifier controlNotifier,
+    DraggableWidgetNotifier itemProvider,
+    ScrollNotifier scrollProvider,
+  ) async {
+    HapticFeedback.lightImpact();
+    if (media != null) {
+      // Save the last captured photo to device storage
+      var path = media.captureRequest.when(
+        single: (p0) => p0.file?.path,
+        // multiple: (p0) => p0.fileBySensor.values.first!.path,
+      );
+      File capturedFile = File(path!);
+      // save image to device
+      ImageGallerySaver.saveFile(capturedFile.path,
+          name: "poddin_moment_${DateTime.now()}");
+    }
+    // then,
+    // open gallery picker
+    // final selectedImages = await ImagesPicker.pick(
+    //   count: 1,
+    //   pickType: PickType.image,
+    //   gif: false,
+    //   quality: 0.8,
+    //   language: Language.English,
+    // );
+    final selectedImages = await GalleryAssetPicker.pick(
+      context,
+      maxCount: 1,
+      requestType: RequestType.image,
+    );
+    if (selectedImages.isNotEmpty) {
+      final path = selectedImages.map((e) => e.pickedFile?.path).toList().first;
+      // set media path value
+      if (itemProvider.uploadedMedia == 0) {
+        controlNotifier.mediaPath = path!;
+        setState(() {});
+      }
+      // add media to view
+      itemProvider.draggableWidget.insert(
+          0,
+          EditableItem()
+            ..type = ItemType.image
+            ..path = path!
+            ..position = const Offset(0.0, 0));
+      itemProvider.uploadedMedia = 1;
+      controlNotifier.clearPath();
+      setState(() {});
+      // scroll to editorView page
+      scrollProvider.pageController.animateToPage(0,
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    }
+    //
   }
 
   /// recording and save mp4 widget
@@ -770,16 +859,9 @@ class _MainViewState extends State<MainView> {
         //     item.position.dx <= 0.122)
         ) {
       if (item.type == ItemType.image) {
-        widgetProvider
-          ..clearMediaPath(control)
-          ..uploadedMedia = 0;
+        widgetProvider.uploadedMedia = -1;
+        control.clearPath();
         setState(() {});
-        //
-        if (widgetProvider.uploadedMedia > 1 && control.mediaPath.isNotEmpty) {
-          control.mediaPath = '';
-          control.gradientIndex += 1;
-          setState(() {});
-        }
       }
       _itemProvider.removeAt(_itemProvider.indexOf(item));
       setState(() {});

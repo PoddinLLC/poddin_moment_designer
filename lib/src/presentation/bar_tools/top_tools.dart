@@ -65,7 +65,7 @@ class _TopToolsState extends State<TopTools> {
                     // Change background color
                     if (controlNotifier.mediaPath.isEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(left: 0),
+                        padding: const EdgeInsets.only(top: 8),
                         child: _selectColor(
                             controlProvider: controlNotifier,
                             onTap: () {

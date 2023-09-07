@@ -85,36 +85,11 @@ class _BottomToolsState extends State<BottomTools> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(90),
                       child: GestureDetector(
-                        onTap: () async {
-                          // Launch camera
-                          // final photos = await GalleryAssetPicker.pick(
-                          //   context,
-                          //   maxCount: 1,
-                          //   requestType: RequestType.image,
-                          // );
-                          // final paths =
-                          //     photos.map((e) => e.pickedFile!.path).toList();
-                          // // set media path value
-                          // if (itemNotifier.uploadedMedia == 0) {
-                          //   controlNotifier.mediaPath = paths[0];
-                          //   setState(() {});
-                          // }
-                          // // add media to view
-                          // itemNotifier
-                          //   ..draggableWidget.add(EditableItem()
-                          //     ..type = ItemType.image
-                          //     ..path = paths[0]
-                          //     ..position = const Offset(0.0, 0))
-                          //   ..uploadedMedia = 1
-                          //   ..clearMediaPath(controlNotifier);
-                          // setState(() {});
-
+                        onTap: () {
                           /// scroll to gridView page
-                          if (controlNotifier.mediaPath.isEmpty) {
-                            scrollNotifier.pageController.animateToPage(1,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.ease);
-                          }
+                          scrollNotifier.pageController.animateToPage(1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.ease);
                         },
                         child: const CoverThumbnail(),
                       ),

@@ -6,7 +6,6 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/font_fam
 import 'package:poddin_moment_designer/src/presentation/utils/constants/gradients.dart';
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 
-
 class ControlNotifier extends ChangeNotifier {
   String _giphyKey = '';
 
@@ -159,4 +158,11 @@ class ControlNotifier extends ChangeNotifier {
   }
 
   ////
+  clearPath() {
+    if (_mediaPath.isNotEmpty) {
+      _mediaPath = '';
+      _gradientIndex += 1;
+      notifyListeners();
+    }
+  }
 }

@@ -279,7 +279,7 @@ class DraggableWidget extends StatelessWidget {
       scale = 0.4;
     } else if ( //draggableWidget.type == ItemType.gif ||
         draggableWidget.type == ItemType.image) {
-      scale = 0.2;
+      scale = 0.4;
     }
     return scale;
   }
@@ -296,10 +296,12 @@ class DraggableWidget extends StatelessWidget {
     if (item.type == ItemType.image) {
       _itemProvider.draggableWidget
         ..removeAt(_itemProvider.draggableWidget.indexOf(item))
-        ..add(EditableItem()
-          ..position = item.position
-          ..path = item.path
-          ..type = item.type);
+        ..add(
+          EditableItem()
+            ..position = item.position
+            ..path = item.path
+            ..type = item.type,
+        );
       HapticFeedback.lightImpact();
     } else {
       /// load text attributes

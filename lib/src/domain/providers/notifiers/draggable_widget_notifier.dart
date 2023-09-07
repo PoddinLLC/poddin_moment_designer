@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
-import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
 
 class DraggableWidgetNotifier extends ChangeNotifier {
   List<EditableItem> _draggableWidget = [];
@@ -18,13 +17,15 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   // get uploaded pictures length
   set uploadedMedia(int index) {
     // set new length
-    if (index < 1) {
-      _uploadedMedia -= 1;
-      notifyListeners();
-    } else {
-      _uploadedMedia += 1;
-      notifyListeners();
-    }
+    _uploadedMedia = _uploadedMedia + index;
+    notifyListeners();
+    // if (index < 1) {
+    //   _uploadedMedia -= 1;
+    //   notifyListeners();
+    // } else {
+    //   _uploadedMedia += 1;
+    //   notifyListeners();
+    // }
   }
 
   // GiphyGif? _gif;
@@ -37,13 +38,5 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   setDefaults() {
     _draggableWidget = [];
     _uploadedMedia = 0;
-  }
-
-  clearMediaPath(ControlNotifier notifier) {
-    var path = notifier.mediaPath;
-    if (_uploadedMedia > 1 && path.isNotEmpty) {
-      notifier.mediaPath = '';
-      notifier.gradientIndex += 1;
-    }
   }
 }
