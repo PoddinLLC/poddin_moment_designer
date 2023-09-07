@@ -496,6 +496,16 @@ class _MainViewState extends State<MainView> {
                             const EdgeInsets.only(left: 20, right: 20, top: 10),
                         state: state,
                         children: [
+                          AwesomeOrientedWidget(
+                            child: GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: const AwesomeCircleWidget.icon(
+                                icon: Icons.arrow_back_ios_new,
+                                scale: 1.0,
+                              ),
+                            ),
+                          ),
+                          //
                           AwesomeFlashButton(state: state),
                           //
                           if (state is PhotoCameraState)
