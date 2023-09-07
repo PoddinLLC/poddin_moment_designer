@@ -165,6 +165,16 @@ class _MainViewState extends State<MainView> {
         _control.colorList = widget.colorList;
       }
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     GalleryAssetPicker.initialize(GalleryConfig(
       enableCamera: false,
       crossAxisCount: 3,
@@ -178,23 +188,12 @@ class _MainViewState extends State<MainView> {
           fontSize: 14.0,
         );
       },
-      cameraConfig: const CameraConfig(),
       textTheme: const TextTheme(
         bodyMedium: TextStyle(fontSize: 16),
         titleMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
         titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _popScope,
       child: Material(
@@ -655,13 +654,6 @@ class _MainViewState extends State<MainView> {
     }
     // then,
     // open gallery picker
-    // final selectedImages = await ImagesPicker.pick(
-    //   count: 1,
-    //   pickType: PickType.image,
-    //   gif: false,
-    //   quality: 0.8,
-    //   language: Language.English,
-    // );
     final selectedImages = await GalleryAssetPicker.pick(
       context,
       maxCount: 1,
