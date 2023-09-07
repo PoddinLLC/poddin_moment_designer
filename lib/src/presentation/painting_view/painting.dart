@@ -1,8 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, deprecated_member_use
 
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:perfect_freehand/perfect_freehand.dart';
 import 'package:provider/provider.dart';
@@ -58,9 +56,7 @@ class _PaintingState extends State<Painting> {
       /// validate allow pan area
       if (point.y >= 4 &&
           point.y <=
-              (Platform.isIOS
-                  ? (screenSize.size.height - 132) - screenSize.viewPadding.top
-                  : screenSize.size.height - 132)) {
+              (screenSize.size.height - 132) - screenSize.viewPadding.top) {
         line = PaintingModel(
             points,
             paintingNotifier.lineWidth,
@@ -85,9 +81,7 @@ class _PaintingState extends State<Painting> {
       /// validate allow pan area
       if (point.y >= 6 &&
           point.y <=
-              (Platform.isIOS
-                  ? (screenSize.size.height - 132) - screenSize.viewPadding.top
-                  : screenSize.size.height - 132)) {
+              (screenSize.size.height - 132) - screenSize.viewPadding.top) {
         line = PaintingModel(
             points,
             paintingNotifier.lineWidth,
@@ -131,10 +125,8 @@ class _PaintingState extends State<Painting> {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   width: MediaQuery.of(context).size.width,
-                  height: Platform.isIOS
-                      ? (screenSize.size.height - 132) -
-                          screenSize.viewPadding.top
-                      : MediaQuery.of(context).size.height - 132,
+                  height: (screenSize.size.height - 132) -
+                      screenSize.viewPadding.top,
                   child: StreamBuilder<PaintingModel>(
                       stream:
                           paintingNotifier.currentLineStreamController.stream,

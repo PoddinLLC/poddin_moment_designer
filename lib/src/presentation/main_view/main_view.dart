@@ -498,7 +498,12 @@ class _MainViewState extends State<MainView> {
                         children: [
                           AwesomeOrientedWidget(
                             child: GestureDetector(
-                              onTap: () => Navigator.pop(context),
+                              onTap: () {
+                                // scroll to editorView page
+                                scrollProvider.pageController.animateToPage(0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease);
+                              },
                               child: const AwesomeCircleWidget.icon(
                                 icon: Icons.arrow_back_ios_new,
                                 scale: 1.0,
@@ -518,19 +523,19 @@ class _MainViewState extends State<MainView> {
                           // ),
                         ],
                       ),
-                      middleContentBuilder: (state) {
-                        // Use this to add widgets on the middle of the preview
-                        return Column(
-                          children: [
-                            const Spacer(),
-                            if (state.captureMode == CaptureMode.photo)
-                              AwesomeFilterWidget(
-                                state: state,
-                                filterListPadding: const EdgeInsets.all(10),
-                              ),
-                          ],
-                        );
-                      },
+                      // middleContentBuilder: (state) {
+                      //   // Use this to add widgets on the middle of the preview
+                      //   return Column(
+                      //     children: [
+                      //       const Spacer(),
+                      //       if (state.captureMode == CaptureMode.photo)
+                      //         AwesomeFilterWidget(
+                      //           state: state,
+                      //           filterListPadding: const EdgeInsets.all(10),
+                      //         ),
+                      //     ],
+                      //   );
+                      // },
                       bottomActionsBuilder: (state) => AwesomeBottomActions(
                         onMediaTap: null,
                         state: state,
@@ -585,14 +590,18 @@ class _MainViewState extends State<MainView> {
                                       ),
                                     );
                                   }
-                                  return AwesomeMediaPreview(
-                                    mediaCapture: snapshot.requireData,
-                                    onMediaTap: (media) => onPreviewTap(
-                                      ctx,
-                                      media,
-                                      controlNotifier,
-                                      itemProvider,
-                                      scrollProvider,
+                                  return SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: AwesomeMediaPreview(
+                                      mediaCapture: snapshot.requireData,
+                                      onMediaTap: (media) => onPreviewTap(
+                                        ctx,
+                                        snapshot.requireData,
+                                        controlNotifier,
+                                        itemProvider,
+                                        scrollProvider,
+                                      ),
                                     ),
                                   );
                                 },

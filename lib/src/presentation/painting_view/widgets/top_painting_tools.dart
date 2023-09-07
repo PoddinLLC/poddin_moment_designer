@@ -24,7 +24,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
           child: Container(
             color: Colors.transparent,
             child: Row(
-              //  mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// remove last line

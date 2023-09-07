@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, library_private_types_in_public_api, unused_import
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class _BottomToolsState extends State<BottomTools> {
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
         return SizedBox(
-          height: 70, //95
+          height: 70,
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,9 +71,13 @@ class _BottomToolsState extends State<BottomTools> {
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.ease);
                         },
-                        child: const CoverThumbnail(
-                          key: ValueKey('editor'),
-                        ),
+                        child: kIsWeb
+                            ? const SizedBox.square(
+                                dimension: 40,
+                              )
+                            : const CoverThumbnail(
+                                key: ValueKey('editor'),
+                              ),
                       ),
                     ),
                   ),
@@ -84,7 +89,7 @@ class _BottomToolsState extends State<BottomTools> {
                   ? Center(
                       child: Container(
                           width: _size.width / 2,
-                          constraints: const BoxConstraints(maxHeight: 40),
+                          constraints: const BoxConstraints(maxHeight: 50),
                           alignment: Alignment.bottomCenter,
                           child: controlNotifier.middleBottomWidget),
                     )
@@ -194,8 +199,8 @@ class _BottomToolsState extends State<BottomTools> {
 
   Widget _preViewContainer({child}) {
     return Container(
-      height: 36,
-      width: 36,
+      height: 40,
+      width: 40,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(width: 1.2, color: Colors.white)),

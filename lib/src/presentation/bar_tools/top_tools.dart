@@ -223,8 +223,8 @@ class _TopToolsState extends State<TopTools> {
       child: AnimatedOnTapButton(
         onTap: onTap,
         child: Container(
-          width: 36,
-          height: 36,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1.2),
             gradient: LinearGradient(
