@@ -440,7 +440,7 @@ class _MainViewState extends State<MainView> {
                       saveConfig: SaveConfig.photo(
                         exifPreferences:
                             ExifPreferences(saveGPSLocation: false),
-                        mirrorFrontCamera: true,
+                        mirrorFrontCamera: false,
                         pathBuilder: (sensors) async {
                           final extDir =
                               await getApplicationDocumentsDirectory();
@@ -467,8 +467,8 @@ class _MainViewState extends State<MainView> {
                         },
                       ),
                       sensorConfig: SensorConfig.single(
-                        flashMode: FlashMode.auto,
-                        aspectRatio: CameraAspectRatios.ratio_4_3,
+                        flashMode: FlashMode.none,
+                        aspectRatio: CameraAspectRatios.ratio_16_9,
                         sensor: Sensor.position(SensorPosition.front),
                         zoom: 0.0,
                       ),
@@ -476,7 +476,7 @@ class _MainViewState extends State<MainView> {
                         state: state,
                         children: [
                           AwesomeFlashButton(state: state),
-                          AwesomeZoomSelector(state: state),
+                         // AwesomeZoomSelector(state: state),
                           if (state is PhotoCameraState)
                             AwesomeAspectRatioButton(
                               state: state,
@@ -491,8 +491,7 @@ class _MainViewState extends State<MainView> {
                             if (state.captureMode == CaptureMode.photo)
                               AwesomeFilterWidget(
                                 state: state,
-                                filterListPosition:
-                                    FilterListPosition.belowButton,
+                                filterListPadding: const EdgeInsets.only(top:8, right:10, left:10),
                               ),
                           ],
                         );
@@ -533,14 +532,14 @@ class _MainViewState extends State<MainView> {
                             }
                             // add media to view
                             itemProvider
-                              ..draggableWidget.insert(
+                              .draggableWidget.insert(
                                   0,
                                   EditableItem()
                                     ..type = ItemType.image
                                     ..path = path
-                                    ..position = const Offset(0.0, 0))
-                              ..uploadedMedia = 1
-                              ..clearMediaPath(controlNotifier);
+                                    ..position = const Offset(0.0, 0));
+                              itemProvider.uploadedMedia = 1;
+                              itemProvider.clearMediaPath(controlNotifier);
                             setState(() {});
                             /// scroll to editorView page
                             scrollProvider.pageController.animateToPage(0,
@@ -550,14 +549,37 @@ class _MainViewState extends State<MainView> {
                           //
                         },
                       ),
-                      filter: AwesomeFilter.LoFi,
-                      previewAlignment: Alignment.center,
-                      previewFit: CameraPreviewFit.fitWidth,
-                      previewPadding: const EdgeInsets.all(20),
+                      theme: AwesomeTheme(
+    bottomActionsBackgroundColor: Colors.black38,
+    buttonTheme: AwesomeButtonTheme(
+      //backgroundColor: Colors.cyan.withOpacity(0.5),
+      iconSize: 20,
+      foregroundColor: Colors.white,
+      padding: const EdgeInsets.all(12),
+      // Tap visual feedback (ripple, bounce...)
+      buttonBuilder: (child, onTap) {
+        return ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            child: GestureDetector(
+              //splashColor: Colors.cyan,
+              //highlightColor: Colors.cyan.withOpacity(0.5),
+              onTap: onTap,
+              child: child,
+            ),
+          ),
+        );
+      },
+    ),
+                      //filter: AwesomeFilter.LoFi,
+                      //previewAlignment: Alignment.center,
+                      previewFit: CameraPreviewFit.cover,
+                      //previewPadding: const EdgeInsets.all(20),
                       progressIndicator: const Center(
                         child: SizedBox(
-                          width: 40,
-                          height: 40,
+                          width: 30,
+                          height: 30,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                           ),
