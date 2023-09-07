@@ -13,7 +13,6 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/item_typ
 import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
 import '../../domain/models/editable_items.dart';
-import 'package:gallery_asset_picker/gallery_asset_picker.dart';
 
 // import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 
@@ -45,26 +44,6 @@ class _BottomToolsState extends State<BottomTools> {
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
     bool _createVideo = false;
-    GalleryAssetPicker.initialize(GalleryConfig(
-      enableCamera: true,
-      crossAxisCount: 3,
-      colorScheme: const ColorScheme.dark(primary: Color(0xFFD91C54)),
-      onReachMaximum: () {
-        Fluttertoast.showToast(
-          msg: "You have reached the allowed number of images",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          textColor: Colors.white,
-          fontSize: 14.0,
-        );
-      },
-      cameraConfig: const CameraConfig(),
-      textTheme: const TextTheme(
-        bodyMedium: TextStyle(fontSize: 16),
-        titleMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-        titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-      ),
-    ));
     //
     return Consumer4<ControlNotifier, ScrollNotifier, DraggableWidgetNotifier,
         PaintingNotifier>(
@@ -91,7 +70,9 @@ class _BottomToolsState extends State<BottomTools> {
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.ease);
                         },
-                        child: const CoverThumbnail(),
+                        child: const CoverThumbnail(
+                          key: ValueKey('editor'),
+                        ),
                       ),
                     ),
                   ),
@@ -217,7 +198,6 @@ class _BottomToolsState extends State<BottomTools> {
       width: 36,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          //borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1.2, color: Colors.white)),
       child: child,
     );

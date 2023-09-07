@@ -456,6 +456,7 @@ class _MainViewState extends State<MainView> {
                     ),
                     gallery: CameraAwesomeBuilder.awesome(
                       enablePhysicalButton: true,
+                      onMediaTap: null,
                       saveConfig: SaveConfig.photo(
                         exifPreferences:
                             ExifPreferences(saveGPSLocation: false),
@@ -496,17 +497,16 @@ class _MainViewState extends State<MainView> {
                             const EdgeInsets.only(left: 20, right: 20, top: 10),
                         state: state,
                         children: [
-                          SizedBox.square(
-                            dimension: 40,
-                            child: AwesomeFlashButton(state: state),
-                          ),
+                          AwesomeFlashButton(state: state),
+                          //
                           if (state is PhotoCameraState)
-                            SizedBox.square(
-                              dimension: 40,
-                              child: AwesomeAspectRatioButton(
-                                state: state,
-                              ),
+                            // SizedBox.square(
+                            //   dimension: 40,
+                            //   child:
+                            AwesomeAspectRatioButton(
+                              state: state,
                             ),
+                          // ),
                         ],
                       ),
                       middleContentBuilder: (state) {
@@ -519,73 +519,75 @@ class _MainViewState extends State<MainView> {
                                 state: state,
                                 filterListPadding: const EdgeInsets.all(10),
                               ),
-                            Builder(
-                              builder: (context) => Container(
-                                color: AwesomeThemeProvider.of(context)
-                                    .theme
-                                    .bottomActionsBackgroundColor,
-                                height: 8,
-                              ),
-                            ),
                           ],
                         );
                       },
                       bottomActionsBuilder: (state) => AwesomeBottomActions(
+                        onMediaTap: null,
                         state: state,
-                        left: SizedBox.square(
-                          dimension: 40,
-                          child: AwesomeCameraSwitchButton(
-                            state: state,
-                            iconBuilder: () {
-                              return const AwesomeCircleWidget.icon(
-                                icon: Icons.cameraswitch,
-                                scale: 1.0,
-                              );
-                            },
-                            scale: 1.0,
-                          ),
-                        ),
-                        right: StreamBuilder<MediaCapture?>(
-                          stream: state.captureState$,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return GestureDetector(
-                                onTap: onPreviewTap(
-                                  null,
-                                  controlNotifier,
-                                  itemProvider,
-                                  scrollProvider,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(90),
-                                  child: Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.white38,
-                                        width: 2,
-                                      ),
-                                    ),
-                                    child: const CoverThumbnail(),
-                                  ),
-                                ),
-                              );
-                            }
-                            return SizedBox.square(
-                              dimension: 40,
-                              child: AwesomeMediaPreview(
-                                mediaCapture: snapshot.requireData,
-                                onMediaTap: (media) => onPreviewTap(
-                                  media,
-                                  controlNotifier,
-                                  itemProvider,
-                                  scrollProvider,
-                                ),
-                              ),
+                        left: AwesomeCameraSwitchButton(
+                          state: state,
+                          iconBuilder: () {
+                            return const AwesomeCircleWidget.icon(
+                              icon: Icons.cameraswitch,
+                              scale: 1.0,
                             );
                           },
+                          scale: 1.0,
                         ),
+                        right: state is VideoRecordingCameraState
+                            ? const SizedBox(width: 40)
+                            : StreamBuilder<MediaCapture?>(
+                                stream: state.captureState$,
+                                builder: (ctx, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return ClipOval(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        elevation: 0,
+                                        shape: const CircleBorder(),
+                                        child: GestureDetector(
+                                          onTap: onPreviewTap(
+                                            ctx,
+                                            null,
+                                            controlNotifier,
+                                            itemProvider,
+                                            scrollProvider,
+                                          ),
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.white38,
+                                                width: 2,
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              child: const CoverThumbnail(
+                                                key: ValueKey('camera'),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return AwesomeMediaPreview(
+                                    mediaCapture: snapshot.requireData,
+                                    onMediaTap: (media) => onPreviewTap(
+                                      ctx,
+                                      media,
+                                      controlNotifier,
+                                      itemProvider,
+                                      scrollProvider,
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
                       theme: AwesomeTheme(
                         bottomActionsBackgroundColor: Colors.black12,
@@ -633,6 +635,7 @@ class _MainViewState extends State<MainView> {
 
   /// Preview tap action
   onPreviewTap(
+    BuildContext context,
     MediaCapture? media,
     ControlNotifier controlNotifier,
     DraggableWidgetNotifier itemProvider,
