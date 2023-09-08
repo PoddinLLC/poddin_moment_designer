@@ -1,10 +1,9 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, library_private_types_in_public_api, unused_import
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 import 'package:provider/provider.dart';
-import 'package:vs_media_picker/vs_media_picker.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/draggable_widget_notifier.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/painting_notifier.dart';
@@ -57,30 +56,47 @@ class _BottomToolsState extends State<BottomTools> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               /// preview gallery
-              Container(
+              // Container(
+              //   padding: const EdgeInsets.only(left: 15),
+              //   alignment: Alignment.centerLeft,
+              //   child: SizedBox(
+              //     child: _cameraContainer(
+              //       child: ClipRRect(
+              //         borderRadius: BorderRadius.circular(90),
+              //         child: GestureDetector(
+              //           onTap: () {
+              //             /// scroll to gridView page
+              //             scrollNotifier.pageController.animateToPage(1,
+              //                 duration: const Duration(milliseconds: 300),
+              //                 curve: Curves.ease);
+              //           },
+              //           child: kIsWeb
+              //               ? const SizedBox.square(
+              //                   dimension: 40,
+              //                 )
+              //               : const CoverThumbnail(
+              //                   key: ValueKey('editor'),
+              //                 ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              //
+              ToolButton(
+                backGroundColor: Colors.black12,
                 padding: const EdgeInsets.only(left: 15),
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  child: _preViewContainer(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(90),
-                      child: GestureDetector(
-                        onTap: () {
-                          /// scroll to gridView page
-                          scrollNotifier.pageController.animateToPage(1,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease);
-                        },
-                        child: kIsWeb
-                            ? const SizedBox.square(
-                                dimension: 40,
-                              )
-                            : const CoverThumbnail(
-                                key: ValueKey('editor'),
-                              ),
-                      ),
-                    ),
-                  ),
+                onLongPress: null,
+                onTap: () {
+                  /// scroll to gridView page
+                  scrollNotifier.pageController.animateToPage(1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease);
+                },
+                child: const Icon(
+                  Icons.camera_outlined,
+                  color: Colors.white,
+                  size: 24,
                 ),
               ),
 
@@ -197,7 +213,8 @@ class _BottomToolsState extends State<BottomTools> {
     );
   }
 
-  Widget _preViewContainer({child}) {
+  // ignore: unused_element
+  Widget _cameraContainer({child}) {
     return Container(
       height: 40,
       width: 40,
