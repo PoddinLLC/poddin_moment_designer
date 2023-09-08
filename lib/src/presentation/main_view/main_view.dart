@@ -548,6 +548,13 @@ class _MainViewState extends State<MainView> {
                             },
                             bottomActionsBuilder: (state) =>
                                 AwesomeBottomActions(
+                              onMediaTap: (mediaCapture) => onPreviewTap(
+                                context,
+                                mediaCapture,
+                                controlNotifier,
+                                itemProvider,
+                                scrollProvider,
+                              ),
                               state: state,
                               left: AwesomeCameraSwitchButton(
                                 state: state,
@@ -558,19 +565,6 @@ class _MainViewState extends State<MainView> {
                                   );
                                 },
                                 scale: 1.0,
-                              ),
-                              right: SizedBox.square(
-                                dimension: 40,
-                                child: AwesomeMediaPreview(
-                                  mediaCapture: state.captureState,
-                                  onMediaTap: (media) => onPreviewTap(
-                                    context,
-                                    media,
-                                    controlNotifier,
-                                    itemProvider,
-                                    scrollProvider,
-                                  ),
-                                ),
                               ),
                             ),
                             theme: AwesomeTheme(
@@ -608,7 +602,6 @@ class _MainViewState extends State<MainView> {
                         if (switchToGallery)
                           AlbumImagePicker(
                             onSelected: (images) async {
-                              HapticFeedback.selectionClick();
                               final selected = await images.first.file;
                               final path = selected?.path;
                               if (path != null) {
@@ -679,7 +672,6 @@ class _MainViewState extends State<MainView> {
                                 color: Colors.white,
                                 onPressed: () {
                                   setState(() => switchToGallery = false);
-                                  HapticFeedback.lightImpact();
                                 }),
                             thumbnailQuality: 300,
                           ),
@@ -707,36 +699,33 @@ class _MainViewState extends State<MainView> {
     DraggableWidgetNotifier itemProvider,
     ScrollNotifier scrollProvider,
   ) async {
-    HapticFeedback.lightImpact();
-    if (media != null) {
-      // Get the last captured photo
-      final path = media.captureRequest.when(
-        single: (p0) => p0.file?.path,
-        // multiple: (p0) => p0.fileBySensor.values.first!.path,
-      );
-      if (path != null) {
-        // set media path value
-        if (itemProvider.uploadedMedia == 0) {
-          controlNotifier.mediaPath = path;
-          setState(() {});
-        }
-        // add photo to editor view
-        itemProvider.draggableWidget.insert(
-            0,
-            EditableItem()
-              ..type = ItemType.image
-              ..path = path
-              ..position = const Offset(0.0, 0));
-        itemProvider.uploadedMedia = 1;
-        controlNotifier.clearPath();
+    // Get the last captured photo
+    final path = media!.captureRequest.when(
+      single: (p0) => p0.file?.path,
+      // multiple: (p0) => p0.fileBySensor.values.first!.path,
+    );
+    if (path != null) {
+      // set media path value
+      if (itemProvider.uploadedMedia == 0) {
+        controlNotifier.mediaPath = path;
         setState(() {});
-        // scroll to editor view
-        scrollProvider.pageController.animateToPage(
-          0,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
       }
+      // add photo to editor view
+      itemProvider.draggableWidget.insert(
+          0,
+          EditableItem()
+            ..type = ItemType.image
+            ..path = path
+            ..position = const Offset(0.0, 0));
+      itemProvider.uploadedMedia = 1;
+      controlNotifier.clearPath();
+      setState(() {});
+      // scroll to editor view
+      scrollProvider.pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
     }
   }
 

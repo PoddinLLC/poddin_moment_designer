@@ -50,7 +50,7 @@ class _BottomToolsState extends State<BottomTools> {
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
         return SizedBox(
-          height: 70,
+          height: 60,
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,116 +96,78 @@ class _BottomToolsState extends State<BottomTools> {
                 child: const Icon(
                   Icons.camera_outlined,
                   color: Colors.white,
-                  size: 24,
+                  size: 30,
                 ),
               ),
 
               /// center logo
-              controlNotifier.middleBottomWidget != null
-                  ? Center(
-                      child: Container(
-                          width: _size.width / 2,
-                          constraints: const BoxConstraints(maxHeight: 50),
-                          alignment: Alignment.bottomCenter,
-                          child: controlNotifier.middleBottomWidget),
-                    )
-                  : Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/instagram_logo.png',
-                            package: 'poddin_moment_designer',
-                            color: Colors.white,
-                            height: 42,
-                          ),
-                          const Text(
-                            'Story Designer',
-                            style: TextStyle(
-                                color: Colors.white38,
-                                letterSpacing: 1.5,
-                                fontSize: 9.2,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
+              Center(
+                child: Container(
+                    width: _size.width / 2,
+                    constraints: const BoxConstraints(maxHeight: 42),
+                    alignment: Alignment.bottomCenter,
+                    child: controlNotifier.middleBottomWidget),
+              ),
 
               /// save final image to gallery
               AnimatedOnTapButton(
-                  onTap: () async {
-                    String pngUri;
-                    if (paintingNotifier.lines.isNotEmpty ||
-                        itemNotifier.draggableWidget.isNotEmpty) {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Card(
-                                  color: Colors.black,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(50),
-                                    child: const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
+                onTap: () async {
+                  String pngUri;
+                  if (paintingNotifier.lines.isNotEmpty ||
+                      itemNotifier.draggableWidget.isNotEmpty) {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Card(
+                                color: Colors.black,
+                                child: Container(
+                                  padding: const EdgeInsets.all(50),
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.white,
                                   ),
                                 ),
-                              ],
-                            );
-                          });
-                      for (var element in itemNotifier.draggableWidget) {
-                        if (element.type == ItemType.gif ||
-                            element.animationType != TextAnimationType.none) {
-                          _createVideo = true;
-                          setState(() {});
-                        }
-                      }
-                      if (_createVideo) {
-                        debugPrint('creating video');
-                        await widget.renderWidget!();
-                      } else {
-                        debugPrint('creating image');
-                        await takePicture(
-                                contentKey: widget.contentKey,
-                                context: context,
-                                saveToGallery: false,
-                                fileName: controlNotifier.folderName)
-                            .then((bytes) {
-                          Navigator.of(context, rootNavigator: true).pop();
-                          if (bytes != null) {
-                            pngUri = bytes;
-                            widget.onDone(pngUri);
-                          } else {
-                            debugPrint("error");
-                          }
-                        });
-                      }
-                    } else {
-                      Fluttertoast.showToast(msg: 'Add a picture or text');
-                    }
-                    _createVideo = false;
-                  },
-                  child: widget.onDoneButtonStyle ??
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            borderRadius: BorderRadius.circular(8),
-                            border:
-                                Border.all(color: Colors.white, width: 1.2)),
-                        child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 0, right: 2),
-                                child: Icon(Icons.share_sharp, size: 28),
                               ),
-                            ]),
-                      ))
+                            ],
+                          );
+                        });
+                    for (var element in itemNotifier.draggableWidget) {
+                      if (element.type == ItemType.gif ||
+                          element.animationType != TextAnimationType.none) {
+                        _createVideo = true;
+                        setState(() {});
+                      }
+                    }
+                    if (_createVideo) {
+                      debugPrint('creating video');
+                      await widget.renderWidget!();
+                    } else {
+                      debugPrint('creating image');
+                      await takePicture(
+                              contentKey: widget.contentKey,
+                              context: context,
+                              saveToGallery: false,
+                              fileName: controlNotifier.folderName)
+                          .then((bytes) {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        if (bytes != null) {
+                          pngUri = bytes;
+                          widget.onDone(pngUri);
+                        } else {
+                          debugPrint("error");
+                        }
+                      });
+                    }
+                  } else {
+                    Fluttertoast.showToast(msg: 'Add a picture or text');
+                  }
+                  _createVideo = false;
+                },
+                child: widget.onDoneButtonStyle!,
+              )
             ],
           ),
         );
