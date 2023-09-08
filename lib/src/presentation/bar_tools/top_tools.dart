@@ -90,7 +90,7 @@ class _TopToolsState extends State<TopTools> {
                         AssetImage('assets/icons/text.png',
                             package: 'poddin_moment_designer'),
                         color: Colors.white,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                     // Toggle text shadow
@@ -206,7 +206,7 @@ class _TopToolsState extends State<TopTools> {
                       AssetImage('assets/icons/download.png',
                           package: 'poddin_moment_designer'),
                       color: Colors.white,
-                      size: 16,
+                      size: 14,
                     )),
               ],
             ),

@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class ScrollablePageView extends StatefulWidget {
   Widget mainView;
-  Widget gallery;
+  Widget camera;
   final bool scrollPhysics;
   PageController pageController;
   ScrollController gridController;
   ScrollablePageView(
       {Key? key,
       required this.mainView,
-      required this.gallery,
+      required this.camera,
       required this.scrollPhysics,
       required this.pageController,
       required this.gridController})
@@ -116,7 +116,7 @@ class _ScrollablePageViewState extends State<ScrollablePageView> {
           controller: _pageController,
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
-          children: [widget.mainView, widget.gallery],
+          children: [widget.mainView, widget.camera],
         ));
   }
 }

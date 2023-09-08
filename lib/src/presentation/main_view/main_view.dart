@@ -175,20 +175,20 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    GalleryAssetPicker.initialize(GalleryConfig(
+    GalleryAssetPicker.initialize(const GalleryConfig(
       enableCamera: false,
       crossAxisCount: 3,
-      colorScheme: const ColorScheme.dark(primary: Color(0xFFD91C54)),
-      onReachMaximum: () {
-        Fluttertoast.showToast(
-          msg: "You have reached the allowed number of images",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          textColor: Colors.white,
-          fontSize: 14.0,
-        );
-      },
-      textTheme: const TextTheme(
+      colorScheme: ColorScheme.dark(primary: Color(0xFFD91C54)),
+      // onReachMaximum: () {
+      //   Fluttertoast.showToast(
+      //     msg: "You have reached the allowed number of images",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.CENTER,
+      //     textColor: Colors.white,
+      //     fontSize: 14.0,
+      //   );
+      // },
+      textTheme: TextTheme(
         bodyMedium: TextStyle(fontSize: 16),
         titleMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
         titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
@@ -453,7 +453,8 @@ class _MainViewState extends State<MainView> {
                         )
                       ],
                     ),
-                    gallery: CameraAwesomeBuilder.awesome(
+                    // Show camera
+                    camera: CameraAwesomeBuilder.awesome(
                       enablePhysicalButton: true,
                       saveConfig: SaveConfig.photo(
                         exifPreferences:
@@ -485,10 +486,8 @@ class _MainViewState extends State<MainView> {
                         },
                       ),
                       sensorConfig: SensorConfig.single(
-                        flashMode: FlashMode.none,
                         aspectRatio: CameraAspectRatios.ratio_16_9,
                         sensor: Sensor.position(SensorPosition.front),
-                        zoom: 0.0,
                       ),
                       topActionsBuilder: (state) => AwesomeTopActions(
                         padding:
@@ -504,45 +503,30 @@ class _MainViewState extends State<MainView> {
                                     curve: Curves.ease);
                               },
                               child: const AwesomeCircleWidget.icon(
-                                icon: Icons.arrow_back_ios_new,
+                                icon: Icons.arrow_back_ios_new_rounded,
                                 scale: 1.0,
                               ),
                             ),
                           ),
-                          //
+                          // flash light btn
                           AwesomeFlashButton(state: state),
-                          //
-                          if (state is PhotoCameraState)
-                            // SizedBox.square(
-                            //   dimension: 40,
-                            //   child:
-                            AwesomeAspectRatioButton(
-                              state: state,
-                            ),
-                          // ),
                         ],
                       ),
-                      // middleContentBuilder: (state) {
-                      //   // Use this to add widgets on the middle of the preview
-                      //   return Column(
-                      //     children: [
-                      //       const Spacer(),
-                      //       if (state.captureMode == CaptureMode.photo)
-                      //         AwesomeFilterWidget(
-                      //           state: state,
-                      //           filterListPadding: const EdgeInsets.all(10),
-                      //         ),
-                      //     ],
-                      //   );
-                      // },
+                      middleContentBuilder: (state) {
+                        // Use this to add widgets on the middle of the preview
+                        return Column(
+                          children: [
+                            const Spacer(),
+                            if (state.captureMode == CaptureMode.photo)
+                              AwesomeFilterWidget(
+                                state: state,
+                                spacer: const SizedBox(height: 5),
+                                filterListPadding: const EdgeInsets.all(12),
+                              ),
+                          ],
+                        );
+                      },
                       bottomActionsBuilder: (state) => AwesomeBottomActions(
-                        onMediaTap: (media) => onPreviewTap(
-                          context,
-                          media,
-                          controlNotifier,
-                          itemProvider,
-                          scrollProvider,
-                        ),
                         state: state,
                         left: AwesomeCameraSwitchButton(
                           state: state,
@@ -554,28 +538,54 @@ class _MainViewState extends State<MainView> {
                           },
                           scale: 1.0,
                         ),
-                        right: ClipOval(
-                          child: Material(
-                            color: Colors.transparent,
-                            elevation: 0,
-                            shape: const CircleBorder(),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.white38,
-                                  width: 2,
+                        right: GestureDetector(
+                          onTap: () => onPreviewTap(
+                            context,
+                            state.captureState,
+                            controlNotifier,
+                            itemProvider,
+                            scrollProvider,
+                          ),
+                          child: Stack(
+                            alignment: const AlignmentDirectional(0, 0),
+                            children: [
+                              // Phone Gallery Button
+                              if (state.captureState == null)
+                                ClipOval(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 0,
+                                    shape: const CircleBorder(),
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white38,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        child: const CoverThumbnail(
+                                          key: ValueKey('camera'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50.0),
-                                child: const CoverThumbnail(
-                                  key: ValueKey('camera'),
+                              // Preview Camera Shot
+                              if (state.captureState != null)
+                                SizedBox.square(
+                                  dimension: 40,
+                                  child: AwesomeMediaPreview(
+                                    mediaCapture: state.captureState,
+                                    onMediaTap: null,
+                                  ),
                                 ),
-                              ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
@@ -598,7 +608,7 @@ class _MainViewState extends State<MainView> {
                           },
                         ),
                       ),
-                      filter: AwesomeFilter.Clarendon,
+                      filter: AwesomeFilter.LoFi,
                       progressIndicator: const Center(
                         child: SizedBox(
                           width: 30,
