@@ -455,7 +455,6 @@ class _MainViewState extends State<MainView> {
                     ),
                     gallery: CameraAwesomeBuilder.awesome(
                       enablePhysicalButton: true,
-                      onMediaTap: null,
                       saveConfig: SaveConfig.photo(
                         exifPreferences:
                             ExifPreferences(saveGPSLocation: false),
@@ -537,7 +536,13 @@ class _MainViewState extends State<MainView> {
                       //   );
                       // },
                       bottomActionsBuilder: (state) => AwesomeBottomActions(
-                        onMediaTap: null,
+                        onMediaTap: (media) => onPreviewTap(
+                          context,
+                          media,
+                          controlNotifier,
+                          itemProvider,
+                          scrollProvider,
+                        ),
                         state: state,
                         left: AwesomeCameraSwitchButton(
                           state: state,
@@ -549,63 +554,30 @@ class _MainViewState extends State<MainView> {
                           },
                           scale: 1.0,
                         ),
-                        right: state is VideoRecordingCameraState
-                            ? const SizedBox(width: 40)
-                            : StreamBuilder<MediaCapture?>(
-                                stream: state.captureState$,
-                                builder: (ctx, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return ClipOval(
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        elevation: 0,
-                                        shape: const CircleBorder(),
-                                        child: GestureDetector(
-                                          onTap: onPreviewTap(
-                                            ctx,
-                                            null,
-                                            controlNotifier,
-                                            itemProvider,
-                                            scrollProvider,
-                                          ),
-                                          child: Container(
-                                            height: 40,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Colors.white38,
-                                                width: 2,
-                                              ),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50.0),
-                                              child: const CoverThumbnail(
-                                                key: ValueKey('camera'),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  return SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: AwesomeMediaPreview(
-                                      mediaCapture: snapshot.requireData,
-                                      onMediaTap: (media) => onPreviewTap(
-                                        ctx,
-                                        snapshot.requireData,
-                                        controlNotifier,
-                                        itemProvider,
-                                        scrollProvider,
-                                      ),
-                                    ),
-                                  );
-                                },
+                        right: ClipOval(
+                          child: Material(
+                            color: Colors.transparent,
+                            elevation: 0,
+                            shape: const CircleBorder(),
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white38,
+                                  width: 2,
+                                ),
                               ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50.0),
+                                child: const CoverThumbnail(
+                                  key: ValueKey('camera'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       theme: AwesomeTheme(
                         bottomActionsBackgroundColor: Colors.black12,
