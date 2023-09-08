@@ -130,6 +130,7 @@ class _MainViewState extends State<MainView> {
 
   /// galleryCam switcher
   bool switchToGallery = false;
+  int mediaContent = 0;
 
   /// recorder controller
   // final WidgetRecorderController _recorderController =
@@ -452,7 +453,7 @@ class _MainViewState extends State<MainView> {
                                 final extDir =
                                     await getApplicationDocumentsDirectory();
                                 final testDir = await Directory(
-                                        '${extDir.path}/poddin_moment')
+                                        '${extDir.path}/poddin_moments')
                                     .create(recursive: true);
                                 // 2.
                                 if (sensors.length == 1) {
@@ -505,7 +506,6 @@ class _MainViewState extends State<MainView> {
                                   child: GestureDetector(
                                     onTap: () {
                                       // switch to gallery view
-                                      HapticFeedback.lightImpact();
                                       setState(() {
                                         switchToGallery = true;
                                       });
@@ -606,30 +606,31 @@ class _MainViewState extends State<MainView> {
                               final path = selected?.path;
                               if (path != null) {
                                 // set media path value
-                                if (itemProvider.uploadedMedia == 0) {
+                                if (mediaContent == 0) {
                                   controlNotifier.mediaPath = path;
                                   setState(() {});
                                 }
-                                // add photo to editor view
-                                itemProvider.draggableWidget.insert(
-                                    0,
-                                    EditableItem()
-                                      ..type = ItemType.image
-                                      ..path = path
-                                      ..position = const Offset(0.0, 0));
-                                itemProvider.uploadedMedia = 1;
-                                controlNotifier.clearPath();
-                                setState(() {});
-                                // scroll to editor view
-                                scrollProvider.pageController.animateToPage(
-                                  0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.ease,
-                                );
-                                // reset switch variabale
+                                //
                                 setState(() {
-                                  switchToGallery = false;
+                                  // add photo to editor view
+                                  itemProvider.draggableWidget.insert(
+                                      0,
+                                      EditableItem()
+                                        ..type = ItemType.image
+                                        ..path = path
+                                        ..position = const Offset(0.0, 0));
+                                  //
+                                  if (mediaContent >= 1) {
+                                    controlNotifier.mediaPath = '';
+                                    controlNotifier.gradientIndex += 1;
+                                  }
+                                  //
+                                  mediaContent++;
                                 });
+                                // scroll to editor view
+                                scrollProvider.pageController.jumpToPage(0);
+                                // reset switch variabale
+                                switchToGallery = false;
                               }
                             },
                             selectionBuilder: (_, selected, index) {
@@ -701,32 +702,35 @@ class _MainViewState extends State<MainView> {
   ) async {
     // Get the last captured photo
     final path = media!.captureRequest.when(
-      single: (p0) => p0.file?.path,
+      single: (p0) => p0.file!.path,
       // multiple: (p0) => p0.fileBySensor.values.first!.path,
     );
-    if (path != null) {
-      // set media path value
-      if (itemProvider.uploadedMedia == 0) {
+    // if (path.isNotEmpty) {
+    // set media path value
+    if (mediaContent == 0) {
+      setState(() {
         controlNotifier.mediaPath = path;
-        setState(() {});
-      }
-      // add photo to editor view
+      });
+    }
+    // add image to editor
+    setState(() {
       itemProvider.draggableWidget.insert(
           0,
           EditableItem()
             ..type = ItemType.image
             ..path = path
             ..position = const Offset(0.0, 0));
-      itemProvider.uploadedMedia = 1;
-      controlNotifier.clearPath();
-      setState(() {});
-      // scroll to editor view
-      scrollProvider.pageController.animateToPage(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
-      );
-    }
+      //
+      if (mediaContent >= 1) {
+        controlNotifier.mediaPath = '';
+        controlNotifier.gradientIndex += 1;
+      }
+      //
+      mediaContent++;
+    });
+    // scroll to editor view
+    scrollProvider.pageController.jumpToPage(0);
+    // }
   }
 
   /// recording and save mp4 widget
@@ -882,8 +886,6 @@ class _MainViewState extends State<MainView> {
     var _itemProvider =
         Provider.of<DraggableWidgetNotifier>(context, listen: false)
             .draggableWidget;
-    var widgetProvider =
-        Provider.of<DraggableWidgetNotifier>(context, listen: false);
     var control = Provider.of<ControlNotifier>(context, listen: false);
 
     _inAction = false;
@@ -900,9 +902,14 @@ class _MainViewState extends State<MainView> {
         //     item.position.dx <= 0.122)
         ) {
       if (item.type == ItemType.image) {
-        widgetProvider.uploadedMedia = -1;
-        control.clearPath();
-        setState(() {});
+        setState(() {
+          if (mediaContent >= 1) {
+            control.mediaPath = '';
+            control.gradientIndex += 1;
+          }
+          //
+          mediaContent--;
+        });
       }
       _itemProvider.removeAt(_itemProvider.indexOf(item));
       setState(() {});

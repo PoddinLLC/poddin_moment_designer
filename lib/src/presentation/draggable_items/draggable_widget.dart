@@ -40,8 +40,8 @@ class DraggableWidget extends StatelessWidget {
         Provider.of<GradientNotifier>(this.context, listen: false);
     var _controlProvider =
         Provider.of<ControlNotifier>(this.context, listen: false);
-    var _widgetProvider =
-        Provider.of<DraggableWidgetNotifier>(context, listen: false);
+    // var _widgetProvider =
+    //     Provider.of<DraggableWidgetNotifier>(context, listen: false);
     Widget overlayWidget;
 
     switch (draggableWidget.type) {
@@ -98,25 +98,21 @@ class DraggableWidget extends StatelessWidget {
 
       /// image [file_image_gb.dart]
       case ItemType.image:
-        if (_widgetProvider.uploadedMedia >= 1) {
-          overlayWidget = GestureDetector(
-            onLongPress: () {
-              _onTap(context, draggableWidget, _controlProvider);
-            },
-            child: SizedBox(
-              width: _size.width - 72,
-              child: FileImageBG(
-                filePath: File(_controlProvider.mediaPath),
-                generatedGradient: (color1, color2) {
-                  _colorProvider.color1 = color1;
-                  _colorProvider.color2 = color2;
-                },
-              ),
+        overlayWidget = GestureDetector(
+          onLongPress: () {
+            _onTap(context, draggableWidget, _controlProvider);
+          },
+          child: SizedBox(
+            width: _size.width - 72,
+            child: FileImageBG(
+              filePath: File(draggableWidget.path),
+              generatedGradient: (color1, color2) {
+                _colorProvider.color1 = color1;
+                _colorProvider.color2 = color2;
+              },
             ),
-          );
-        } else {
-          overlayWidget = Container();
-        }
+          ),
+        );
         break;
       case ItemType.gif:
         overlayWidget = SizedBox(

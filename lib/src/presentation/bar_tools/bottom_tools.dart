@@ -49,10 +49,10 @@ class _BottomToolsState extends State<BottomTools> {
         PaintingNotifier>(
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
-        return SizedBox(
-          height: 60,
+        return Container(
+          height: 95,
+          padding: const EdgeInsets.only(bottom: 35, left: 15, right: 15),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               /// preview gallery
@@ -94,19 +94,22 @@ class _BottomToolsState extends State<BottomTools> {
                       curve: Curves.ease);
                 },
                 child: const Icon(
-                  Icons.camera_outlined,
+                  Icons.camera,
                   color: Colors.white,
                   size: 30,
                 ),
               ),
 
               /// center logo
-              Center(
-                child: Container(
-                    width: _size.width / 2,
-                    constraints: const BoxConstraints(maxHeight: 42),
-                    alignment: Alignment.bottomCenter,
-                    child: controlNotifier.middleBottomWidget),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Center(
+                  child: Container(
+                      width: _size.width / 2,
+                      constraints: const BoxConstraints(maxHeight: 45),
+                      alignment: Alignment.bottomCenter,
+                      child: controlNotifier.middleBottomWidget),
+                ),
               ),
 
               /// save final image to gallery
