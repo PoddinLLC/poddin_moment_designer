@@ -8,10 +8,16 @@ import 'package:poddin_moment_designer/src/presentation/utils/color_detection.da
 
 class FileImageBG extends StatefulWidget {
   final File? filePath;
+  final Size? dimension;
+  final double? scale;
   final void Function(Color color1, Color color2) generatedGradient;
-  const FileImageBG(
-      {Key? key, required this.filePath, required this.generatedGradient})
-      : super(key: key);
+  const FileImageBG({
+    Key? key,
+    required this.filePath,
+    required this.generatedGradient,
+    required this.dimension,
+    required this.scale,
+  }) : super(key: key);
   @override
   _FileImageBGState createState() => _FileImageBGState();
 }
@@ -29,7 +35,7 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   void initState() {
     currentKey = paintKey;
-    Timer.periodic(const Duration(milliseconds: 500), (callback) async {
+    Timer.periodic(const Duration(milliseconds: 200), (callback) async {
       if (imageKey.currentState!.context.size!.height == 0.0) {
       } else {
         var cd1 = await ColorDetection(
@@ -57,16 +63,16 @@ class _FileImageBGState extends State<FileImageBG> {
 
   @override
   Widget build(BuildContext context) {
-    var _size = MediaQuery.of(context).size;
     return SizedBox(
-        height: _size.height,
-        width: _size.width,
+        width: widget.dimension!.width * widget.scale!,
+        height: widget.dimension!.height * widget.scale!,
         child: RepaintBoundary(
             key: paintKey,
             child: Center(
                 child: Image.file(
               File(widget.filePath!.path),
               key: imageKey,
+              fit: widget.scale! < 1.0 ? BoxFit.contain : BoxFit.cover,
               filterQuality: FilterQuality.high,
             ))));
   }

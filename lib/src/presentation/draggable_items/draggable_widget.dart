@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
@@ -23,11 +23,13 @@ class DraggableWidget extends StatelessWidget {
   final Function(PointerDownEvent)? onPointerDown;
   final Function(PointerUpEvent)? onPointerUp;
   final Function(PointerMoveEvent)? onPointerMove;
+  final Size? dimension;
   final BuildContext context;
   const DraggableWidget({
     Key? key,
     required this.context,
     required this.draggableWidget,
+    this.dimension,
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerMove,
@@ -35,13 +37,11 @@ class DraggableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _size = MediaQuery.of(context).size;
+    var _size = MediaQuery.sizeOf(context);
     var _colorProvider =
         Provider.of<GradientNotifier>(this.context, listen: false);
     var _controlProvider =
         Provider.of<ControlNotifier>(this.context, listen: false);
-    // var _widgetProvider =
-    //     Provider.of<DraggableWidgetNotifier>(context, listen: false);
     Widget overlayWidget;
 
     switch (draggableWidget.type) {
@@ -58,6 +58,8 @@ class DraggableWidget extends StatelessWidget {
               height: draggableWidget.deletePosition ? 100 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
+                onLongPress: () =>
+                    _onReorder(context, draggableWidget, _controlProvider),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -100,11 +102,18 @@ class DraggableWidget extends StatelessWidget {
       case ItemType.image:
         overlayWidget = GestureDetector(
           onLongPress: () {
-            _onTap(context, draggableWidget, _controlProvider);
+            _onReorder(context, draggableWidget, _controlProvider);
           },
-          child: SizedBox(
-            width: _size.width - 72,
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: dimension!.height * draggableWidget.scale,
+              maxWidth: dimension!.width * draggableWidget.scale,
+            ),
+            width: draggableWidget.deletePosition ? 100 : null,
+            height: draggableWidget.deletePosition ? 100 : null,
             child: FileImageBG(
+              dimension: dimension,
+              scale: draggableWidget.scale,
               filePath: File(draggableWidget.path),
               generatedGradient: (color1, color2) {
                 _colorProvider.color1 = color1;
@@ -161,9 +170,7 @@ class DraggableWidget extends StatelessWidget {
             onPointerDown: onPointerDown,
             onPointerUp: onPointerUp,
             onPointerMove: onPointerMove,
-
-            /// show widget
-            child: overlayWidget,
+            child: overlayWidget, // show widget
           ),
         ),
       ),
@@ -273,54 +280,89 @@ class DraggableWidget extends StatelessWidget {
     double scale = 0.0;
     if (draggableWidget.type == ItemType.text) {
       scale = 0.4;
-    } else if ( //draggableWidget.type == ItemType.gif ||
-        draggableWidget.type == ItemType.image) {
-      scale = 0.4;
+    } else if (draggableWidget.type == ItemType.image) {
+      scale = 0.2;
     }
     return scale;
   }
 
-  /// onTap text
-  void _onTap(BuildContext context, EditableItem item,
-      ControlNotifier controlNotifier) {
+  /// onLongPress content
+  void _onReorder(
+    BuildContext context,
+    EditableItem item,
+    ControlNotifier controlNotifier,
+  ) {
     var _editorProvider =
         Provider.of<TextEditingNotifier>(this.context, listen: false);
     var _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
 
-    /// change image position when tapped
+    // bring text to top
+    if (item.type == ItemType.text) {
+      _itemProvider.draggableWidget
+        ..removeAt(_itemProvider.draggableWidget.indexOf(item))
+        ..add(
+          EditableItem()
+            ..position = const Offset(0, 0)
+            ..text = item.text
+            ..scale = item.scale
+            ..type = item.type
+            ..textList = item.textList
+            ..backGroundColor = item.backGroundColor
+            ..fontFamily = item.fontFamily
+            ..textAlign = item.textAlign
+            ..textColor = item.textColor
+            ..fontAnimationIndex = item.fontAnimationIndex
+            ..animationType = item.animationType
+            ..fontSize = item.fontSize,
+        );
+    }
+    // bring image to top
     if (item.type == ItemType.image) {
       _itemProvider.draggableWidget
         ..removeAt(_itemProvider.draggableWidget.indexOf(item))
         ..add(
           EditableItem()
-            ..position = item.position
+            ..position = const Offset(0, 0)
             ..path = item.path
+            ..scale = item.scale
             ..type = item.type,
         );
-      HapticFeedback.lightImpact();
-    } else {
-      /// load text attributes
-      _editorProvider.textController.text = item.text.trim();
-      _editorProvider.text = item.text.trim();
-      _editorProvider.fontFamilyIndex = item.fontFamily;
-      _editorProvider.textSize = item.fontSize;
-      _editorProvider.backGroundColor = item.backGroundColor;
-      _editorProvider.textAlign = item.textAlign;
-      _editorProvider.textColor =
-          controlNotifier.colorList!.indexOf(item.textColor);
-      _editorProvider.animationType = item.animationType;
-      _editorProvider.textList = item.textList;
-      _editorProvider.fontAnimationIndex = item.fontAnimationIndex;
-      _itemProvider.draggableWidget
-          .removeAt(_itemProvider.draggableWidget.indexOf(item));
-      _editorProvider.fontFamilyController = PageController(
-        initialPage: item.fontFamily,
-        viewportFraction: .1,
-      );
-
-      /// create new text item
-      controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
     }
+    //
+    HapticFeedback.lightImpact();
+  }
+
+  /// onTap text
+  void _onTap(
+    BuildContext context,
+    EditableItem item,
+    ControlNotifier controlNotifier,
+  ) {
+    var _editorProvider =
+        Provider.of<TextEditingNotifier>(this.context, listen: false);
+    var _itemProvider =
+        Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
+
+    /// load text attributes
+    _editorProvider.textController.text = item.text.trim();
+    _editorProvider.text = item.text.trim();
+    _editorProvider.fontFamilyIndex = item.fontFamily;
+    _editorProvider.textSize = item.fontSize;
+    _editorProvider.backGroundColor = item.backGroundColor;
+    _editorProvider.textAlign = item.textAlign;
+    _editorProvider.textColor =
+        controlNotifier.colorList!.indexOf(item.textColor);
+    _editorProvider.animationType = item.animationType;
+    _editorProvider.textList = item.textList;
+    _editorProvider.fontAnimationIndex = item.fontAnimationIndex;
+    _itemProvider.draggableWidget
+        .removeAt(_itemProvider.draggableWidget.indexOf(item));
+    _editorProvider.fontFamilyController = PageController(
+      initialPage: item.fontFamily,
+      viewportFraction: .1,
+    );
+    // create new text item
+    controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
   }
 }

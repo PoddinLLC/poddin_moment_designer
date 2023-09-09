@@ -50,8 +50,8 @@ class _BottomToolsState extends State<BottomTools> {
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
         return Container(
-          height: 95,
-          padding: const EdgeInsets.only(bottom: 35, left: 15, right: 15),
+          height: 70,
+          padding: const EdgeInsets.only(bottom: 15, left: 5, right: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -84,6 +84,7 @@ class _BottomToolsState extends State<BottomTools> {
               // ),
               //
               ToolButton(
+                size: const Size.square(50),
                 backGroundColor: Colors.black12,
                 padding: const EdgeInsets.only(left: 15),
                 onLongPress: null,
@@ -96,7 +97,7 @@ class _BottomToolsState extends State<BottomTools> {
                 child: const Icon(
                   Icons.camera,
                   color: Colors.white,
-                  size: 30,
+                  size: 32,
                 ),
               ),
 

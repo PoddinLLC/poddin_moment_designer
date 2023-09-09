@@ -19,14 +19,14 @@ class DeleteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _mediaQuery = MediaQuery.of(context);
+    var _mediaQuery = MediaQuery.sizeOf(context);
 
     return Visibility(
-      visible: _activeItem != null, // && _activeItem!.type != ItemType.image,
+      visible: _activeItem != null,
       child: Positioned(
-          bottom: 100, //130
+          bottom: 100,
           child: SizedBox(
-            width: _mediaQuery.size.width,
+            width: _mediaQuery.width,
             child: Center(
               child: AnimatedContainer(
                 alignment: Alignment.center,

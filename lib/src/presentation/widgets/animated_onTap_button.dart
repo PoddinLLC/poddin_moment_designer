@@ -57,8 +57,6 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        /// set vibration
-        //HapticFeedback.lightImpact();
         _controllerA!.reverse();
         widget.onTap();
       },

@@ -51,7 +51,7 @@ class MainView extends StatefulWidget {
   final String? fileName;
 
   /// giphy api key
-  final String giphyKey;
+  final String? giphyKey;
 
   /// editor custom color gradients
   final List<List<Color>>? gradientColors;
@@ -88,7 +88,7 @@ class MainView extends StatefulWidget {
   MainView(
       {Key? key,
       this.themeType,
-      required this.giphyKey,
+      this.giphyKey,
       required this.onDone,
       this.middleBottomWidget,
       this.colorList,
@@ -144,7 +144,7 @@ class _MainViewState extends State<MainView> {
           Provider.of<DraggableWidgetNotifier>(context, listen: false);
 
       /// initialize control variable provider
-      _control.giphyKey = widget.giphyKey;
+      _control.giphyKey = widget.giphyKey!;
       _control.folderName = widget.fileName ?? "poddin_moment";
       _control.middleBottomWidget = widget.middleBottomWidget;
       _control.isCustomFontList = widget.isCustomFontList ?? false;
@@ -156,7 +156,8 @@ class _MainViewState extends State<MainView> {
             EditableItem()
               ..type = ItemType.image
               ..path = widget.mediaPath!
-              ..position = const Offset(0.0, 0));
+              ..scale = 1.0
+              ..position = const Offset(0, 0));
       }
       if (widget.gradientColors != null) {
         _control.gradientColors = widget.gradientColors;
@@ -267,6 +268,7 @@ class _MainViewState extends State<MainView> {
                                           /// list content items
                                           ...itemProvider.draggableWidget.map(
                                             (editableItem) => DraggableWidget(
+                                              dimension: _screenSize.size,
                                               context: context,
                                               draggableWidget: editableItem,
                                               onPointerDown: (details) {
@@ -517,15 +519,13 @@ class _MainViewState extends State<MainView> {
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           color: Colors.white,
-                                          width: 1,
+                                          width: 1.5,
                                         ),
                                       ),
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(50.0),
-                                        child: const CoverThumbnail(
-                                          key: ValueKey('camera'),
-                                        ),
+                                        child: const CoverThumbnail(),
                                       ),
                                     ),
                                   ),
@@ -540,9 +540,9 @@ class _MainViewState extends State<MainView> {
                                   if (state.captureMode == CaptureMode.photo)
                                     AwesomeFilterWidget(
                                         state: state,
-                                        spacer: const SizedBox(height: 5),
+                                        animationCurve: Curves.elasticInOut,
                                         filterListPadding:
-                                            const EdgeInsets.only(bottom: 12)),
+                                            const EdgeInsets.only(bottom: 10)),
                                 ],
                               );
                             },
@@ -618,11 +618,11 @@ class _MainViewState extends State<MainView> {
                                       EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
-                                        ..position = const Offset(0.0, 0));
+                                        ..scale = mediaContent < 1 ? 1.0 : 0.5
+                                        ..position = const Offset(0, 0));
                                   //
                                   if (mediaContent >= 1) {
                                     controlNotifier.mediaPath = '';
-                                    controlNotifier.gradientIndex += 1;
                                   }
                                   //
                                   mediaContent++;
@@ -651,15 +651,15 @@ class _MainViewState extends State<MainView> {
                             },
                             crossAxisCount: 3,
                             maxSelection: 1,
-                            onSelectedMax: () {
-                              Fluttertoast.showToast(
-                                msg: "You have reached the maximum allowed",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                textColor: Colors.white,
-                                fontSize: 14.0,
-                              );
-                            },
+                            // onSelectedMax: () {
+                            //   Fluttertoast.showToast(
+                            //     msg: "You have reached the maximum allowed",
+                            //     toastLength: Toast.LENGTH_SHORT,
+                            //     gravity: ToastGravity.CENTER,
+                            //     textColor: Colors.white,
+                            //     fontSize: 14.0,
+                            //   );
+                            // },
                             albumBackGroundColor: Colors.black87,
                             appBarHeight: 45,
                             itemBackgroundColor: Colors.black87,
@@ -668,6 +668,9 @@ class _MainViewState extends State<MainView> {
                                 color: Colors.white, fontSize: 14),
                             albumSubTextStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 10),
+                            albumDividerColor: Colors.black54,
+                            listBackgroundColor: Colors.black87,
+                            childAspectRatio: 0.7,
                             type: AlbumType.image,
                             closeWidget: BackButton(
                                 color: Colors.white,
@@ -703,9 +706,7 @@ class _MainViewState extends State<MainView> {
     // Get the last captured photo
     final path = media!.captureRequest.when(
       single: (p0) => p0.file!.path,
-      // multiple: (p0) => p0.fileBySensor.values.first!.path,
     );
-    // if (path.isNotEmpty) {
     // set media path value
     if (mediaContent == 0) {
       setState(() {
@@ -714,23 +715,22 @@ class _MainViewState extends State<MainView> {
     }
     // add image to editor
     setState(() {
-      itemProvider.draggableWidget.insert(
-          0,
+      itemProvider.draggableWidget.add(
+          //  0,
           EditableItem()
             ..type = ItemType.image
             ..path = path
-            ..position = const Offset(0.0, 0));
+            ..scale = mediaContent < 1 ? 1.0 : 0.5
+            ..position = const Offset(0, 0));
       //
       if (mediaContent >= 1) {
         controlNotifier.mediaPath = '';
-        controlNotifier.gradientIndex += 1;
       }
       //
       mediaContent++;
     });
     // scroll to editor view
     scrollProvider.pageController.jumpToPage(0);
-    // }
   }
 
   /// recording and save mp4 widget
@@ -852,28 +852,16 @@ class _MainViewState extends State<MainView> {
     });
   }
 
-  /// show delete btn when content is within offset region
+  /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (
-        //item.type == ItemType.text &&
-        item.position.dy >= 0.32 &&
-            item.position.dx >= -0.122 &&
-            item.position.dx <= 0.122) {
+    if (item.position.dy >= 0.32 &&
+        item.position.dx >= -0.12 &&
+        item.position.dx <= 0.12) {
       setState(() {
         _isDeletePosition = true;
         item.deletePosition = true;
       });
-    }
-    // else if (item.type == ItemType.image &&
-    //     item.position.dy >= 0.21 &&
-    //     item.position.dx >= -0.122 &&
-    //     item.position.dx <= 0.122) {
-    //   setState(() {
-    //     _isDeletePosition = true;
-    //     item.deletePosition = true;
-    //   });
-    // }
-    else {
+    } else {
       setState(() {
         _isDeletePosition = false;
         item.deletePosition = false;
@@ -881,40 +869,31 @@ class _MainViewState extends State<MainView> {
     }
   }
 
-  /// delete item widget with offset position
+  /// remove item when it's in the delete region
   void _deleteItemOnCoordinates(EditableItem item, PointerUpEvent details) {
     var _itemProvider =
         Provider.of<DraggableWidgetNotifier>(context, listen: false)
             .draggableWidget;
     var control = Provider.of<ControlNotifier>(context, listen: false);
-
     _inAction = false;
 
-    if (
-        //item.type == ItemType.text &&
-        item.position.dy >= 0.21 &&
-            item.position.dx >= -0.122 &&
-            item.position.dx <= 0.122
-        //||
-        // item.type == ItemType.image &&
-        //     item.position.dy >= 0.21 &&
-        //     item.position.dx >= -0.122 &&
-        //     item.position.dx <= 0.122)
-        ) {
+    if (item.position.dy >= 0.32 &&
+        item.position.dx >= -0.12 &&
+        item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
         setState(() {
           if (mediaContent >= 1) {
             control.mediaPath = '';
-            control.gradientIndex += 1;
           }
           //
           mediaContent--;
+          //
+          _itemProvider.removeAt(_itemProvider.indexOf(item));
         });
       }
-      _itemProvider.removeAt(_itemProvider.indexOf(item));
-      setState(() {});
       HapticFeedback.heavyImpact();
     }
+    //
     setState(() {
       _activeItem = null;
     });
@@ -931,8 +910,7 @@ class _MainViewState extends State<MainView> {
     _currentPos = item.position;
     _currentScale = item.scale;
     _currentRotation = item.rotation;
-
-    /// set vibrate
+    // set vibrate
     HapticFeedback.lightImpact();
   }
 }
