@@ -613,8 +613,8 @@ class _MainViewState extends State<MainView> {
                                 //
                                 setState(() {
                                   // add photo to editor view
-                                  itemProvider.draggableWidget.insert(
-                                      0,
+                                  itemProvider.draggableWidget.add(
+                                      // 0,
                                       EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
@@ -887,10 +887,10 @@ class _MainViewState extends State<MainView> {
           }
           //
           mediaContent--;
-          //
-          _itemProvider.removeAt(_itemProvider.indexOf(item));
         });
       }
+      //
+      _itemProvider.removeAt(_itemProvider.indexOf(item));
       HapticFeedback.heavyImpact();
     }
     //

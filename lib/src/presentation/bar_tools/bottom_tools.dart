@@ -51,7 +51,7 @@ class _BottomToolsState extends State<BottomTools> {
           paintingNotifier, __) {
         return Container(
           height: 70,
-          padding: const EdgeInsets.only(bottom: 15, left: 5, right: 5),
+          padding: const EdgeInsets.only(bottom: 20, left: 5, right: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -84,7 +84,7 @@ class _BottomToolsState extends State<BottomTools> {
               // ),
               //
               ToolButton(
-                size: const Size.square(50),
+                size: const Size.square(45),
                 backGroundColor: Colors.black12,
                 padding: const EdgeInsets.only(left: 15),
                 onLongPress: null,
