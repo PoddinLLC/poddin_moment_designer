@@ -718,7 +718,7 @@ class _MainViewState extends State<MainView> {
       itemProvider.draggableWidget.add(EditableItem()
         ..type = ItemType.image
         ..path = path
-        ..scale = mediaContent < 1 ? 1.5 : 0.8
+        ..scale = mediaContent < 1 ? 1.2 : 0.8
         ..position = const Offset(0, 0));
       //
       if (mediaContent >= 1) {
@@ -875,7 +875,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.25 &&
+    if (item.position.dy >= 0.32 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {

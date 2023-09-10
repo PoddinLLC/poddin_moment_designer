@@ -54,8 +54,8 @@ class DraggableWidget extends StatelessWidget {
                 minWidth: 50,
                 maxWidth: _size.width - 120,
               ),
-              width: draggableWidget.deletePosition ? 100 : null,
-              height: draggableWidget.deletePosition ? 100 : null,
+              width: draggableWidget.deletePosition ? 20 : null,
+              height: draggableWidget.deletePosition ? 20 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
                 onLongPress: () =>
@@ -109,8 +109,8 @@ class DraggableWidget extends StatelessWidget {
               maxHeight: dimension!.height * draggableWidget.scale,
               maxWidth: dimension!.width * draggableWidget.scale,
             ),
-            width: draggableWidget.deletePosition ? 80 : null,
-            height: draggableWidget.deletePosition ? 80 : null,
+            width: draggableWidget.deletePosition ? 20 : null,
+            height: draggableWidget.deletePosition ? 20 : null,
             child: FileImageBG(
               dimension: dimension,
               scale: draggableWidget.scale,
