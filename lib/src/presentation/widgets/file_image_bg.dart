@@ -35,7 +35,7 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   void initState() {
     currentKey = paintKey;
-    Timer.periodic(const Duration(milliseconds: 200), (callback) async {
+    Timer.periodic(Duration.zero, (callback) async {
       if (imageKey.currentState!.context.size!.height == 0.0) {
       } else {
         var cd1 = await ColorDetection(

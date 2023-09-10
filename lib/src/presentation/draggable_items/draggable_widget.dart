@@ -303,7 +303,7 @@ class DraggableWidget extends StatelessWidget {
         ..removeAt(_itemProvider.draggableWidget.indexOf(item))
         ..add(
           EditableItem()
-            ..position = const Offset(0, 0)
+            ..position = item.position
             ..text = item.text
             ..scale = item.scale
             ..type = item.type
@@ -323,7 +323,7 @@ class DraggableWidget extends StatelessWidget {
         ..removeAt(_itemProvider.draggableWidget.indexOf(item))
         ..add(
           EditableItem()
-            ..position = const Offset(0, 0)
+            ..position = item.position
             ..path = item.path
             ..scale = item.scale
             ..type = item.type,
