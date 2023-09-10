@@ -618,7 +618,7 @@ class _MainViewState extends State<MainView> {
                                       EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
-                                        ..scale = mediaContent < 1 ? 1.0 : 0.5
+                                        ..scale = mediaContent < 1 ? 1.5 : 0.8
                                         ..position = const Offset(0, 0));
                                   //
                                   if (mediaContent >= 1) {
@@ -715,12 +715,11 @@ class _MainViewState extends State<MainView> {
     }
     // add image to editor
     setState(() {
-      itemProvider.draggableWidget.add(
-          EditableItem()
-            ..type = ItemType.image
-            ..path = path
-            ..scale = mediaContent < 1 ? 1.0 : 0.8
-            ..position = const Offset(0, 0));
+      itemProvider.draggableWidget.add(EditableItem()
+        ..type = ItemType.image
+        ..path = path
+        ..scale = mediaContent < 1 ? 1.5 : 0.8
+        ..position = const Offset(0, 0));
       //
       if (mediaContent >= 1) {
         controlNotifier.mediaPath = '';

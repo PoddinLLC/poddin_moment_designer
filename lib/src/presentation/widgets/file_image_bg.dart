@@ -35,8 +35,10 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   void initState() {
     currentKey = paintKey;
-    Timer.periodic(const Duration(milliseconds: 50), (callback) async {
-      if (imageKey.currentState!.context.size!.height == 0.0) {
+    Timer.periodic(const Duration(milliseconds: 150), (callback) async {
+      if (imageKey.currentState!.context.size!.height == 0.0 ||
+          widget.scale! < 1) {
+        //
       } else {
         var cd1 = await ColorDetection(
           currentKey: currentKey,
@@ -72,7 +74,7 @@ class _FileImageBGState extends State<FileImageBG> {
                 child: Image.file(
               File(widget.filePath!.path),
               key: imageKey,
-              fit: widget.scale! < 1.0 ? BoxFit.contain : BoxFit.cover,
+              fit: BoxFit.cover,
               filterQuality: FilterQuality.high,
             ))));
   }
