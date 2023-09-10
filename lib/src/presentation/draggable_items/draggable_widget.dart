@@ -109,8 +109,8 @@ class DraggableWidget extends StatelessWidget {
               maxHeight: dimension!.height * draggableWidget.scale,
               maxWidth: dimension!.width * draggableWidget.scale,
             ),
-            width: draggableWidget.deletePosition ? 100 : null,
-            height: draggableWidget.deletePosition ? 100 : null,
+            width: draggableWidget.deletePosition ? 80 : null,
+            height: draggableWidget.deletePosition ? 80 : null,
             child: FileImageBG(
               dimension: dimension,
               scale: draggableWidget.scale,

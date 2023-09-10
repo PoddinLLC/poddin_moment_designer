@@ -1,6 +1,6 @@
 name: poddin_moment_designer
 description: This is a package created in the style of the instagram story creator, with which you can create images with images, texts, finger drawing.
-version: 1.0.04
+version: 1.0.05
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
