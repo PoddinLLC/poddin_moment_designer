@@ -81,6 +81,7 @@ class _TopToolsState extends State<TopTools> {
                               }
                             }),
                       ),
+
                     // Add text
                     ToolButton(
                       backGroundColor: Colors.black12,
@@ -93,6 +94,7 @@ class _TopToolsState extends State<TopTools> {
                         size: 18,
                       ),
                     ),
+
                     // Toggle text shadow
                     ToolButton(
                       backGroundColor: controlNotifier.enableTextShadow
@@ -108,6 +110,7 @@ class _TopToolsState extends State<TopTools> {
                               : Colors.white,
                           size: 24),
                     ),
+
                     // Add sticker
                     // ToolButton(
                     //     child: const ImageIcon(
@@ -120,12 +123,12 @@ class _TopToolsState extends State<TopTools> {
                     //     onTap: () => createGiphyItem(
                     //         context: context,
                     //         giphyKey: controlNotifier.giphyKey),),
+
                     // Add drawing
                     ToolButton(
                         backGroundColor: Colors.black12,
                         onTap: () {
                           controlNotifier.isPainting = true;
-                          //createLinePainting(context: context);
                         },
                         child: const ImageIcon(
                           AssetImage('assets/icons/draw.png',
@@ -147,6 +150,7 @@ class _TopToolsState extends State<TopTools> {
                 //   onTap: () => controlNotifier.isPhotoFilter =
                 //   !controlNotifier.isPhotoFilter,
                 // ),
+
                 // Download image
                 ToolButton(
                     backGroundColor: Colors.black12,
@@ -190,17 +194,15 @@ class _TopToolsState extends State<TopTools> {
                               saveToGallery: true,
                               fileName: controlNotifier.folderName);
                           if (response) {
-                            Fluttertoast.showToast(msg: 'Saved!');
-                          } else {}
+                            Fluttertoast.showToast(msg: 'Saved to gallery!');
+                          }
                         }
                         // ignore: use_build_context_synchronously
                         Navigator.of(context, rootNavigator: true).pop();
                       } else {
-                        Fluttertoast.showToast(msg: 'Add a picture or text');
+                        Fluttertoast.showToast(
+                            msg: 'Add a picture or type something');
                       }
-                      setState(() {
-                        _createVideo = false;
-                      });
                     },
                     child: const ImageIcon(
                       AssetImage('assets/icons/download.png',

@@ -10,24 +10,6 @@ class DraggableWidgetNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Uploaded Pictures
-  int _uploadedMedia = 0;
-  // current uploaded pictures length
-  int get uploadedMedia => _uploadedMedia;
-  // get uploaded pictures length
-  set uploadedMedia(int index) {
-    // set new length
-    _uploadedMedia = _uploadedMedia + index;
-    notifyListeners();
-    // if (index < 1) {
-    //   _uploadedMedia -= 1;
-    //   notifyListeners();
-    // } else {
-    //   _uploadedMedia += 1;
-    //   notifyListeners();
-    // }
-  }
-
   // GiphyGif? _gif;
   // GiphyGif? get giphy => _gif;
   // set giphy(GiphyGif? giphy) {
@@ -37,6 +19,5 @@ class DraggableWidgetNotifier extends ChangeNotifier {
 
   setDefaults() {
     _draggableWidget = [];
-    _uploadedMedia = 0;
   }
 }

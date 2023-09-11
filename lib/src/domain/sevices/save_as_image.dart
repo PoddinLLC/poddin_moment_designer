@@ -23,7 +23,7 @@ Future takePicture(
 
     /// create file
     final String dir = (await getApplicationDocumentsDirectory()).path;
-    String imagePath = '$dir/${fileName}_${DateTime.now()}.png';
+    String imagePath = '$dir/${fileName}_${DateTime.now().millisecondsSinceEpoch}.png';
     File capturedFile = File(imagePath);
     await capturedFile.writeAsBytes(pngBytes);
 

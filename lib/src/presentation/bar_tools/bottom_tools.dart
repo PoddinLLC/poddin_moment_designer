@@ -97,7 +97,7 @@ class _BottomToolsState extends State<BottomTools> {
                 child: const Icon(
                   Icons.camera,
                   color: Colors.white,
-                  size: 32,
+                  size: 40,
                 ),
               ),
 
@@ -141,8 +141,9 @@ class _BottomToolsState extends State<BottomTools> {
                     for (var element in itemNotifier.draggableWidget) {
                       if (element.type == ItemType.gif ||
                           element.animationType != TextAnimationType.none) {
-                        _createVideo = true;
-                        setState(() {});
+                        setState(() {
+                          _createVideo = true;
+                        });
                       }
                     }
                     if (_createVideo) {
@@ -160,15 +161,13 @@ class _BottomToolsState extends State<BottomTools> {
                         if (bytes != null) {
                           pngUri = bytes;
                           widget.onDone(pngUri);
-                        } else {
-                          debugPrint("error");
                         }
                       });
                     }
                   } else {
-                    Fluttertoast.showToast(msg: 'Add a picture or text');
+                    Fluttertoast.showToast(
+                        msg: 'Add a picture or type something');
                   }
-                  _createVideo = false;
                 },
                 child: widget.onDoneButtonStyle!,
               )
@@ -191,4 +190,3 @@ class _BottomToolsState extends State<BottomTools> {
     );
   }
 }
-

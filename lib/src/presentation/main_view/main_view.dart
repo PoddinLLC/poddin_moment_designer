@@ -156,7 +156,7 @@ class _MainViewState extends State<MainView> {
             EditableItem()
               ..type = ItemType.image
               ..path = widget.mediaPath!
-              ..scale = 1.0
+              ..scale = 1.2
               ..position = const Offset(0, 0));
       }
       if (widget.gradientColors != null) {
@@ -352,7 +352,7 @@ class _MainViewState extends State<MainView> {
                           IgnorePointer(
                             ignoring: true,
                             child: Align(
-                              alignment: const Alignment(0, -0.1),
+                              alignment: const Alignment(0, 0),
                               child: Text(
                                 widget.centerText!,
                                 style: AppFonts.getTextThemeENUM(
@@ -852,7 +852,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.32 &&
+    if (item.position.dy >= 0.20 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -875,7 +875,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.32 &&
+    if (item.position.dy >= 0.20 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {

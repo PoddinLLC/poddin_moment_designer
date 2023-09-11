@@ -52,10 +52,10 @@ class DraggableWidget extends StatelessWidget {
               constraints: BoxConstraints(
                 minHeight: 50,
                 minWidth: 50,
-                maxWidth: _size.width - 120,
+                maxWidth: _size.width - 100,
               ),
-              width: draggableWidget.deletePosition ? 20 : null,
-              height: draggableWidget.deletePosition ? 20 : null,
+              width: draggableWidget.deletePosition ? 0 : null,
+              height: draggableWidget.deletePosition ? 0 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
                 onLongPress: () =>
@@ -65,31 +65,32 @@ class DraggableWidget extends StatelessWidget {
                   children: [
                     Center(
                       child: _text(
-                          background: true,
-                          paintingStyle: PaintingStyle.fill,
-                          controlNotifier: _controlProvider),
-                    ),
-                    IgnorePointer(
-                      ignoring: true,
-                      child: Center(
-                        child: _text(
-                            background: true,
-                            paintingStyle: PaintingStyle.stroke,
-                            controlNotifier: _controlProvider),
+                        background: true,
+                        paintingStyle: PaintingStyle.fill,
+                        controlNotifier: _controlProvider,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0, top: 0),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: _text(
-                                paintingStyle: PaintingStyle.fill,
-                                controlNotifier: _controlProvider),
-                          ),
-                        ],
-                      ),
-                    )
+                    // IgnorePointer(
+                    //   ignoring: true,
+                    //   child: Center(
+                    //     child: _text(
+                    //         background: true,
+                    //         paintingStyle: PaintingStyle.stroke,
+                    //         controlNotifier: _controlProvider),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 0, top: 0),
+                    //   child: Stack(
+                    //     children: [
+                    //       Center(
+                    //         child: _text(
+                    //             paintingStyle: PaintingStyle.fill,
+                    //             controlNotifier: _controlProvider),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -109,8 +110,8 @@ class DraggableWidget extends StatelessWidget {
               maxHeight: dimension!.height * draggableWidget.scale,
               maxWidth: dimension!.width * draggableWidget.scale,
             ),
-            width: draggableWidget.deletePosition ? 20 : null,
-            height: draggableWidget.deletePosition ? 20 : null,
+            width: draggableWidget.deletePosition ? 0 : null,
+            height: draggableWidget.deletePosition ? 0 : null,
             child: FileImageBG(
               dimension: dimension,
               scale: draggableWidget.scale,
@@ -183,12 +184,14 @@ class DraggableWidget extends StatelessWidget {
       required PaintingStyle paintingStyle,
       bool background = false}) {
     // if (draggableWidget.animationType == TextAnimationType.none) {
-    return Text(draggableWidget.text,
-        textAlign: draggableWidget.textAlign,
-        style: _textStyle(
-            controlNotifier: controlNotifier,
-            paintingStyle: paintingStyle,
-            background: background));
+    return Text(
+      draggableWidget.text,
+      textAlign: draggableWidget.textAlign,
+      style: _textStyle(
+          controlNotifier: controlNotifier,
+          paintingStyle: paintingStyle,
+          background: background),
+    );
     // }
     //  else {
     // return DefaultTextStyle(
@@ -255,7 +258,7 @@ class DraggableWidget extends StatelessWidget {
         .copyWith(
             color: background ? Colors.black : draggableWidget.textColor,
             fontSize:
-                draggableWidget.deletePosition ? 8 : draggableWidget.fontSize,
+                draggableWidget.deletePosition ? 0 : draggableWidget.fontSize,
             background: Paint()
               ..strokeWidth = 20.0
               ..color = draggableWidget.backGroundColor

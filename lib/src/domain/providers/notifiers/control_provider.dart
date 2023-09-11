@@ -65,14 +65,6 @@ class ControlNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  // List<String>? _fontList = fontFamilyList;
-
-  // /// here you can define your own font family list
-  // List<String>? get fontList => _fontList;
-  // set fontList(List<String>? fonts) {
-  //   _fontList = fonts;
-  //   notifyListeners();
-  // }
   List<FontType>? _fontList = AppFonts.fontFamilyListENUM;
 
   /// here you can define your own font family list
@@ -155,14 +147,5 @@ class ControlNotifier extends ChangeNotifier {
   set enableTextShadow(bool shadow) {
     _enableTextShadow = shadow;
     notifyListeners();
-  }
-
-  ////
-  clearPath() {
-    if (_mediaPath.isNotEmpty) {
-      _mediaPath = '';
-      _gradientIndex += 1;
-      notifyListeners();
-    }
   }
 }

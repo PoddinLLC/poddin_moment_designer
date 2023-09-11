@@ -21,6 +21,7 @@ class TextFieldWidget extends StatelessWidget {
               maxWidth: _size.width - 100,
             ),
             child: IntrinsicWidth(
+
                 /// textField Box decoration
                 child: Stack(
               alignment: Alignment.center,
@@ -39,40 +40,6 @@ class TextFieldWidget extends StatelessWidget {
     );
   }
 
-  // Widget _text({
-  //   required TextEditingNotifier editorNotifier,
-  //   required FocusNode textNode,
-  //   required ControlNotifier controlNotifier,
-  //   required PaintingStyle paintingStyle,
-  // }) {
-  //   return Text(
-  //     editorNotifier.textController.text,
-  //     textAlign: editorNotifier.textAlign,
-  //     style: TextStyle(
-  //       fontFamily: controlNotifier.fontList![editorNotifier.fontFamilyIndex],
-  //       package: controlNotifier.isCustomFontList ? null : 'poddin_moment_designer',
-  //       shadows: <Shadow>[
-  //         Shadow(
-  //             offset: const Offset(1.0, 1.0),
-  //             blurRadius: 3.0,
-  //             color: editorNotifier.textColor == Colors.black
-  //                 ? Colors.white54
-  //                 : Colors.black)
-  //       ],
-  //     ).copyWith(
-  //         color: controlNotifier.colorList![editorNotifier.textColor],
-  //         fontSize: editorNotifier.textSize,
-  //         background: Paint()
-  //           ..strokeWidth = 20.0
-  //           ..color = editorNotifier.backGroundColor
-  //           ..style = paintingStyle
-  //           ..strokeJoin = StrokeJoin.round
-  //           ..filterQuality = FilterQuality.high
-  //           ..strokeCap = StrokeCap.round
-  //           ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1)),
-  //   );
-  // }
-
   Widget _textField({
     required TextEditingNotifier editorNotifier,
     required FocusNode textNode,
@@ -88,41 +55,19 @@ class TextFieldWidget extends StatelessWidget {
       style: AppFonts.getTextThemeENUM(
               controlNotifier.fontList![editorNotifier.fontFamilyIndex])
           .bodyLarge!
-          .merge(
-            TextStyle(
-              shadows: !controlNotifier.enableTextShadow
-                  ? []
-                  : <Shadow>[
-                      Shadow(
-                          offset: const Offset(1.0, 1.0),
-                          blurRadius: 3.0,
-                          color: editorNotifier.textColor == Colors.black
-                              ? Colors.white54
-                              : Colors.black)
-                    ],
-              backgroundColor: Colors.redAccent,
-            ),
-          )
           .copyWith(
-        color: controlNotifier.colorList![editorNotifier.textColor],
-        fontSize: editorNotifier.textSize,
-        background: Paint()
-          ..strokeWidth = 20.0
-          ..color = editorNotifier.backGroundColor
-          ..style = paintingStyle
-          ..strokeJoin = StrokeJoin.round
-          ..filterQuality = FilterQuality.high
-          ..strokeCap = StrokeCap.round
-          ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1),
-        shadows: <Shadow>[
-          Shadow(
-              offset: const Offset(1.0, 1.0),
-              blurRadius: 3.0,
-              color: editorNotifier.textColor == Colors.black
-                  ? Colors.white54
-                  : Colors.black)
-        ],
-      ),
+            color: controlNotifier.colorList![editorNotifier.textColor],
+            height: 1.4,
+            fontSize: editorNotifier.textSize,
+            background: Paint()
+              ..strokeWidth = 20.0
+              ..color = editorNotifier.backGroundColor
+              ..style = paintingStyle
+              ..strokeJoin = StrokeJoin.round
+              ..filterQuality = FilterQuality.high
+              ..strokeCap = StrokeCap.round
+              ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1),
+          ),
       cursorColor: controlNotifier.colorList![editorNotifier.textColor],
       minLines: 1,
       keyboardType: TextInputType.multiline,
