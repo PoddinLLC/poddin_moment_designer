@@ -504,31 +504,42 @@ class _MainViewState extends State<MainView> {
                                                   milliseconds: 300),
                                               curve: Curves.ease);
                                     },
-                                    child: AwesomeCircleWidget(
-                                      scale: 1.0,
-                                      child: () {
-                                        if (page == 0) {
-                                          // if default view is Editor mode
-                                          return const SizedBox(
-                                            // Show back button
-                                            child: Icon(
-                                              Icons.arrow_back_ios_new_rounded,
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.black12,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        child: () {
+                                          if (page == 0) {
+                                            // if default view is Editor mode
+                                            return const SizedBox(
+                                              // Show back button
+                                              child: Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                color: Colors.white,
+                                                size: 22,
+                                              ),
+                                            );
+                                          } else {
+                                            // if default view is Camera mode
+                                            return const ImageIcon(
+                                              // Show editor button
+                                              AssetImage(
+                                                  'assets/icons/text.png',
+                                                  package:
+                                                      'poddin_moment_designer'),
                                               color: Colors.white,
-                                              size: 20,
-                                            ),
-                                          );
-                                        } else {
-                                          // if default view is Camera mode
-                                          return const ImageIcon(
-                                            // Show editor button
-                                            AssetImage('assets/icons/text.png',
-                                                package:
-                                                    'poddin_moment_designer'),
-                                            color: Colors.white,
-                                            size: 20,
-                                          );
-                                        }
-                                      }(),
+                                              size: 24,
+                                            );
+                                          }
+                                        }(),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -887,7 +898,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.20 &&
+    if (item.position.dy >= 0.30 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -910,7 +921,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.20 &&
+    if (item.position.dy >= 0.30 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
