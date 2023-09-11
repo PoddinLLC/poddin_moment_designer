@@ -157,8 +157,8 @@ class MomentDesigner extends StatefulWidget {
   /// initial image file path
   final String? mediaPath;
 
-  /// initial creator's view: Camera (1) or Editor (0)
-  final int? initialView;
+  /// set the initial mode: Camera (1), Editor (0)
+  final int? initialMode;
 
   const MomentDesigner(
       {Key? key,
@@ -176,7 +176,7 @@ class MomentDesigner extends StatefulWidget {
       this.editorBackgroundColor,
       this.galleryThumbnailQuality,
       this.mediaPath,
-      this.initialView,
+      this.initialMode,
       required this.centerText})
       : super(key: key);
 
@@ -233,7 +233,7 @@ class _MomentDesignerState extends State<MomentDesigner> {
           galleryThumbnailQuality: widget.galleryThumbnailQuality,
           centerText: widget.centerText,
           mediaPath: widget.mediaPath,
-          initialView: widget.initialView,
+          initialMode: widget.initialMode,
         ),
       ),
     );

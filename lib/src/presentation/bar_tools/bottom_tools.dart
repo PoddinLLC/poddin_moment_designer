@@ -49,50 +49,28 @@ class _BottomToolsState extends State<BottomTools> {
         PaintingNotifier>(
       builder: (_, controlNotifier, scrollNotifier, itemNotifier,
           paintingNotifier, __) {
+        final page = controlNotifier.initialPage;
+        //
         return Container(
           height: 70,
           padding: const EdgeInsets.only(bottom: 20, left: 5, right: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              /// preview gallery
-              // Container(
-              //   padding: const EdgeInsets.only(left: 15),
-              //   alignment: Alignment.centerLeft,
-              //   child: SizedBox(
-              //     child: _cameraContainer(
-              //       child: ClipRRect(
-              //         borderRadius: BorderRadius.circular(90),
-              //         child: GestureDetector(
-              //           onTap: () {
-              //             /// scroll to gridView page
-              //             scrollNotifier.pageController.animateToPage(1,
-              //                 duration: const Duration(milliseconds: 300),
-              //                 curve: Curves.ease);
-              //           },
-              //           child: kIsWeb
-              //               ? const SizedBox.square(
-              //                   dimension: 40,
-              //                 )
-              //               : const CoverThumbnail(
-              //                   key: ValueKey('editor'),
-              //                 ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              //
+              /// go to camera screen
               ToolButton(
                 size: const Size.square(45),
                 backGroundColor: Colors.black12,
                 padding: const EdgeInsets.only(left: 15),
                 onLongPress: null,
                 onTap: () {
-                  /// scroll to gridView page
-                  scrollNotifier.pageController.animateToPage(1,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease);
+                  // if page = 1, initial mode is camera
+                  // camera page index is 0, editor page index is 1
+                  scrollNotifier.pageController.animateToPage(
+                    page == 1 ? 0 : 1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.ease,
+                  );
                 },
                 child: const Icon(
                   Icons.camera,
@@ -106,10 +84,11 @@ class _BottomToolsState extends State<BottomTools> {
                 padding: const EdgeInsets.only(top: 8),
                 child: Center(
                   child: Container(
-                      width: _size.width / 2,
-                      constraints: const BoxConstraints(maxHeight: 45),
-                      alignment: Alignment.bottomCenter,
-                      child: controlNotifier.middleBottomWidget),
+                    width: _size.width / 2,
+                    constraints: const BoxConstraints(maxHeight: 45),
+                    alignment: Alignment.bottomCenter,
+                    child: controlNotifier.middleBottomWidget,
+                  ),
                 ),
               ),
 
@@ -175,18 +154,6 @@ class _BottomToolsState extends State<BottomTools> {
           ),
         );
       },
-    );
-  }
-
-  // ignore: unused_element
-  Widget _cameraContainer({child}) {
-    return Container(
-      height: 40,
-      width: 40,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(width: 1.2, color: Colors.white)),
-      child: child,
     );
   }
 }

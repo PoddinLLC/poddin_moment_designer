@@ -86,8 +86,8 @@ class MainView extends StatefulWidget {
   /// share image file path
   final String? mediaPath;
 
-  /// initial creator view: Camera(1) or Editor(0)
-  final int? initialView;
+  /// initial mode: Camera(1), Editor(0)
+  final int? initialMode;
 
   MainView({
     Key? key,
@@ -106,7 +106,7 @@ class MainView extends StatefulWidget {
     this.galleryThumbnailQuality,
     this.centerText,
     this.mediaPath,
-    this.initialView,
+    this.initialMode,
   }) : super(key: key);
 
   @override
@@ -147,13 +147,10 @@ class _MainViewState extends State<MainView> {
       var _control = Provider.of<ControlNotifier>(context, listen: false);
       var _tempItemProvider =
           Provider.of<DraggableWidgetNotifier>(context, listen: false);
-      // var _pageController = Provider.of<ScrollNotifier>(context, listen: false);
 
       /// initialize providers
-      // _pageController.pageController =
-      //     PageController(initialPage: widget.initialView!);
       _control.giphyKey = widget.giphyKey!;
-      _control.initialPage = widget.initialView!;
+      _control.initialPage = widget.initialMode!;
       _control.folderName = widget.fileName ?? "poddin_moment";
       _control.middleBottomWidget = widget.middleBottomWidget;
       _control.isCustomFontList = widget.isCustomFontList ?? false;
@@ -186,6 +183,8 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    final page = widget.initialMode!;
+    //
     return WillPopScope(
       onWillPop: _popScope,
       child: Material(
@@ -201,15 +200,6 @@ class _MainViewState extends State<MainView> {
             TextEditingNotifier>(
           builder: (context, controlNotifier, itemProvider, scrollProvider,
               colorProvider, paintingProvider, editingProvider, child) {
-            Future.delayed(const Duration(milliseconds: 50), () {
-              if (mounted) {
-                setState(() {
-                  scrollProvider.pageController =
-                      PageController(initialPage: widget.initialView!);
-                });
-              }
-            });
-
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
@@ -217,9 +207,10 @@ class _MainViewState extends State<MainView> {
                 children: [
                   ScrollablePageView(
                     scrollPhysics: false,
+                    page: page,
                     pageController: scrollProvider.pageController,
                     gridController: scrollProvider.gridController,
-                    mainView: Stack(
+                    editor: Stack(
                       alignment: Alignment.center,
                       children: [
                         ///gradient container
@@ -504,9 +495,11 @@ class _MainViewState extends State<MainView> {
                                 AwesomeOrientedWidget(
                                   child: GestureDetector(
                                     onTap: () {
-                                      // scroll to editor view
+                                      // nav to editor view
+                                      // if page == 1 (intial view is Camera mode)
+                                      // editor index is 1, camera index is 0
                                       scrollProvider.pageController
-                                          .animateToPage(0,
+                                          .animateToPage(page == 1 ? 1 : 0,
                                               duration: const Duration(
                                                   milliseconds: 300),
                                               curve: Curves.ease);
@@ -514,8 +507,8 @@ class _MainViewState extends State<MainView> {
                                     child: AwesomeCircleWidget(
                                       scale: 1.0,
                                       child: () {
-                                        if (widget.initialView! == 1) {
-                                          // Editor screen
+                                        if (page == 0) {
+                                          // if default view is Editor mode
                                           return const SizedBox(
                                             // Show back button
                                             child: Icon(
@@ -525,9 +518,9 @@ class _MainViewState extends State<MainView> {
                                             ),
                                           );
                                         } else {
-                                          // Camera screen
+                                          // if default view is Camera mode
                                           return const ImageIcon(
-                                            // Show font text button
+                                            // Show editor button
                                             AssetImage('assets/icons/text.png',
                                                 package:
                                                     'poddin_moment_designer'),
@@ -592,6 +585,7 @@ class _MainViewState extends State<MainView> {
                                 controlNotifier,
                                 itemProvider,
                                 scrollProvider,
+                                page,
                               ),
                               state: state,
                               left: AwesomeCameraSwitchButton(
@@ -740,6 +734,7 @@ class _MainViewState extends State<MainView> {
     ControlNotifier controlNotifier,
     DraggableWidgetNotifier itemProvider,
     ScrollNotifier scrollProvider,
+    int page,
   ) async {
     // Get the last captured photo
     final path = media!.captureRequest.when(
@@ -765,8 +760,10 @@ class _MainViewState extends State<MainView> {
       //
       mediaContent++;
     });
-    // scroll to editor view
-    scrollProvider.pageController.jumpToPage(0);
+    // nav to editor view
+    // if page = 1, initial view is camera mode
+    // editor page index is 1, camera page index is 0
+    scrollProvider.pageController.jumpToPage(page == 1 ? 1 : 0);
   }
 
   /// recording and save mp4 widget

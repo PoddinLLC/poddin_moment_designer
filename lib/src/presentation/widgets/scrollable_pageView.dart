@@ -5,19 +5,21 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ScrollablePageView extends StatefulWidget {
-  Widget mainView;
+  Widget editor;
   Widget camera;
   final bool scrollPhysics;
   PageController pageController;
   ScrollController gridController;
-  ScrollablePageView(
-      {Key? key,
-      required this.mainView,
-      required this.camera,
-      required this.scrollPhysics,
-      required this.pageController,
-      required this.gridController})
-      : super(key: key);
+  final int page;
+  ScrollablePageView({
+    Key? key,
+    required this.editor,
+    required this.camera,
+    required this.scrollPhysics,
+    required this.pageController,
+    required this.gridController,
+    required this.page,
+  }) : super(key: key);
   @override
   _ScrollablePageViewState createState() => _ScrollablePageViewState();
 }
@@ -116,7 +118,12 @@ class _ScrollablePageViewState extends State<ScrollablePageView> {
           controller: _pageController,
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
-          children: [widget.mainView, widget.camera],
+          children: widget.page == 1 // make camera the initial view
+              ? [widget.camera, widget.editor]
+              : [
+                  widget.editor,
+                  widget.camera
+                ], // otherwise, make editor the initial view
         ));
   }
 }

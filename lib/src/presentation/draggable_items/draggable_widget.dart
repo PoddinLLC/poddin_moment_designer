@@ -65,31 +65,34 @@ class DraggableWidget extends StatelessWidget {
                   children: [
                     Center(
                       child: _text(
+                        background: true,
                         paintingStyle: PaintingStyle.fill,
                         controlNotifier: _controlProvider,
                       ),
                     ),
-                    // IgnorePointer(
-                    //   ignoring: true,
-                    //   child: Center(
-                    //     child: _text(
-                    //         background: true,
-                    //         paintingStyle: PaintingStyle.stroke,
-                    //         controlNotifier: _controlProvider),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 0, top: 0),
-                    //   child: Stack(
-                    //     children: [
-                    //       Center(
-                    //         child: _text(
-                    //             paintingStyle: PaintingStyle.fill,
-                    //             controlNotifier: _controlProvider),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // )
+                    IgnorePointer(
+                      ignoring: true,
+                      child: Center(
+                        child: _text(
+                          background: true,
+                          paintingStyle: PaintingStyle.stroke,
+                          controlNotifier: _controlProvider,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 0, top: 0),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: _text(
+                              paintingStyle: PaintingStyle.fill,
+                              controlNotifier: _controlProvider,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -232,10 +235,11 @@ class DraggableWidget extends StatelessWidget {
     // }
   }
 
-  _textStyle(
-      {required ControlNotifier controlNotifier,
-      required PaintingStyle paintingStyle,
-      bool background = false}) {
+  _textStyle({
+    required ControlNotifier controlNotifier,
+    required PaintingStyle paintingStyle,
+    bool background = false,
+  }) {
     return AppFonts.getTextThemeENUM(
             controlNotifier.fontList![draggableWidget.fontFamily])
         .bodyLarge!
@@ -255,17 +259,18 @@ class DraggableWidget extends StatelessWidget {
           ),
         )
         .copyWith(
-            color: background ? Colors.black : draggableWidget.textColor,
-            fontSize:
-                draggableWidget.deletePosition ? 0 : draggableWidget.fontSize,
-            background: Paint()
-              ..strokeWidth = 20.0
-              ..color = draggableWidget.backGroundColor
-              ..style = paintingStyle
-              ..strokeJoin = StrokeJoin.round
-              ..filterQuality = FilterQuality.high
-              ..strokeCap = StrokeCap.round
-              ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1));
+          color: background ? Colors.transparent : draggableWidget.textColor,
+          fontSize:
+              draggableWidget.deletePosition ? 0 : draggableWidget.fontSize,
+          background: Paint()
+            ..strokeWidth = 20.0
+            ..color = draggableWidget.backGroundColor
+            ..style = paintingStyle
+            ..strokeJoin = StrokeJoin.round
+            ..filterQuality = FilterQuality.high
+            ..strokeCap = StrokeCap.round
+            ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 1),
+        );
   }
 
   _deleteTopOffset(size) {
