@@ -147,12 +147,11 @@ class _MainViewState extends State<MainView> {
       var _control = Provider.of<ControlNotifier>(context, listen: false);
       var _tempItemProvider =
           Provider.of<DraggableWidgetNotifier>(context, listen: false);
-      var _pageController = Provider.of<ScrollNotifier>(context, listen: false);
+      // var _pageController = Provider.of<ScrollNotifier>(context, listen: false);
 
       /// initialize providers
-      _pageController.initialPage = widget.initialView!;
-      _pageController.pageController =
-          PageController(initialPage: widget.initialView!);
+      // _pageController.pageController =
+      //     PageController(initialPage: widget.initialView!);
       _control.giphyKey = widget.giphyKey!;
       _control.initialPage = widget.initialView!;
       _control.folderName = widget.fileName ?? "poddin_moment";
@@ -202,6 +201,15 @@ class _MainViewState extends State<MainView> {
             TextEditingNotifier>(
           builder: (context, controlNotifier, itemProvider, scrollProvider,
               colorProvider, paintingProvider, editingProvider, child) {
+            Future.delayed(const Duration(milliseconds: 50), () {
+              if (mounted) {
+                setState(() {
+                  scrollProvider.pageController =
+                      PageController(initialPage: widget.initialView!);
+                });
+              }
+            });
+
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
@@ -643,8 +651,8 @@ class _MainViewState extends State<MainView> {
                                 //
                                 setState(() {
                                   // add photo to editor view
-                                  itemProvider.draggableWidget.add(
-                                      EditableItem()
+                                  itemProvider.draggableWidget
+                                      .add(EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
                                         ..scale = mediaContent < 1 ? 1.5 : 0.8

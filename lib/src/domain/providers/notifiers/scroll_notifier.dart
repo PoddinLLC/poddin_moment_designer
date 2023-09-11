@@ -21,8 +21,7 @@ class ScrollNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  PageController _pageController =
-      PageController(initialPage: ScrollNotifier().initialPage);
+  PageController _pageController = PageController();
   PageController get pageController => _pageController;
   set pageController(PageController value) {
     _pageController = value;
