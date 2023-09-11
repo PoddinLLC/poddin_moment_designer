@@ -157,7 +157,7 @@ class MomentDesigner extends StatefulWidget {
   /// initial image file path
   final String? mediaPath;
 
-  /// initial creator's view: Camera (0) or Editor (1)
+  /// initial creator's view: Camera (1) or Editor (0)
   final int? initialView;
 
   const MomentDesigner(

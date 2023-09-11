@@ -86,7 +86,7 @@ class MainView extends StatefulWidget {
   /// share image file path
   final String? mediaPath;
 
-  /// initial creator view: Camera(0) or Editor(1)
+  /// initial creator view: Camera(1) or Editor(0)
   final int? initialView;
 
   MainView({
@@ -150,6 +150,7 @@ class _MainViewState extends State<MainView> {
       var _pageController = Provider.of<ScrollNotifier>(context, listen: false);
 
       /// initialize providers
+      _pageController.initialPage = widget.initialView!;
       _pageController.pageController =
           PageController(initialPage: widget.initialView!);
       _control.giphyKey = widget.giphyKey!;

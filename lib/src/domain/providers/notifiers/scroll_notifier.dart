@@ -4,6 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 
 class ScrollNotifier extends ChangeNotifier {
+  /// pageview controller initial page
+  int _initialPage = 0;
+  // get the current initial page
+  int get initialPage => _initialPage;
+  // update initial page
+  set initialPage(int value) {
+    _initialPage = value;
+    notifyListeners();
+  }
+
   ScrollController _gridController = ScrollController();
   ScrollController get gridController => _gridController;
   set gridController(ScrollController value) {
@@ -11,7 +21,8 @@ class ScrollNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  PageController _pageController = PageController();
+  PageController _pageController =
+      PageController(initialPage: ScrollNotifier().initialPage);
   PageController get pageController => _pageController;
   set pageController(PageController value) {
     _pageController = value;
