@@ -507,9 +507,11 @@ class _MainViewState extends State<MainView> {
                                     child: Container(
                                       height: 40,
                                       width: 40,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.black12,
+                                        color: page == 1
+                                            ? const Color(0xFFD91C54)
+                                            : Colors.black12,
                                       ),
                                       child: ClipRRect(
                                         borderRadius:
@@ -517,25 +519,29 @@ class _MainViewState extends State<MainView> {
                                         child: () {
                                           if (page == 0) {
                                             // if default view is Editor mode
-                                            return const SizedBox(
-                                              // Show back button
-                                              child: Icon(
-                                                Icons
-                                                    .arrow_back_ios_new_rounded,
-                                                color: Colors.white,
-                                                size: 22,
+                                            return const Center(
+                                              child: SizedBox(
+                                                // Show back button
+                                                child: Icon(
+                                                  Icons
+                                                      .arrow_back_ios_new_rounded,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
                                               ),
                                             );
                                           } else {
                                             // if default view is Camera mode
-                                            return const ImageIcon(
-                                              // Show editor button
-                                              AssetImage(
-                                                  'assets/icons/text.png',
-                                                  package:
-                                                      'poddin_moment_designer'),
-                                              color: Colors.white,
-                                              size: 24,
+                                            return const Center(
+                                              child: ImageIcon(
+                                                // Show editor button
+                                                AssetImage(
+                                                    'assets/icons/text.png',
+                                                    package:
+                                                        'poddin_moment_designer'),
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
                                             );
                                           }
                                         }(),
@@ -669,8 +675,11 @@ class _MainViewState extends State<MainView> {
                                   //
                                   mediaContent++;
                                 });
-                                // scroll to editor view
-                                scrollProvider.pageController.jumpToPage(0);
+                                // nav to editor view
+                                // if page = 1, initial view is camera mode
+                                // editor page index is 1, camera page index is 0
+                                scrollProvider.pageController
+                                    .jumpToPage(page == 1 ? 1 : 0);
                                 // reset switch variabale
                                 switchToGallery = false;
                               }
@@ -898,7 +907,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.30 &&
+    if (item.position.dy >= 0.38 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -921,7 +930,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.30 &&
+    if (item.position.dy >= 0.38 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
