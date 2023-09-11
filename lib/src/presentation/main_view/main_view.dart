@@ -59,7 +59,7 @@ class MainView extends StatefulWidget {
   /// editor custom logo
   final Widget? middleBottomWidget;
 
-  /// on done
+  /// on done action callback
   final Function(String)? onDone;
 
   /// on done button Text
@@ -76,33 +76,38 @@ class MainView extends StatefulWidget {
 
   /// editor custom color palette list
   List<Color>? colorList;
-  // Text appearing on center of design screen
+
+  /// Text appearing on center of design screen
   final String? centerText;
 
-// theme type
+  /// theme type
   final ThemeType? themeType;
 
-// share image file path
+  /// share image file path
   final String? mediaPath;
 
-  MainView(
-      {Key? key,
-      this.themeType,
-      this.giphyKey,
-      required this.onDone,
-      this.middleBottomWidget,
-      this.colorList,
-      this.fileName,
-      this.isCustomFontList,
-      this.fontFamilyList,
-      this.gradientColors,
-      this.onBackPress,
-      this.onDoneButtonStyle,
-      this.editorBackgroundColor,
-      this.galleryThumbnailQuality,
-      this.centerText,
-      this.mediaPath})
-      : super(key: key);
+  /// initial creator view: Camera(0) or Editor(1)
+  final int? initialView;
+
+  MainView({
+    Key? key,
+    this.themeType,
+    this.giphyKey,
+    required this.onDone,
+    this.middleBottomWidget,
+    this.colorList,
+    this.fileName,
+    this.isCustomFontList,
+    this.fontFamilyList,
+    this.gradientColors,
+    this.onBackPress,
+    this.onDoneButtonStyle,
+    this.editorBackgroundColor,
+    this.galleryThumbnailQuality,
+    this.centerText,
+    this.mediaPath,
+    this.initialView,
+  }) : super(key: key);
 
   @override
   _MainViewState createState() => _MainViewState();
@@ -142,22 +147,24 @@ class _MainViewState extends State<MainView> {
       var _control = Provider.of<ControlNotifier>(context, listen: false);
       var _tempItemProvider =
           Provider.of<DraggableWidgetNotifier>(context, listen: false);
+      var _pageController = Provider.of<ScrollNotifier>(context, listen: false);
 
-      /// initialize control variable provider
+      /// initialize providers
+      _pageController.pageController =
+          PageController(initialPage: widget.initialView!);
       _control.giphyKey = widget.giphyKey!;
+      _control.initialPage = widget.initialView!;
       _control.folderName = widget.fileName ?? "poddin_moment";
       _control.middleBottomWidget = widget.middleBottomWidget;
       _control.isCustomFontList = widget.isCustomFontList ?? false;
       _control.themeType = widget.themeType ?? ThemeType.dark;
       if (widget.mediaPath != null) {
         _control.mediaPath = widget.mediaPath!;
-        _tempItemProvider.draggableWidget.insert(
-            0,
-            EditableItem()
-              ..type = ItemType.image
-              ..path = widget.mediaPath!
-              ..scale = 1.2
-              ..position = const Offset(0, 0));
+        _tempItemProvider.draggableWidget.add(EditableItem()
+          ..type = ItemType.image
+          ..path = widget.mediaPath!
+          ..scale = 1.2
+          ..position = const Offset(0, 0));
       }
       if (widget.gradientColors != null) {
         _control.gradientColors = widget.gradientColors;
@@ -495,9 +502,31 @@ class _MainViewState extends State<MainView> {
                                                   milliseconds: 300),
                                               curve: Curves.ease);
                                     },
-                                    child: const AwesomeCircleWidget.icon(
-                                      icon: Icons.arrow_back_ios_new_rounded,
+                                    child: AwesomeCircleWidget(
                                       scale: 1.0,
+                                      child: () {
+                                        if (widget.initialView! == 1) {
+                                          // Editor screen
+                                          return const SizedBox(
+                                            // Show back button
+                                            child: Icon(
+                                              Icons.arrow_back_ios_new_rounded,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          );
+                                        } else {
+                                          // Camera screen
+                                          return const ImageIcon(
+                                            // Show font text button
+                                            AssetImage('assets/icons/text.png',
+                                                package:
+                                                    'poddin_moment_designer'),
+                                            color: Colors.white,
+                                            size: 20,
+                                          );
+                                        }
+                                      }(),
                                     ),
                                   ),
                                 ),
@@ -614,7 +643,6 @@ class _MainViewState extends State<MainView> {
                                 setState(() {
                                   // add photo to editor view
                                   itemProvider.draggableWidget.add(
-                                      // 0,
                                       EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
@@ -670,13 +698,14 @@ class _MainViewState extends State<MainView> {
                                 color: Colors.grey, fontSize: 10),
                             albumDividerColor: Colors.black54,
                             listBackgroundColor: Colors.black87,
-                            childAspectRatio: 0.7,
+                            childAspectRatio: 0.6,
                             type: AlbumType.image,
-                            closeWidget: BackButton(
-                                color: Colors.white,
-                                onPressed: () {
-                                  setState(() => switchToGallery = false);
-                                }),
+                            closeWidget: CloseButton(
+                              color: Colors.white,
+                              onPressed: () {
+                                setState(() => switchToGallery = false);
+                              },
+                            ),
                             thumbnailQuality: 300,
                           ),
                       ],

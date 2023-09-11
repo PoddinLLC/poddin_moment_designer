@@ -148,4 +148,14 @@ class ControlNotifier extends ChangeNotifier {
     _enableTextShadow = shadow;
     notifyListeners();
   }
+
+  /// Main view widget pageview controller initial page
+  int _initialPage = 0;
+  // get the current initial page
+  int get initialPage => _initialPage;
+  // update initial page
+  set initialPage(int value) {
+    _initialPage = value;
+    notifyListeners();
+  }
 }

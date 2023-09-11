@@ -129,7 +129,7 @@ class _BottomToolsState extends State<BottomTools> {
                               Card(
                                 color: Colors.black,
                                 child: Container(
-                                  padding: const EdgeInsets.all(50),
+                                  padding: const EdgeInsets.all(40),
                                   child: const CircularProgressIndicator(
                                     color: Colors.white,
                                   ),

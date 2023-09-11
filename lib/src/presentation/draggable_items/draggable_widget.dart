@@ -65,7 +65,6 @@ class DraggableWidget extends StatelessWidget {
                   children: [
                     Center(
                       child: _text(
-                        background: true,
                         paintingStyle: PaintingStyle.fill,
                         controlNotifier: _controlProvider,
                       ),

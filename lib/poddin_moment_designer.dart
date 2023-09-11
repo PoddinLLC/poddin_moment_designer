@@ -115,13 +115,13 @@ class MomentDesigner extends StatefulWidget {
   /// editor custom font families
   final List<FontType>? fontFamilyList;
 
-  // theme type
+  /// theme type
   final ThemeType? themeType;
 
   /// editor custom font families package
   final bool? isCustomFontList;
 
-  /// you can pass a fileName with which image name will be created
+  /// you can pass a fileName prefix with which image name will be created
   final String? fileName;
 
   /// giphy api key
@@ -150,10 +150,15 @@ class MomentDesigner extends StatefulWidget {
 
   /// gallery thumbnail quality
   final int? galleryThumbnailQuality;
+
+  /// center text
   final String centerText;
 
-  // share image file path
+  /// initial image file path
   final String? mediaPath;
+
+  /// initial creator's view: Camera (0) or Editor (1)
+  final int? initialView;
 
   const MomentDesigner(
       {Key? key,
@@ -171,6 +176,7 @@ class MomentDesigner extends StatefulWidget {
       this.editorBackgroundColor,
       this.galleryThumbnailQuality,
       this.mediaPath,
+      this.initialView,
       required this.centerText})
       : super(key: key);
 
@@ -227,6 +233,7 @@ class _MomentDesignerState extends State<MomentDesigner> {
           galleryThumbnailQuality: widget.galleryThumbnailQuality,
           centerText: widget.centerText,
           mediaPath: widget.mediaPath,
+          initialView: widget.initialView,
         ),
       ),
     );
