@@ -267,9 +267,7 @@ class DraggableWidget extends StatelessWidget {
               draggableWidget.deletePosition ? 0 : draggableWidget.fontSize,
           background: Paint()
             ..strokeWidth = draggableWidget.deletePosition ? 0 : 20
-            ..color = draggableWidget.deletePosition
-                ? draggableWidget.backGroundColor
-                : Colors.transparent
+            ..color = draggableWidget.backGroundColor
             ..style = paintingStyle
             ..strokeJoin = StrokeJoin.round
             ..filterQuality = FilterQuality.high

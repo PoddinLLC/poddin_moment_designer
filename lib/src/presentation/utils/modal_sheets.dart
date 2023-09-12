@@ -79,7 +79,7 @@ Future<bool> exitDialog(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    'Discard Edits?',
+                    'Discard Moment?',
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,

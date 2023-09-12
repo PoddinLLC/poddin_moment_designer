@@ -848,9 +848,17 @@ class _MainViewState extends State<MainView> {
   Future<bool> _popScope() async {
     final controlNotifier =
         Provider.of<ControlNotifier>(context, listen: false);
+    var content = Provider.of<DraggableWidgetNotifier>(context, listen: false)
+        .draggableWidget;
+
+    /// Exit page if there's no content in the editor
+    if (content.isEmpty &&
+        (!controlNotifier.isTextEditing || !controlNotifier.isPainting)) {
+      return true;
+    }
 
     /// change to false text editing
-    if (controlNotifier.isTextEditing) {
+    else if (controlNotifier.isTextEditing) {
       controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
       return false;
     }
@@ -902,7 +910,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.21 &&
+    if (item.position.dy >= 0.24 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -925,7 +933,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.21 &&
+    if (item.position.dy >= 0.24 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
