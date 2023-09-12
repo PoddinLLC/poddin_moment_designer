@@ -40,12 +40,12 @@ class ToolButton extends StatelessWidget {
             child: Container(
               height: size?.height ?? 40,
               width: size?.width ?? 40,
-              decoration: borderHide!
-                  ? null
-                  : BoxDecoration(
-                      color: backGroundColor ?? Colors.transparent,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 1.2)),
+              decoration: BoxDecoration(
+                  color: backGroundColor ?? Colors.transparent,
+                  shape: BoxShape.circle,
+                  border: borderHide!
+                      ? null
+                      : Border.all(color: Colors.white, width: 1.2)),
               child: Transform.scale(
                 scale: 0.8,
                 child: child,

@@ -495,57 +495,55 @@ class _MainViewState extends State<MainView> {
                               state: state,
                               children: [
                                 AwesomeOrientedWidget(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // nav to editor view
-                                      // if page == 1 (intial view is Camera mode)
-                                      // editor index is 1, camera index is 0
-                                      scrollProvider.pageController
-                                          .animateToPage(page == 1 ? 1 : 0,
-                                              duration: const Duration(
-                                                  milliseconds: 300),
-                                              curve: Curves.ease);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: page == 1
-                                            ? const Color(0xFFD91C54)
-                                            : Colors.black12,
-                                      ),
-                                      child: () {
-                                        if (page == 0) {
-                                          // if default view is Editor mode
-                                          return Center(
-                                            child: ToolButton(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons
-                                                    .arrow_back_ios_new_rounded,
-                                                color: Colors.white,
-                                                size: 20,
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          // if default view is Camera mode
-                                          return Center(
-                                            child: ToolButton(
-                                              onTap: () {},
-                                              child: const ImageIcon(
-                                                AssetImage(
-                                                    'assets/icons/text.png',
-                                                    package:
-                                                        'poddin_moment_designer'),
-                                                color: Colors.white,
-                                                size: 18,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      }(),
-                                    ),
-                                  ),
+                                  child: () {
+                                    if (page == 0) {
+                                      // if default view is Editor mode
+                                      return ToolButton(
+                                        onTap: () {
+                                          // nav to editor view
+                                          // page == 0 (initial view is Editor mode)
+                                          // editor index is 0, camera index is 1
+                                          scrollProvider.pageController
+                                              .animateToPage(0,
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  curve: Curves.ease);
+                                        },
+                                        topPadding: false,
+                                        borderHide: true,
+                                        backGroundColor: Colors.black12,
+                                        child: const Icon(
+                                          Icons.arrow_back_ios_new_rounded,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                      );
+                                    } else {
+                                      // if default view is Camera mode
+                                      return ToolButton(
+                                        onTap: () {
+                                          // nav to editor view
+                                          // page == 1 (initial view is Camera mode)
+                                          // editor index is 1, camera index is 0
+                                          scrollProvider.pageController
+                                              .animateToPage(1,
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  curve: Curves.ease);
+                                        },
+                                        topPadding: false,
+                                        backGroundColor:
+                                            const Color(0xFFD91C54),
+                                        child: const ImageIcon(
+                                          AssetImage('assets/icons/text.png',
+                                              package:
+                                                  'poddin_moment_designer'),
+                                          color: Colors.white,
+                                          size: 18,
+                                        ),
+                                      );
+                                    }
+                                  }(),
                                 ),
                                 // flash light btn
                                 AwesomeFlashButton(state: state),
@@ -904,7 +902,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.18 &&
+    if (item.position.dy >= 0.21 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -927,7 +925,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.18 &&
+    if (item.position.dy >= 0.21 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
