@@ -63,6 +63,7 @@ class DraggableWidget extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    // show this when text has background
                     Center(
                       child: _text(
                         background: true,
@@ -70,6 +71,7 @@ class DraggableWidget extends StatelessWidget {
                         controlNotifier: _controlProvider,
                       ),
                     ),
+                    // add stroke when text has background
                     IgnorePointer(
                       ignoring: true,
                       child: Center(
@@ -80,6 +82,7 @@ class DraggableWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // default text displayed
                     Padding(
                       padding: const EdgeInsets.only(right: 0, top: 0),
                       child: Stack(
@@ -263,8 +266,10 @@ class DraggableWidget extends StatelessWidget {
           fontSize:
               draggableWidget.deletePosition ? 0 : draggableWidget.fontSize,
           background: Paint()
-            ..strokeWidth = draggableWidget.deletePosition ? 0 : 20.0
-            ..color = draggableWidget.backGroundColor
+            ..strokeWidth = draggableWidget.deletePosition ? 0 : 20
+            ..color = draggableWidget.deletePosition
+                ? draggableWidget.backGroundColor
+                : Colors.transparent
             ..style = paintingStyle
             ..strokeJoin = StrokeJoin.round
             ..filterQuality = FilterQuality.high

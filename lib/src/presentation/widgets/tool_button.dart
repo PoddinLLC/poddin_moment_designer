@@ -10,22 +10,24 @@ class ToolButton extends StatelessWidget {
   final Color colorBorder;
   final bool? borderHide;
   final Size? size;
-  const ToolButton(
-      {Key? key,
-      required this.onTap,
-      required this.child,
-      this.backGroundColor,
-      this.padding,
-      this.onLongPress,
-      this.colorBorder = Colors.white,
-      this.size = const Size(40, 40),
-      this.borderHide = false})
-      : super(key: key);
+  final bool? topPadding;
+  const ToolButton({
+    Key? key,
+    required this.onTap,
+    required this.child,
+    this.backGroundColor,
+    this.padding,
+    this.onLongPress,
+    this.colorBorder = Colors.white,
+    this.size = const Size(40, 40),
+    this.borderHide = false,
+    this.topPadding = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8),
+      padding: topPadding! ? const EdgeInsets.only(top: 8) : EdgeInsets.zero,
       child: AnimatedOnTapButton(
         onTap: onTap,
         onLongPress: onLongPress,

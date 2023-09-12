@@ -40,6 +40,8 @@ import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:vs_media_picker/vs_media_picker.dart';
 import 'package:album_image/album_image.dart';
 
+import '../widgets/tool_button.dart';
+
 class MainView extends StatefulWidget {
   /// editor custom font families
   final List<FontType>? fontFamilyList;
@@ -505,47 +507,43 @@ class _MainViewState extends State<MainView> {
                                               curve: Curves.ease);
                                     },
                                     child: Container(
-                                      height: 40,
-                                      width: 40,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: page == 1
                                             ? const Color(0xFFD91C54)
                                             : Colors.black12,
                                       ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        child: () {
-                                          if (page == 0) {
-                                            // if default view is Editor mode
-                                            return const Center(
-                                              child: SizedBox(
-                                                // Show back button
-                                                child: Icon(
-                                                  Icons
-                                                      .arrow_back_ios_new_rounded,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
+                                      child: () {
+                                        if (page == 0) {
+                                          // if default view is Editor mode
+                                          return Center(
+                                            child: ToolButton(
+                                              onTap: () {},
+                                              child: const Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                color: Colors.white,
+                                                size: 20,
                                               ),
-                                            );
-                                          } else {
-                                            // if default view is Camera mode
-                                            return const Center(
-                                              child: ImageIcon(
-                                                // Show editor button
+                                            ),
+                                          );
+                                        } else {
+                                          // if default view is Camera mode
+                                          return Center(
+                                            child: ToolButton(
+                                              onTap: () {},
+                                              child: const ImageIcon(
                                                 AssetImage(
                                                     'assets/icons/text.png',
                                                     package:
                                                         'poddin_moment_designer'),
                                                 color: Colors.white,
-                                                size: 20,
+                                                size: 18,
                                               ),
-                                            );
-                                          }
-                                        }(),
-                                      ),
+                                            ),
+                                          );
+                                        }
+                                      }(),
                                     ),
                                   ),
                                 ),
@@ -588,7 +586,7 @@ class _MainViewState extends State<MainView> {
                                   if (state.captureMode == CaptureMode.photo)
                                     AwesomeFilterWidget(
                                         state: state,
-                                        animationCurve: Curves.elasticInOut,
+                                        animationCurve: Curves.easeInBack,
                                         filterListPadding:
                                             const EdgeInsets.only(bottom: 10)),
                                 ],
@@ -610,10 +608,9 @@ class _MainViewState extends State<MainView> {
                                 iconBuilder: () {
                                   return const AwesomeCircleWidget.icon(
                                     icon: Icons.cameraswitch,
-                                    scale: 1.0,
+                                    scale: 1.2,
                                   );
                                 },
-                                scale: 1.0,
                               ),
                             ),
                             theme: AwesomeTheme(
@@ -907,7 +904,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.38 &&
+    if (item.position.dy >= 0.18 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -930,7 +927,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.38 &&
+    if (item.position.dy >= 0.18 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
