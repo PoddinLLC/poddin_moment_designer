@@ -110,14 +110,13 @@ class DraggableWidget extends StatelessWidget {
           onLongPress: () {
             _onReorder(context, draggableWidget, _controlProvider);
           },
-          child: AnimatedContainer(
+          child: Container(
             constraints: BoxConstraints(
               maxHeight: dimension!.height * draggableWidget.scale,
               maxWidth: dimension!.width * draggableWidget.scale,
             ),
             width: draggableWidget.deletePosition ? 0 : null,
             height: draggableWidget.deletePosition ? 0 : null,
-            duration: const Duration(milliseconds: 500),
             child: FileImageBG(
               dimension: dimension,
               scale: draggableWidget.scale,

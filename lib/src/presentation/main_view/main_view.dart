@@ -530,7 +530,7 @@ class _MainViewState extends State<MainView> {
                                         child: Container(
                                           height: 40,
                                           width: 40,
-                                         // padding: const EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                             color: const Color(0xFFD91C54),
                                             shape: BoxShape.circle,
@@ -548,7 +548,7 @@ class _MainViewState extends State<MainView> {
                                                   package:
                                                       'poddin_moment_designer'),
                                               color: Colors.white,
-                                              size: 15,
+                                              size: 18,
                                             ),
                                           ),
                                         ),
