@@ -530,6 +530,7 @@ class _MainViewState extends State<MainView> {
                                         child: Container(
                                           height: 40,
                                           width: 40,
+                                          padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                             color: const Color(0xFFD91C54),
                                             shape: BoxShape.circle,
@@ -594,7 +595,7 @@ class _MainViewState extends State<MainView> {
                                   if (state.captureMode == CaptureMode.photo)
                                     AwesomeFilterWidget(
                                         state: state,
-                                        animationCurve: Curves.easeInBack,
+                                        animationCurve: Curves.elasticInOut,
                                         filterListPadding:
                                             const EdgeInsets.only(bottom: 10)),
                                 ],
@@ -922,7 +923,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.21 &&
+    if (item.position.dy >= 0.32 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -945,7 +946,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.21 &&
+    if (item.position.dy >= 0.32 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
