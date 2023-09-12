@@ -498,7 +498,7 @@ class _MainViewState extends State<MainView> {
                                   child: () {
                                     if (page == 0) {
                                       // if default view is Editor mode
-                                      return ToolButton(
+                                      return GestureDetector(
                                         onTap: () {
                                           // nav to editor view
                                           // page == 0 (initial view is Editor mode)
@@ -509,18 +509,14 @@ class _MainViewState extends State<MainView> {
                                                       milliseconds: 300),
                                                   curve: Curves.ease);
                                         },
-                                        topPadding: false,
-                                        borderHide: true,
-                                        backGroundColor: Colors.black12,
-                                        child: const Icon(
-                                          Icons.arrow_back_ios_new_rounded,
-                                          color: Colors.white,
-                                          size: 20,
+                                        child: const AwesomeCircleWidget.icon(
+                                          icon:
+                                              Icons.arrow_back_ios_new_rounded,
                                         ),
                                       );
                                     } else {
                                       // if default view is Camera mode
-                                      return ToolButton(
+                                      return GestureDetector(
                                         onTap: () {
                                           // nav to editor view
                                           // page == 1 (initial view is Camera mode)
@@ -531,15 +527,29 @@ class _MainViewState extends State<MainView> {
                                                       milliseconds: 300),
                                                   curve: Curves.ease);
                                         },
-                                        topPadding: false,
-                                        backGroundColor:
-                                            const Color(0xFFD91C54),
-                                        child: const ImageIcon(
-                                          AssetImage('assets/icons/text.png',
-                                              package:
-                                                  'poddin_moment_designer'),
-                                          color: Colors.white,
-                                          size: 18,
+                                        child: Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFD91C54),
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                              width: 1.5,
+                                            ),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0),
+                                            child: const ImageIcon(
+                                              AssetImage(
+                                                  'assets/icons/text.png',
+                                                  package:
+                                                      'poddin_moment_designer'),
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                          ),
                                         ),
                                       );
                                     }
@@ -614,16 +624,18 @@ class _MainViewState extends State<MainView> {
                             theme: AwesomeTheme(
                               bottomActionsBackgroundColor: Colors.black12,
                               buttonTheme: AwesomeButtonTheme(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(12), // 12
                                 iconSize: 20,
                                 buttonBuilder: (child, onTap) {
-                                  return ClipOval(
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      shape: const CircleBorder(),
-                                      child: GestureDetector(
-                                        onTap: onTap,
-                                        child: child,
+                                  return SizedBox(
+                                    child: ClipOval(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        shape: const CircleBorder(),
+                                        child: GestureDetector(
+                                          onTap: onTap,
+                                          child: child,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -910,7 +922,7 @@ class _MainViewState extends State<MainView> {
 
   /// update content deletePosition when dragged to delete region
   void _deletePosition(EditableItem item, PointerMoveEvent details) {
-    if (item.position.dy >= 0.24 &&
+    if (item.position.dy >= 0.21 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
@@ -933,7 +945,7 @@ class _MainViewState extends State<MainView> {
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
-    if (item.position.dy >= 0.24 &&
+    if (item.position.dy >= 0.21 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
