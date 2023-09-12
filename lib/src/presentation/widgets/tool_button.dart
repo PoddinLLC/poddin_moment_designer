@@ -45,7 +45,7 @@ class ToolButton extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(
                       color: borderHide! ? Colors.transparent : Colors.white,
-                      width: borderHide! ? 0 : 1.2)),
+                      width: 1.2)),
               child: Transform.scale(
                 scale: 0.8,
                 child: child,
