@@ -321,7 +321,7 @@ class _MainViewState extends State<MainView> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height -
-                                                            132,
+                                                            20,
                                                     child: StreamBuilder<
                                                         List<PaintingModel>>(
                                                       stream: paintingProvider
@@ -628,7 +628,7 @@ class _MainViewState extends State<MainView> {
                                 iconSize: 20,
                                 buttonBuilder: (child, onTap) {
                                   return SizedBox(
-                                   // dimension: 40,
+                                    // dimension: 40,
                                     child: ClipOval(
                                       child: Material(
                                         color: Colors.transparent,
