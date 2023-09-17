@@ -124,8 +124,8 @@ class _PaintingState extends State<Painting> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  height: (screenSize.size.height - 40) -
+                  width: screenSize.size.width,
+                  height: screenSize.size.height -
                       screenSize.viewPadding.top,
                   child: StreamBuilder<PaintingModel>(
                       stream:
@@ -149,9 +149,9 @@ class _PaintingState extends State<Painting> {
         return WillPopScope(
           onWillPop: () async {
             controlNotifier.isPainting = false;
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               paintingNotifier.closeConnection();
-            });
+            }); 
             return true;
           },
           child: Scaffold(

@@ -205,7 +205,6 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
-              maintainBottomViewPadding: true,
               child: Stack(
                 children: [
                   ScrollablePageView(
@@ -275,6 +274,46 @@ class _MainViewState extends State<MainView> {
                                             child: Container(),
                                           ),
 
+                                          /// finger paint
+                                          IgnorePointer(
+                                            ignoring: true,
+                                            child: Align(
+                                              alignment: Alignment.topCenter,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
+                                                ),
+                                                child: RepaintBoundary(
+                                                  child: SizedBox(
+                                                    width:
+                                                        _screenSize.size.width,
+                                                    height: _screenSize
+                                                            .size.height -
+                                                        _screenSize
+                                                            .viewPadding.top,
+                                                    child: StreamBuilder<
+                                                        List<PaintingModel>>(
+                                                      stream: paintingProvider
+                                                          .linesStreamController
+                                                          .stream,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        return CustomPaint(
+                                                          painter: Sketcher(
+                                                            lines:
+                                                                paintingProvider
+                                                                    .lines,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
                                           /// list content items
                                           ...itemProvider.draggableWidget.map(
                                             (editableItem) => DraggableWidget(
@@ -299,49 +338,6 @@ class _MainViewState extends State<MainView> {
                                                   details,
                                                 );
                                               },
-                                            ),
-                                          ),
-
-                                          /// finger paint
-                                          IgnorePointer(
-                                            ignoring: true,
-                                            child: Align(
-                                              alignment: Alignment.topCenter,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                                child: RepaintBoundary(
-                                                  child: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height -
-                                                            40,
-                                                    child: StreamBuilder<
-                                                        List<PaintingModel>>(
-                                                      stream: paintingProvider
-                                                          .linesStreamController
-                                                          .stream,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        return CustomPaint(
-                                                          painter: Sketcher(
-                                                            lines:
-                                                                paintingProvider
-                                                                    .lines,
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
                                             ),
                                           ),
                                         ],
@@ -423,9 +419,9 @@ class _MainViewState extends State<MainView> {
                               //     controlNotifier: controlNotifier,
                               //     renderingNotifier: renderingNotifier,
                               //     saveOnGallery: false),
-                              onDone: (bytes) {
+                              onDone: (path) {
                                 setState(() {
-                                  widget.onDone!(bytes);
+                                  widget.onDone!(path);
                                 });
                               },
                               onDoneButtonStyle: widget.onDoneButtonStyle,

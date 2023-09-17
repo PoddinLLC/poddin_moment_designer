@@ -47,7 +47,7 @@ class _TopToolsState extends State<TopTools> {
                 ToolButton(
                     backGroundColor: Colors.black12,
                     onTap: () async {
-                      if (itemNotifier.draggableWidget.isEmpty) {
+                      if (itemNotifier.draggableWidget.isEmpty || paintingNotifier.lines.isEmpty) {
                         Navigator.pop(context);
                       } else {
                         exitDialog(
