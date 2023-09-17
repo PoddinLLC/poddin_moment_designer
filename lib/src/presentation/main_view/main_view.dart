@@ -274,6 +274,33 @@ class _MainViewState extends State<MainView> {
                                             child: Container(),
                                           ),
 
+                                          /// list content items
+                                          ...itemProvider.draggableWidget.map(
+                                            (editableItem) => DraggableWidget(
+                                              dimension: _screenSize.size,
+                                              context: context,
+                                              draggableWidget: editableItem,
+                                              onPointerDown: (details) {
+                                                _updateItemPosition(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                              onPointerUp: (details) {
+                                                _deleteItemOnCoordinates(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                              onPointerMove: (details) {
+                                                _deletePosition(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                            ),
+                                          ),
+
                                           /// finger paint
                                           IgnorePointer(
                                             ignoring: true,
@@ -311,33 +338,6 @@ class _MainViewState extends State<MainView> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-
-                                          /// list content items
-                                          ...itemProvider.draggableWidget.map(
-                                            (editableItem) => DraggableWidget(
-                                              dimension: _screenSize.size,
-                                              context: context,
-                                              draggableWidget: editableItem,
-                                              onPointerDown: (details) {
-                                                _updateItemPosition(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                              onPointerUp: (details) {
-                                                _deleteItemOnCoordinates(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                              onPointerMove: (details) {
-                                                _deletePosition(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
                                             ),
                                           ),
                                         ],
@@ -419,9 +419,9 @@ class _MainViewState extends State<MainView> {
                               //     controlNotifier: controlNotifier,
                               //     renderingNotifier: renderingNotifier,
                               //     saveOnGallery: false),
-                              onDone: (path) {
+                              onDone: (bytes) {
                                 setState(() {
-                                  widget.onDone!(path);
+                                  widget.onDone!(bytes);
                                 });
                               },
                               onDoneButtonStyle: widget.onDoneButtonStyle,

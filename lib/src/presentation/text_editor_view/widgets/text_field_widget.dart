@@ -21,7 +21,6 @@ class TextFieldWidget extends StatelessWidget {
               maxWidth: _size.width - 100,
             ),
             child: IntrinsicWidth(
-
                 /// textField Box decoration
                 child: Stack(
               alignment: Alignment.center,
