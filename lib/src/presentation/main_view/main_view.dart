@@ -205,6 +205,7 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
+              maintainBottomViewPadding: true,
               child: Stack(
                 children: [
                   ScrollablePageView(
@@ -321,7 +322,7 @@ class _MainViewState extends State<MainView> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .height -
-                                                            20,
+                                                            40,
                                                     child: StreamBuilder<
                                                         List<PaintingModel>>(
                                                       stream: paintingProvider

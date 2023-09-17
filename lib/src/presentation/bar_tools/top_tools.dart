@@ -47,13 +47,17 @@ class _TopToolsState extends State<TopTools> {
                 ToolButton(
                     backGroundColor: Colors.black12,
                     onTap: () async {
-                      exitDialog(
-                              context: widget.context,
-                              contentKey: widget.contentKey,
-                              themeType: controlNotifier.themeType)
-                          .then((res) {
-                        if (res) Navigator.pop(context);
-                      });
+                      if (itemNotifier.draggableWidget.isEmpty) {
+                        Navigator.pop(context);
+                      } else {
+                        exitDialog(
+                                context: widget.context,
+                                contentKey: widget.contentKey,
+                                themeType: controlNotifier.themeType)
+                            .then((res) {
+                          if (res) Navigator.pop(context);
+                        });
+                      }
                     },
                     child: const Icon(
                       Icons.close,

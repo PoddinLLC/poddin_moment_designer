@@ -23,13 +23,15 @@ Future takePicture(
 
     /// create file
     final String dir = (await getApplicationDocumentsDirectory()).path;
-    String imagePath = '$dir/${fileName}_${DateTime.now().millisecondsSinceEpoch}.png';
+    String imagePath =
+        '$dir/${fileName}_${DateTime.now().millisecondsSinceEpoch}.png';
     File capturedFile = File(imagePath);
     await capturedFile.writeAsBytes(pngBytes);
 
     if (saveToGallery) {
       final result = await ImageGallerySaver.saveImage(pngBytes,
-          quality: 100, name: "${fileName}_${DateTime.now()}");
+          quality: 100,
+          name: "${fileName}_${DateTime.now().microsecondsSinceEpoch}");
       if (result != null) {
         return true;
       } else {

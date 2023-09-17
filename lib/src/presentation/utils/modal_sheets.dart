@@ -47,8 +47,6 @@ Future<bool> exitDialog(
     required ThemeType themeType}) async {
   return (await showDialog(
         context: context,
-        // barrierColor:
-        //     themeType == ThemeType.light ? Colors.black38 : Colors.white12,
         barrierDismissible: true,
         builder: (c) => Dialog(
           backgroundColor: Colors.transparent,

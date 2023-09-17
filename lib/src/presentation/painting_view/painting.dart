@@ -125,7 +125,7 @@ class _PaintingState extends State<Painting> {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   width: MediaQuery.of(context).size.width,
-                  height: (screenSize.size.height - 132) -
+                  height: (screenSize.size.height - 40) -
                       screenSize.viewPadding.top,
                   child: StreamBuilder<PaintingModel>(
                       stream:
