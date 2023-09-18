@@ -56,7 +56,7 @@ class _PaintingState extends State<Painting> {
       /// validate allow pan area
       if (point.y >= 4 &&
           point.y <=
-              (screenSize.size.height - 132) - screenSize.viewPadding.top) {
+              (screenSize.size.height - 40) - screenSize.viewPadding.top) {
         line = PaintingModel(
             points,
             paintingNotifier.lineWidth,
@@ -76,12 +76,12 @@ class _PaintingState extends State<Painting> {
       final box = context.findRenderObject() as RenderBox;
       final offset = box.globalToLocal(details.globalPosition);
       final point = Point(offset.dx, offset.dy);
-      final points = [...line!.points, point];
+      final points = [...line?.points, point];
 
       /// validate allow pan area
       if (point.y >= 6 &&
           point.y <=
-              (screenSize.size.height - 132) - screenSize.viewPadding.top) {
+              (screenSize.size.height - 40) - screenSize.viewPadding.top) {
         line = PaintingModel(
             points,
             paintingNotifier.lineWidth,
