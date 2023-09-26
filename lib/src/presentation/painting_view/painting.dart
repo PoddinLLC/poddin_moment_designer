@@ -76,7 +76,7 @@ class _PaintingState extends State<Painting> {
       final box = context.findRenderObject() as RenderBox;
       final offset = box.globalToLocal(details.globalPosition);
       final point = Point(offset.dx, offset.dy);
-      final points = [...line!.points, point];
+      final points = [...?line?.points, point];
 
       /// validate allow pan area
       if (point.y >= 6 &&
