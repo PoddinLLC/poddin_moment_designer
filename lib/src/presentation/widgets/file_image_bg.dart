@@ -71,11 +71,12 @@ class _FileImageBGState extends State<FileImageBG> {
         child: RepaintBoundary(
             key: paintKey,
             child: Center(
-                child: Image.file(
-              File(widget.filePath!.path),
-              key: imageKey,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-            ))));
+              child: Image.file(
+                File(widget.filePath!.path),
+                key: imageKey,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+              ),
+            )));
   }
 }
