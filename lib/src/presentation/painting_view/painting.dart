@@ -13,7 +13,7 @@ import 'package:poddin_moment_designer/src/presentation/widgets/color_selector.d
 import 'package:poddin_moment_designer/src/presentation/widgets/size_slider_selector.dart';
 
 class Painting extends StatefulWidget {
-  const Painting({Key? key}) : super(key: key);
+  const Painting({super.key});
 
   @override
   State<Painting> createState() => _PaintingState();

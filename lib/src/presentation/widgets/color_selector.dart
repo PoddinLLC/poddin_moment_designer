@@ -8,7 +8,7 @@ import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editi
 import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
 
 class ColorSelector extends StatelessWidget {
-  const ColorSelector({Key? key}) : super(key: key);
+  const ColorSelector({super.key});
 
   @override
   Widget build(BuildContext context) {

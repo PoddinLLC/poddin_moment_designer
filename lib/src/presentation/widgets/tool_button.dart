@@ -12,7 +12,7 @@ class ToolButton extends StatelessWidget {
   final Size? size;
   final bool? topPadding;
   const ToolButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.child,
     this.backGroundColor,
@@ -22,7 +22,7 @@ class ToolButton extends StatelessWidget {
     this.size = const Size(40, 40),
     this.borderHide = false,
     this.topPadding = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -18,11 +18,10 @@ class TopTools extends StatefulWidget {
   final BuildContext context;
   final Function? renderWidget;
   const TopTools(
-      {Key? key,
+      {super.key,
       required this.contentKey,
       required this.context,
-      this.renderWidget})
-      : super(key: key);
+      this.renderWidget});
 
   @override
   _TopToolsState createState() => _TopToolsState();

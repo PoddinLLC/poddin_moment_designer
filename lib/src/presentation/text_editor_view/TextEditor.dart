@@ -16,7 +16,7 @@ import 'package:poddin_moment_designer/src/presentation/widgets/size_slider_sele
 
 class TextEditor extends StatefulWidget {
   final BuildContext context;
-  const TextEditor({Key? key, required this.context}) : super(key: key);
+  const TextEditor({super.key, required this.context});
 
   @override
   State<TextEditor> createState() => _TextEditorState();

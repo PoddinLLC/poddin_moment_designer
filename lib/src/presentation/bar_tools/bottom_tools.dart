@@ -26,13 +26,12 @@ class BottomTools extends StatefulWidget {
   final Color? editorBackgroundColor;
   //
   const BottomTools(
-      {Key? key,
+      {super.key,
       required this.contentKey,
       required this.onDone,
       this.renderWidget,
       this.onDoneButtonStyle,
-      this.editorBackgroundColor})
-      : super(key: key);
+      this.editorBackgroundColor});
 
   @override
   _BottomToolsState createState() => _BottomToolsState();

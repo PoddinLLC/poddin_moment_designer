@@ -184,7 +184,7 @@ class AppFonts {
       case FontType.zillaSlab:
         return GoogleFonts.zillaSlabTextTheme();
       case FontType.sourceSansPro:
-        return GoogleFonts.sourceSansProTextTheme();
+        return GoogleFonts.sourceCodeProTextTheme();
       case FontType.raleway:
         return GoogleFonts.ralewayTextTheme();
       case FontType.ptSans:
@@ -217,7 +217,7 @@ class AppFonts {
         return GoogleFonts.cormorantTextTheme();
 
       case FontType.sourceSerifPro:
-        return GoogleFonts.sourceSerifProTextTheme();
+        return GoogleFonts.sourceSerif4TextTheme();
 
       case FontType.kurale:
         return GoogleFonts.kuraleTextTheme();

@@ -92,7 +92,7 @@ class MainView extends StatefulWidget {
   final int? initialMode;
 
   MainView({
-    Key? key,
+    super.key,
     this.themeType,
     this.giphyKey,
     required this.onDone,
@@ -109,7 +109,7 @@ class MainView extends StatefulWidget {
     this.centerText,
     this.mediaPath,
     this.initialMode,
-  }) : super(key: key);
+  });
 
   @override
   _MainViewState createState() => _MainViewState();

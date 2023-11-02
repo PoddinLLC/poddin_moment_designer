@@ -12,14 +12,14 @@ class ScrollablePageView extends StatefulWidget {
   ScrollController gridController;
   final int page;
   ScrollablePageView({
-    Key? key,
+    super.key,
     required this.editor,
     required this.camera,
     required this.scrollPhysics,
     required this.pageController,
     required this.gridController,
     required this.page,
-  }) : super(key: key);
+  });
   @override
   _ScrollablePageViewState createState() => _ScrollablePageViewState();
 }

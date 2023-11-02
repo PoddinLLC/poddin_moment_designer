@@ -8,7 +8,7 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/painting
 import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 
 class TopPaintingTools extends StatefulWidget {
-  const TopPaintingTools({Key? key}) : super(key: key);
+  const TopPaintingTools({super.key});
 
   @override
   _TopPaintingToolsState createState() => _TopPaintingToolsState();

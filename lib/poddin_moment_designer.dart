@@ -161,7 +161,7 @@ class MomentDesigner extends StatefulWidget {
   final int? initialMode;
 
   const MomentDesigner(
-      {Key? key,
+      {super.key,
       this.giphyKey,
       this.themeType,
       required this.onDone,
@@ -177,8 +177,7 @@ class MomentDesigner extends StatefulWidget {
       this.galleryThumbnailQuality,
       this.mediaPath,
       this.initialMode,
-      required this.centerText})
-      : super(key: key);
+      required this.centerText});
 
   @override
   _MomentDesignerState createState() => _MomentDesignerState();
@@ -187,7 +186,7 @@ class MomentDesigner extends StatefulWidget {
 class _MomentDesignerState extends State<MomentDesigner> {
   @override
   void initState() {
-    Paint.enableDithering = true;
+    // Paint.enableDithering = true;
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

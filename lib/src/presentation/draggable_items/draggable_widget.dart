@@ -26,14 +26,14 @@ class DraggableWidget extends StatelessWidget {
   final Size? dimension;
   final BuildContext context;
   const DraggableWidget({
-    Key? key,
+    super.key,
     required this.context,
     required this.draggableWidget,
     this.dimension,
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerMove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +111,14 @@ class DraggableWidget extends StatelessWidget {
             _onReorder(context, draggableWidget, _controlProvider);
           },
           child: ClipRRect(
-             borderRadius: BorderRadius.circular(10),
+             borderRadius: BorderRadius.circular(15),
             child: Container(
               constraints: BoxConstraints(
                 maxHeight: dimension!.height * draggableWidget.scale,
                 maxWidth: dimension!.width * draggableWidget.scale,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
               ),
               width: draggableWidget.deletePosition ? 0 : null,
               height: draggableWidget.deletePosition ? 0 : null,
