@@ -111,7 +111,7 @@ class DraggableWidget extends StatelessWidget {
             _onReorder(context, draggableWidget, _controlProvider);
           },
           child: ClipRRect(
-             borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15),
             child: Container(
               constraints: BoxConstraints(
                 maxHeight: dimension!.height * draggableWidget.scale,
@@ -120,8 +120,8 @@ class DraggableWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              width: draggableWidget.deletePosition ? 0 : null,
-              height: draggableWidget.deletePosition ? 0 : null,
+              width: draggableWidget.deletePosition ? 60 : null,
+              height: draggableWidget.deletePosition ? 60 : null,
               child: FileImageBG(
                 dimension: dimension,
                 scale: draggableWidget.scale,
@@ -284,9 +284,8 @@ class DraggableWidget extends StatelessWidget {
 
   _deleteTopOffset(size) {
     double top = 0.0;
-    if (draggableWidget.type == ItemType.text) {
-      top = size.width / 1.3;
-    } else if (draggableWidget.type == ItemType.image) {
+    if (draggableWidget.type == ItemType.text ||
+        draggableWidget.type == ItemType.image) {
       top = size.width / 1.3;
     }
     return top;

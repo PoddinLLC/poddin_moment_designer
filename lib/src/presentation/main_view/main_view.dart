@@ -205,6 +205,7 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
+              maintainBottomViewPadding: true,
               child: Stack(
                 children: [
                   ScrollablePageView(
@@ -401,7 +402,7 @@ class _MainViewState extends State<MainView> {
                                 //     saveOnGallery: true),
                               )),
 
-                        /// delete item when the item is in position
+                        /// show delete icon when item is within delete region
                         DeleteItem(
                           activeItem: _activeItem,
                           animationsDuration: const Duration(milliseconds: 300),
@@ -448,7 +449,6 @@ class _MainViewState extends State<MainView> {
                     // Show camera and gallery
                     camera: Stack(
                       children: [
-                        //
                         //Camera
                         if (!switchToGallery)
                           CameraAwesomeBuilder.awesome(
@@ -788,7 +788,7 @@ class _MainViewState extends State<MainView> {
     // nav to editor view
     // if page = 1, initial view is camera mode
     // editor page index is 1, camera page index is 0
-    scrollProvider.pageController.jumpToPage(page == 1 ? 1 : 0);
+    scrollProvider.pageController.jumpToPage(page);
   }
 
   /// recording and save mp4 widget

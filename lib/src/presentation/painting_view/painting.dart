@@ -118,6 +118,7 @@ class _PaintingState extends State<Painting> {
         },
         child: RepaintBoundary(
           child: SafeArea(
+            maintainBottomViewPadding: true,
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
