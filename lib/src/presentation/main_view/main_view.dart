@@ -640,7 +640,7 @@ class _MainViewState extends State<MainView> {
                                 },
                               ),
                             ),
-                            filter: AwesomeFilter.LoFi,
+                            defaultFilter: AwesomeFilter.LoFi,
                             progressIndicator: const Center(
                               child: SizedBox(
                                 width: 30,
