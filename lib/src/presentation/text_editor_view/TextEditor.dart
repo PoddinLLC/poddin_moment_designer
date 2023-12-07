@@ -46,6 +46,7 @@ class _TextEditorState extends State<TextEditor> {
         child: Consumer2<ControlNotifier, TextEditingNotifier>(
           builder: (_, controlNotifier, editorNotifier, __) {
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               backgroundColor: Colors.transparent,
               body: GestureDetector(
                 /// onTap => Close view and create/modify item object
