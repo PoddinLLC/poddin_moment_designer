@@ -126,8 +126,8 @@ class DraggableWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                width: draggableWidget.deletePosition ? 60 : null,
-                height: draggableWidget.deletePosition ? 60 : null,
+                width: draggableWidget.deletePosition ? 0 : null,
+                height: draggableWidget.deletePosition ? 0 : null,
                 child: FileImageBG(
                   dimension: dimension,
                   scale: draggableWidget.scale,

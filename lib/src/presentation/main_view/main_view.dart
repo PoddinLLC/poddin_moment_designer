@@ -858,7 +858,7 @@ class _MainViewState extends State<MainView> {
   Future<bool> _popScope() async {
     final controlNotifier =
         Provider.of<ControlNotifier>(context, listen: false);
-    var content = Provider.of<DraggableWidgetNotifier>(context, listen: false)
+    var content = Provider.of<DraggableWidgetNotifier>(context, listen: true)
         .draggableWidget;
 
     /// Exit page if there's no content in the editor
