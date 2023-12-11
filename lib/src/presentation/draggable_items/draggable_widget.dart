@@ -110,33 +110,26 @@ class DraggableWidget extends StatelessWidget {
           onLongPress: () {
             _onReorder(context, draggableWidget, _controlProvider);
           },
-          child: Material(
-            color: Colors.transparent,
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: dimension!.height * draggableWidget.scale,
-                  maxWidth: dimension!.width * draggableWidget.scale,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                width: draggableWidget.deletePosition ? 0 : null,
-                height: draggableWidget.deletePosition ? 0 : null,
-                child: FileImageBG(
-                  dimension: dimension,
-                  scale: draggableWidget.scale,
-                  filePath: File(draggableWidget.path),
-                  generatedGradient: (color1, color2) {
-                    _colorProvider.color1 = color1;
-                    _colorProvider.color2 = color2;
-                  },
-                ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: dimension!.height * draggableWidget.scale,
+                maxWidth: dimension!.width * draggableWidget.scale,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              width: draggableWidget.deletePosition ? 0 : null,
+              height: draggableWidget.deletePosition ? 0 : null,
+              child: FileImageBG(
+                dimension: dimension,
+                scale: draggableWidget.scale,
+                filePath: File(draggableWidget.path),
+                generatedGradient: (color1, color2) {
+                  _colorProvider.color1 = color1;
+                  _colorProvider.color2 = color2;
+                },
               ),
             ),
           ),

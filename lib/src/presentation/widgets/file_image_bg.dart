@@ -65,18 +65,18 @@ class _FileImageBGState extends State<FileImageBG> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: widget.dimension!.width * widget.scale!,
-        height: widget.dimension!.height * widget.scale!,
-        child: RepaintBoundary(
-            key: paintKey,
-            child: Center(
-              child: Image.file(
-                File(widget.filePath!.path),
-                key: imageKey,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-              ),
-            )));
+    return RepaintBoundary(
+      key: paintKey,
+      child: Center(
+        child: Image.file(
+          width: widget.dimension!.width * widget.scale!,
+          height: widget.dimension!.height * widget.scale!,
+          File(widget.filePath!.path),
+          key: imageKey,
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.high,
+        ),
+      ),
+    );
   }
 }

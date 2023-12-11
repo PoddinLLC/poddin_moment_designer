@@ -44,103 +44,114 @@ class _TopToolsState extends State<TopTools> {
               children: [
                 /// close button
                 ToolButton(
-                    backGroundColor: Colors.black12,
-                    onTap: () async {
-                      if (itemNotifier.draggableWidget.isEmpty || paintingNotifier.lines.isEmpty) {
-                        Navigator.pop(context);
-                      } else {
-                        exitDialog(
-                                context: widget.context,
-                                contentKey: widget.contentKey,
-                                themeType: controlNotifier.themeType)
-                            .then((res) {
-                          if (res) Navigator.pop(context);
-                        });
-                      }
-                    },
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    )),
-
-                Row(
-                  children: [
-                    // Change background color
-                    if (controlNotifier.mediaPath.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: _selectColor(
-                            controlProvider: controlNotifier,
-                            onTap: () {
-                              if (controlNotifier.gradientIndex >=
-                                  controlNotifier.gradientColors!.length - 1) {
-                                setState(() {
-                                  controlNotifier.gradientIndex = 0;
-                                });
-                              } else {
-                                setState(() {
-                                  controlNotifier.gradientIndex += 1;
-                                });
-                              }
-                            }),
-                      ),
-
-                    // Add text
-                    ToolButton(
-                      backGroundColor: Colors.black12,
-                      onTap: () => controlNotifier.isTextEditing =
-                          !controlNotifier.isTextEditing,
-                      child: const ImageIcon(
-                        AssetImage('assets/icons/text.png',
-                            package: 'poddin_moment_designer'),
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ),
-
-                    // Toggle text shadow
-                    ToolButton(
-                      backGroundColor: controlNotifier.enableTextShadow
-                          ? Colors.white
-                          : Colors.black12,
-                      onTap: () {
-                        controlNotifier.enableTextShadow =
-                            !controlNotifier.enableTextShadow;
-                      },
-                      child: Icon(Icons.text_fields_sharp,
-                          color: controlNotifier.enableTextShadow
-                              ? Colors.black
-                              : Colors.white,
-                          size: 24),
-                    ),
-
-                    // Add sticker
-                    // ToolButton(
-                    //     child: const ImageIcon(
-                    //       AssetImage('assets/icons/stickers.png',
-                    //           package: 'poddin_moment_designer'),
-                    //       color: Colors.white,
-                    //       size: 20,
-                    //     ),
-                    //     backGroundColor: Colors.black12,
-                    //     onTap: () => createGiphyItem(
-                    //         context: context,
-                    //         giphyKey: controlNotifier.giphyKey),),
-
-                    // Add drawing
-                    ToolButton(
-                        backGroundColor: Colors.black12,
-                        onTap: () {
-                          controlNotifier.isPainting = true;
-                        },
-                        child: const ImageIcon(
-                          AssetImage('assets/icons/draw.png',
-                              package: 'poddin_moment_designer'),
-                          color: Colors.white,
-                          size: 18,
-                        )),
-                  ],
+                  backGroundColor: Colors.black12,
+                  onTap: () async {
+                    if (itemNotifier.draggableWidget.isEmpty ||
+                        paintingNotifier.lines.isEmpty) {
+                      Navigator.pop(context);
+                    } else {
+                      exitDialog(
+                              context: widget.context,
+                              contentKey: widget.contentKey,
+                              themeType: controlNotifier.themeType)
+                          .then((res) {
+                        if (res) Navigator.pop(context);
+                      });
+                    }
+                  },
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
                 ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Change background color
+                        if (controlNotifier.mediaPath.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: _selectColor(
+                                controlProvider: controlNotifier,
+                                onTap: () {
+                                  if (controlNotifier.gradientIndex >=
+                                      controlNotifier.gradientColors!.length -
+                                          1) {
+                                    setState(() {
+                                      controlNotifier.gradientIndex = 0;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      controlNotifier.gradientIndex += 1;
+                                    });
+                                  }
+                                }),
+                          ),
+
+                        // Add text
+                        ToolButton(
+                          backGroundColor: Colors.black12,
+                          onTap: () => controlNotifier.isTextEditing =
+                              !controlNotifier.isTextEditing,
+                          child: const ImageIcon(
+                            AssetImage('assets/icons/text.png',
+                                package: 'poddin_moment_designer'),
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
+
+                        // Toggle text shadow
+                        ToolButton(
+                          backGroundColor: controlNotifier.enableTextShadow
+                              ? Colors.white
+                              : Colors.black12,
+                          onTap: () {
+                            controlNotifier.enableTextShadow =
+                                !controlNotifier.enableTextShadow;
+                          },
+                          child: Icon(Icons.text_fields_sharp,
+                              color: controlNotifier.enableTextShadow
+                                  ? Colors.black
+                                  : Colors.white,
+                              size: 24),
+                        ),
+
+                        // Add sticker
+                        // ToolButton(
+                        //     child: const ImageIcon(
+                        //       AssetImage('assets/icons/stickers.png',
+                        //           package: 'poddin_moment_designer'),
+                        //       color: Colors.white,
+                        //       size: 20,
+                        //     ),
+                        //     backGroundColor: Colors.black12,
+                        //     onTap: () => createGiphyItem(
+                        //         context: context,
+                        //         giphyKey: controlNotifier.giphyKey),),
+
+                        // Add drawing
+                        ToolButton(
+                          backGroundColor: Colors.black12,
+                          onTap: () {
+                            controlNotifier.isPainting = true;
+                          },
+                          child: const ImageIcon(
+                            AssetImage('assets/icons/draw.png',
+                                package: 'poddin_moment_designer'),
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
 
                 // ToolButton(
                 //   child: ImageIcon(
@@ -156,63 +167,63 @@ class _TopToolsState extends State<TopTools> {
 
                 // Download image
                 ToolButton(
-                    backGroundColor: Colors.black12,
-                    onTap: () async {
-                      if (paintingNotifier.lines.isNotEmpty ||
-                          itemNotifier.draggableWidget.isNotEmpty) {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Card(
-                                      color: Colors.black,
-                                      child: Container(
-                                          margin: const EdgeInsets.all(50),
-                                          child:
-                                              const CircularProgressIndicator(
-                                            color: Colors.white,
-                                          ))),
-                                ],
-                              );
-                            });
-                        for (var element in itemNotifier.draggableWidget) {
-                          if (element.type == ItemType.gif ||
-                              element.animationType != TextAnimationType.none) {
-                            setState(() {
-                              _createVideo = true;
-                            });
-                          }
+                  backGroundColor: Colors.black12,
+                  onTap: () async {
+                    if (paintingNotifier.lines.isNotEmpty ||
+                        itemNotifier.draggableWidget.isNotEmpty) {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Card(
+                                    color: Colors.black,
+                                    child: Container(
+                                        margin: const EdgeInsets.all(50),
+                                        child: const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ))),
+                              ],
+                            );
+                          });
+                      for (var element in itemNotifier.draggableWidget) {
+                        if (element.type == ItemType.gif ||
+                            element.animationType != TextAnimationType.none) {
+                          setState(() {
+                            _createVideo = true;
+                          });
                         }
-                        if (_createVideo) {
-                          debugPrint('creating video');
-                          await widget.renderWidget!();
-                        } else {
-                          debugPrint('creating image');
-                          var response = await takePicture(
-                              contentKey: widget.contentKey,
-                              context: context,
-                              saveToGallery: true,
-                              fileName: controlNotifier.folderName);
-                          if (response) {
-                            Fluttertoast.showToast(msg: 'Saved to gallery!');
-                          }
-                        }
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context, rootNavigator: true).pop();
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: 'Add a picture or type something');
                       }
-                    },
-                    child: const ImageIcon(
-                      AssetImage('assets/icons/download.png',
-                          package: 'poddin_moment_designer'),
-                      color: Colors.white,
-                      size: 14,
-                    )),
+                      if (_createVideo) {
+                        debugPrint('creating video');
+                        await widget.renderWidget!();
+                      } else {
+                        debugPrint('creating image');
+                        var response = await takePicture(
+                            contentKey: widget.contentKey,
+                            context: context,
+                            saveToGallery: true,
+                            fileName: controlNotifier.folderName);
+                        if (response) {
+                          Fluttertoast.showToast(msg: 'Saved to gallery!');
+                        }
+                      }
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context, rootNavigator: true).pop();
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'Add a picture or type something');
+                    }
+                  },
+                  child: const ImageIcon(
+                    AssetImage('assets/icons/download.png',
+                        package: 'poddin_moment_designer'),
+                    color: Colors.white,
+                    size: 14,
+                  ),
+                ),
               ],
             ),
           ),

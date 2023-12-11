@@ -20,7 +20,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
     return Consumer2<ControlNotifier, PaintingNotifier>(
       builder: (context, controlNotifier, paintingNotifier, child) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           child: Container(
             color: Colors.transparent,
             child: Row(
@@ -32,7 +32,6 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                   ToolButton(
                     onTap: paintingNotifier.removeLast,
                     onLongPress: paintingNotifier.clearAll,
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     backGroundColor: Colors.black12,
                     child: Transform.scale(
                         scale: 0.6,
@@ -42,87 +41,90 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           color: Colors.white,
                         )),
                   ),
+                const SizedBox(width: 5),
+                /// select pen tools
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ToolButton(
+                          onTap: () {
+                            paintingNotifier.paintingType = PaintingType.pen;
+                          },
+                          colorBorder:
+                              paintingNotifier.paintingType == PaintingType.pen
+                                  ? Colors.black
+                                  : Colors.white,
+                          backGroundColor:
+                              paintingNotifier.paintingType == PaintingType.pen
+                                  ? Colors.white.withOpacity(0.9)
+                                  : Colors.black12,
+                          child: Transform.scale(
+                              scale: 1.2,
+                              child: ImageIcon(
+                                const AssetImage('assets/icons/pen.png',
+                                    package: 'poddin_moment_designer'),
+                                color: paintingNotifier.paintingType ==
+                                        PaintingType.pen
+                                    ? Colors.black
+                                    : Colors.white,
+                              )),
+                        ),
+                        ToolButton(
+                          onTap: () {
+                            paintingNotifier.paintingType = PaintingType.marker;
+                          },
+                          colorBorder: paintingNotifier.paintingType ==
+                                  PaintingType.marker
+                              ? Colors.black
+                              : Colors.white,
+                          backGroundColor: paintingNotifier.paintingType ==
+                                  PaintingType.marker
+                              ? Colors.white.withOpacity(0.9)
+                              : Colors.black12,
+                          child: Transform.scale(
+                              scale: 1.2,
+                              child: ImageIcon(
+                                const AssetImage('assets/icons/marker.png',
+                                    package: 'poddin_moment_designer'),
+                                color: paintingNotifier.paintingType ==
+                                        PaintingType.marker
+                                    ? Colors.black
+                                    : Colors.white,
+                              )),
+                        ),
 
-                /// select pen
-                Row(
-                  children: [
-                    ToolButton(
-                      onTap: () {
-                        paintingNotifier.paintingType = PaintingType.pen;
-                      },
-                      colorBorder:
-                          paintingNotifier.paintingType == PaintingType.pen
-                              ? Colors.black
-                              : Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      backGroundColor:
-                          paintingNotifier.paintingType == PaintingType.pen
-                              ? Colors.white.withOpacity(0.9)
-                              : Colors.black12,
-                      child: Transform.scale(
-                          scale: 1.2,
-                          child: ImageIcon(
-                            const AssetImage('assets/icons/pen.png',
-                                package: 'poddin_moment_designer'),
-                            color: paintingNotifier.paintingType ==
-                                    PaintingType.pen
-                                ? Colors.black
-                                : Colors.white,
-                          )),
+                        /// select marker
+                        ToolButton(
+                          onTap: () {
+                            paintingNotifier.paintingType = PaintingType.neon;
+                          },
+                          colorBorder:
+                              paintingNotifier.paintingType == PaintingType.neon
+                                  ? Colors.black
+                                  : Colors.white,
+                          backGroundColor:
+                              paintingNotifier.paintingType == PaintingType.neon
+                                  ? Colors.white.withOpacity(0.9)
+                                  : Colors.black12,
+                          child: Transform.scale(
+                              scale: 1.2,
+                              child: ImageIcon(
+                                const AssetImage('assets/icons/neon.png',
+                                    package: 'poddin_moment_designer'),
+                                color: paintingNotifier.paintingType ==
+                                        PaintingType.neon
+                                    ? Colors.black
+                                    : Colors.white,
+                              )),
+                        ),
+                      ],
                     ),
-                    ToolButton(
-                      onTap: () {
-                        paintingNotifier.paintingType = PaintingType.marker;
-                      },
-                      colorBorder:
-                          paintingNotifier.paintingType == PaintingType.marker
-                              ? Colors.black
-                              : Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      backGroundColor:
-                          paintingNotifier.paintingType == PaintingType.marker
-                              ? Colors.white.withOpacity(0.9)
-                              : Colors.black12,
-                      child: Transform.scale(
-                          scale: 1.2,
-                          child: ImageIcon(
-                            const AssetImage('assets/icons/marker.png',
-                                package: 'poddin_moment_designer'),
-                            color: paintingNotifier.paintingType ==
-                                    PaintingType.marker
-                                ? Colors.black
-                                : Colors.white,
-                          )),
-                    ),
-
-                    /// select marker
-                    ToolButton(
-                      onTap: () {
-                        paintingNotifier.paintingType = PaintingType.neon;
-                      },
-                      colorBorder:
-                          paintingNotifier.paintingType == PaintingType.neon
-                              ? Colors.black
-                              : Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      backGroundColor:
-                          paintingNotifier.paintingType == PaintingType.neon
-                              ? Colors.white.withOpacity(0.9)
-                              : Colors.black12,
-                      child: Transform.scale(
-                          scale: 1.2,
-                          child: ImageIcon(
-                            const AssetImage('assets/icons/neon.png',
-                                package: 'poddin_moment_designer'),
-                            color: paintingNotifier.paintingType ==
-                                    PaintingType.neon
-                                ? Colors.black
-                                : Colors.white,
-                          )),
-                    ),
-                  ],
+                  ),
                 ),
-
+                const SizedBox(width: 5),
                 GestureDetector(
                   onTap: () {
                     controlNotifier.isPainting = !controlNotifier.isPainting;

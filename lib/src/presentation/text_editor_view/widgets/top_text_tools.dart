@@ -12,7 +12,7 @@ class TopTextTools extends StatelessWidget {
     return Consumer<TextEditingNotifier>(
       builder: (context, editorNotifier, child) {
         return Container(
-          padding: const EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: 10),
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -131,34 +131,34 @@ class TopTextTools extends StatelessWidget {
                   //         ),
                   //       )),
                   // )
-                ],
-              ),
-
-              /// close and create item
-              GestureDetector(
-                onTap: onDone,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10, top: 10),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          border: Border.all(color: Colors.white, width: 1.2),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: const Text(
-                        'Done',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
+                  /// close and create item
+                  GestureDetector(
+                    onTap: onDone,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 12),
+                          decoration: BoxDecoration(
+                              color: Colors.black12,
+                              border:
+                                  Border.all(color: Colors.white, width: 1.2),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: const Text(
+                            'Done',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
