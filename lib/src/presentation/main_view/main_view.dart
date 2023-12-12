@@ -133,7 +133,7 @@ class _MainViewState extends State<MainView> {
   bool _inAction = false;
 
   /// screen size
-  final _screenSize = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+  final _screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window);
 
   /// galleryCam switcher
   bool switchToGallery = false;
@@ -162,7 +162,7 @@ class _MainViewState extends State<MainView> {
         _tempItemProvider.draggableWidget.add(EditableItem()
           ..type = ItemType.image
           ..path = widget.mediaPath!
-          ..scale = 1.2
+          ..scale = 1
           ..position = const Offset(0, 0));
       }
       if (widget.gradientColors != null) {

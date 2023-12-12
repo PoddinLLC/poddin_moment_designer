@@ -20,7 +20,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
     return Consumer2<ControlNotifier, PaintingNotifier>(
       builder: (context, controlNotifier, paintingNotifier, child) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Container(
             color: Colors.transparent,
             child: Row(
@@ -41,7 +41,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                           color: Colors.white,
                         )),
                   ),
-                const SizedBox(width: 5),
+
                 /// select pen tools
                 Expanded(
                   child: SingleChildScrollView(
@@ -49,6 +49,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // pen
                         ToolButton(
                           onTap: () {
                             paintingNotifier.paintingType = PaintingType.pen;
@@ -72,6 +73,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                                     : Colors.white,
                               )),
                         ),
+                        // marker
                         ToolButton(
                           onTap: () {
                             paintingNotifier.paintingType = PaintingType.marker;
@@ -96,7 +98,7 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                               )),
                         ),
 
-                        /// select marker
+                        /// neon
                         ToolButton(
                           onTap: () {
                             paintingNotifier.paintingType = PaintingType.neon;
@@ -124,17 +126,17 @@ class _TopPaintingToolsState extends State<TopPaintingTools> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 5),
+
                 GestureDetector(
                   onTap: () {
                     controlNotifier.isPainting = !controlNotifier.isPainting;
                     paintingNotifier.resetDefaults();
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 10, top: 10),
+                    padding: const EdgeInsets.only(right: 10, left: 5),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
+                          vertical: 8, horizontal: 12),
                       decoration: BoxDecoration(
                           color: Colors.black12,
                           border: Border.all(color: Colors.white, width: 1.2),

@@ -9,7 +9,7 @@ class EditableItem {
 
   /// item position
   Offset position = const Offset(0.0, 0.0);
-  double scale = 1;
+  double scale = 1.0;
   double rotation = 0;
   ItemType type = ItemType.text;
 

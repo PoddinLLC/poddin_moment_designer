@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -111,14 +110,14 @@ class DraggableWidget extends StatelessWidget {
             _onReorder(context, draggableWidget, _controlProvider);
           },
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(20),
             child: Container(
               constraints: BoxConstraints(
                 maxHeight: dimension!.height * draggableWidget.scale,
                 maxWidth: dimension!.width * draggableWidget.scale,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
               ),
               width: draggableWidget.deletePosition ? 0 : null,
               height: draggableWidget.deletePosition ? 0 : null,
@@ -344,8 +343,7 @@ class DraggableWidget extends StatelessWidget {
             ..type = item.type,
         );
     }
-    //
-    HapticFeedback.lightImpact();
+    // HapticFeedback.lightImpact();
   }
 
   /// onTap text

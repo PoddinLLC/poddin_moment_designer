@@ -64,8 +64,8 @@ class _TopToolsState extends State<TopTools> {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(width: 5),
-                Expanded(
+                //
+                Flexible(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -151,7 +151,6 @@ class _TopToolsState extends State<TopTools> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 5),
 
                 // ToolButton(
                 //   child: ImageIcon(
