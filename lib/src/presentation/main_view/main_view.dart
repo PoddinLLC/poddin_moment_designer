@@ -267,7 +267,7 @@ class _MainViewState extends State<MainView> {
                                       child: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          
+
                                           /// in this case photo view works as a main background container to manage
                                           /// the gestures of all movable items.
                                           PhotoView.customChild(
@@ -312,7 +312,7 @@ class _MainViewState extends State<MainView> {
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(25),
+                                                      BorderRadius.circular(15),
                                                 ),
                                                 child: RepaintBoundary(
                                                   child: SizedBox(
@@ -390,7 +390,7 @@ class _MainViewState extends State<MainView> {
                           ),
 
                         /// Show item alignment indicator
-                        WidgetAligner(activeItem: _activeItem),
+                       // WidgetAligner(activeItem: _activeItem),
 
                         /// top tools
                         if (controlNotifier.isTextEditing == false &&
