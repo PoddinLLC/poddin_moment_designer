@@ -139,6 +139,7 @@ class _MainViewState extends State<MainView> {
   /// galleryCam switcher
   bool switchToGallery = false;
   int mediaContent = 0;
+  Offset offset = Offset.zero;
 
   /// recorder controller
   // final WidgetRecorderController _recorderController =
@@ -153,7 +154,7 @@ class _MainViewState extends State<MainView> {
 
       /// initialize providers
       _control.giphyKey = widget.giphyKey!;
-      _control.initialPage = widget.initialMode!;
+      _control.initialPage = widget.initialMode ?? 0;
       _control.folderName = widget.fileName ?? "poddin_moment";
       _control.middleBottomWidget = widget.middleBottomWidget;
       _control.isCustomFontList = widget.isCustomFontList ?? false;
@@ -184,8 +185,43 @@ class _MainViewState extends State<MainView> {
     super.dispose();
   }
 
+  /// Alignment indicator
+  Widget alignerIndicator() {
+    debugPrint('Offset: $offset');
+    return Stack(
+      alignment: const AlignmentDirectional(0, 0),
+      children: [
+        // Vertical Alignment
+        if (offset.dx == 0.0 && offset.dy <= 0.3)
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+            child: Container(
+              width: 1.2,
+              height: _screenSize.size.height * 1,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 0, 76),
+              ),
+            ),
+          ),
+        // Horizontal Alignment
+        if (offset == const Offset(0.0, 0.0))
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
+            child: Container(
+              width: _screenSize.size.width,
+              height: 1.2,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 0, 76),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    offset = _activeItem != null ? _activeItem!.position : offset;
     final page = widget.initialMode!;
     //
     return WillPopScope(
@@ -367,7 +403,7 @@ class _MainViewState extends State<MainView> {
                             ignoring: true,
                             child: Align(
                               child: Text(
-                                widget.centerText!,
+                                widget.centerText ?? 'Type Something',
                                 style: AppFonts.getTextThemeENUM(
                                         FontType.garamond)
                                     .bodyLarge!
@@ -757,40 +793,6 @@ class _MainViewState extends State<MainView> {
           },
         ),
       ),
-    );
-  }
-
-  /// Alignment indicator
-  Widget alignerIndicator() {
-    debugPrint('Offset: ${_activeItem!.position}');
-    return Stack(
-      alignment: const AlignmentDirectional(0, 0),
-      children: [
-        // Vertical Alignment
-        if (_activeItem?.position.dx == 0.0 && _activeItem!.position.dy <= 0.3)
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-            child: Container(
-              width: 1.2,
-              height: _screenSize.size.height * 1,
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 255, 0, 76),
-              ),
-            ),
-          ),
-        // Horizontal Alignment
-        if (_activeItem?.position == const Offset(0.0, 0.0))
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
-            child: Container(
-              width: _screenSize.size.width,
-              height: 1.2,
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 255, 0, 76),
-              ),
-            ),
-          ),
-      ],
     );
   }
 
