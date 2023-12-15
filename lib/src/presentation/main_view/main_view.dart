@@ -899,10 +899,13 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
-    _initPos = details.focalPoint;
-    _currentPos = _activeItem!.position;
-    _currentScale = _activeItem!.scale;
-    _currentRotation = _activeItem!.rotation;
+
+    setState(() {
+      _initPos = details.focalPoint;
+      _currentPos = _activeItem!.position;
+      _currentScale = _activeItem!.scale;
+      _currentRotation = _activeItem!.rotation;
+    });
   }
 
   /// update item scale

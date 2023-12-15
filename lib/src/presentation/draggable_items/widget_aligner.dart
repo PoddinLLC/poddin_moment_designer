@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
 import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
 
-class WidgetAligner extends StatelessWidget {
+class WidgetAligner extends StatefulWidget {
   const WidgetAligner({
     super.key,
     this.activeItem,
@@ -12,13 +12,18 @@ class WidgetAligner extends StatelessWidget {
   final EditableItem? activeItem;
 
   @override
+  State<WidgetAligner> createState() => _WidgetAlignerState();
+}
+
+class _WidgetAlignerState extends State<WidgetAligner> {
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
-    var offset = activeItem != null ? activeItem!.position : null;
+    var offset = widget.activeItem != null ? widget.activeItem!.position : null;
     debugPrint('Offset: $offset');
 
     return Builder(builder: (context) {
-      if (activeItem == null) {
+      if (widget.activeItem == null) {
         return const SizedBox();
       }
       return Stack(
