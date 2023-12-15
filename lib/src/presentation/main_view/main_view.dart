@@ -391,7 +391,8 @@ class _MainViewState extends State<MainView> {
 
                         /// top tools
                         if (controlNotifier.isTextEditing == false &&
-                            controlNotifier.isPainting == false)
+                            controlNotifier.isPainting == false &&
+                            _activeItem == null)
                           Align(
                               alignment: Alignment.topCenter,
                               child: TopTools(
@@ -415,7 +416,8 @@ class _MainViewState extends State<MainView> {
 
                         /// bottom tools
                         if (controlNotifier.isTextEditing == false &&
-                            controlNotifier.isPainting == false)
+                            controlNotifier.isPainting == false &&
+                            _activeItem == null)
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: BottomTools(
