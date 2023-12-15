@@ -280,7 +280,9 @@ class _MainViewState extends State<MainView> {
 
                                           /// Show item alignment indicator
                                           IgnorePointer(
-                                            child: SizedBox(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                  color: Color.fromARGB(107, 53, 52, 52)),
                                               width: _screenSize.size.width,
                                               height: _screenSize.size.height,
                                               child: Stack(
@@ -290,31 +292,27 @@ class _MainViewState extends State<MainView> {
                                                   if (offset != null &&
                                                       offset!.dx == 0.0 &&
                                                       offset!.dy <= 0.3)
-                                                    Align(
-                                                      child: Container(
-                                                        width: 1.2,
-                                                        height: _screenSize
-                                                            .size.height,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Color.fromARGB(
-                                                              255, 255, 0, 76),
-                                                        ),
+                                                    Container(
+                                                      width: 1.2,
+                                                      height: _screenSize
+                                                          .size.height,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Color.fromARGB(
+                                                            255, 255, 0, 76),
                                                       ),
                                                     ),
                                                   // Horizontal Alignment
                                                   if (offset != null &&
                                                       offset == Offset.zero)
-                                                    Align(
-                                                      child: Container(
-                                                        width: _screenSize
-                                                            .size.width,
-                                                        height: 1.2,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Color.fromARGB(
-                                                              255, 255, 0, 76),
-                                                        ),
+                                                    Container(
+                                                      width: _screenSize
+                                                          .size.width,
+                                                      height: 1.2,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color: Color.fromARGB(
+                                                            255, 255, 0, 76),
                                                       ),
                                                     ),
                                                 ],
@@ -961,8 +959,8 @@ class _MainViewState extends State<MainView> {
     final left = (delta.dx / _screenSize.size.width) + _currentPos.dx;
     final top = (delta.dy / _screenSize.size.height) + _currentPos.dy;
 
-    debugPrint(
-        '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
+    // debugPrint(
+    //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
       _activeItem!.position = Offset(left, top);

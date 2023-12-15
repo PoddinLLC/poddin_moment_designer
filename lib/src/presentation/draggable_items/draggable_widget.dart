@@ -57,8 +57,7 @@ class DraggableWidget extends StatelessWidget {
               height: draggableWidget.deletePosition ? 0 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
-                onLongPress: () =>
-                    _onReorder(context, draggableWidget),
+                onLongPress: () => _onReorder(context, draggableWidget),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -312,35 +311,41 @@ class DraggableWidget extends StatelessWidget {
 
     // bring text to top
     if (item.type == ItemType.text) {
-      _itemProvider.removeAt(_itemProvider.indexOf(item));
-      await Future.delayed(const Duration(milliseconds: 150));
-      _itemProvider.add(
-        EditableItem()
-          ..position = item.position
-          ..text = item.text
-          ..scale = item.scale
-          ..type = item.type
-          ..textList = item.textList
-          ..backGroundColor = item.backGroundColor
-          ..fontFamily = item.fontFamily
-          ..textAlign = item.textAlign
-          ..textColor = item.textColor
-          ..fontAnimationIndex = item.fontAnimationIndex
-          ..animationType = item.animationType
-          ..fontSize = item.fontSize,
-      );
+      final lastItem = _itemProvider.last;
+      _itemProvider[_itemProvider.indexOf(item)] = lastItem;
+      _itemProvider.last = item;
+      // _itemProvider.removeAt(_itemProvider.indexOf(item));
+      // await Future.delayed(const Duration(milliseconds: 100));
+      // _itemProvider.add(
+      //   EditableItem()
+      //     ..position = item.position
+      //     ..text = item.text
+      //     ..scale = item.scale
+      //     ..type = item.type
+      //     ..textList = item.textList
+      //     ..backGroundColor = item.backGroundColor
+      //     ..fontFamily = item.fontFamily
+      //     ..textAlign = item.textAlign
+      //     ..textColor = item.textColor
+      //     ..fontAnimationIndex = item.fontAnimationIndex
+      //     ..animationType = item.animationType
+      //     ..fontSize = item.fontSize,
+      // );
     }
     // bring image to top
     if (item.type == ItemType.image) {
-      _itemProvider.removeAt(_itemProvider.indexOf(item));
-      await Future.delayed(const Duration(milliseconds: 150));
-      _itemProvider.add(
-        EditableItem()
-          ..position = item.position
-          ..path = item.path
-          ..scale = item.scale
-          ..type = item.type,
-      );
+      final lastItem = _itemProvider.last;
+      _itemProvider[_itemProvider.indexOf(item)] = lastItem;
+      _itemProvider.last = item;
+      // _itemProvider.removeAt(_itemProvider.indexOf(item));
+      // await Future.delayed(const Duration(milliseconds: 100));
+      // _itemProvider.add(
+      //   EditableItem()
+      //     ..position = item.position
+      //     ..path = item.path
+      //     ..scale = item.scale
+      //     ..type = item.type,
+      // );
     }
     // HapticFeedback.lightImpact();
   }
