@@ -289,7 +289,8 @@ class _MainViewState extends State<MainView> {
                                                   alignment: Alignment.center,
                                                   children: [
                                                     // Vertical Alignment
-                                                    if (offset!.dx == 0.0 &&
+                                                    if (offset != null &&
+                                                        offset!.dx == 0.0 &&
                                                         offset!.dy <= 0.3)
                                                       Align(
                                                         child: Container(
@@ -308,7 +309,8 @@ class _MainViewState extends State<MainView> {
                                                         ),
                                                       ),
                                                     // Horizontal Alignment
-                                                    if (offset == Offset.zero)
+                                                    if (offset != null &&
+                                                        offset == Offset.zero)
                                                       Align(
                                                         child: Container(
                                                           width: _screenSize
