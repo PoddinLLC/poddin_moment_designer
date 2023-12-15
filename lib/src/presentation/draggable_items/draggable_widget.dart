@@ -314,34 +314,34 @@ class DraggableWidget extends StatelessWidget {
     // bring text to top
     if (item.type == ItemType.text) {
       _itemProvider.draggableWidget
-        ..removeAt(_itemProvider.draggableWidget.indexOf(item))
-        ..add(
-          EditableItem()
-            ..position = item.position
-            ..text = item.text
-            ..scale = item.scale
-            ..type = item.type
-            ..textList = item.textList
-            ..backGroundColor = item.backGroundColor
-            ..fontFamily = item.fontFamily
-            ..textAlign = item.textAlign
-            ..textColor = item.textColor
-            ..fontAnimationIndex = item.fontAnimationIndex
-            ..animationType = item.animationType
-            ..fontSize = item.fontSize,
-        );
+          .removeAt(_itemProvider.draggableWidget.indexOf(item));
+      _itemProvider.draggableWidget.add(
+        EditableItem()
+          ..position = item.position
+          ..text = item.text
+          ..scale = item.scale
+          ..type = item.type
+          ..textList = item.textList
+          ..backGroundColor = item.backGroundColor
+          ..fontFamily = item.fontFamily
+          ..textAlign = item.textAlign
+          ..textColor = item.textColor
+          ..fontAnimationIndex = item.fontAnimationIndex
+          ..animationType = item.animationType
+          ..fontSize = item.fontSize,
+      );
     }
     // bring image to top
     if (item.type == ItemType.image) {
       _itemProvider.draggableWidget
-        ..removeAt(_itemProvider.draggableWidget.indexOf(item))
-        ..add(
-          EditableItem()
-            ..position = item.position
-            ..path = item.path
-            ..scale = item.scale
-            ..type = item.type,
-        );
+          .removeAt(_itemProvider.draggableWidget.indexOf(item));
+      _itemProvider.draggableWidget.add(
+        EditableItem()
+          ..position = item.position
+          ..path = item.path
+          ..scale = item.scale
+          ..type = item.type,
+      );
     }
     // HapticFeedback.lightImpact();
   }

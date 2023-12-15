@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:poddin_moment_designer/src/presentation/draggable_items/widget_aligner.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
 import 'package:poddin_moment_designer/src/domain/models/painting_model.dart';
@@ -402,6 +403,9 @@ class _MainViewState extends State<MainView> {
                                 //     saveOnGallery: true),
                               )),
 
+                        /// Show item alignment indicator
+                        WidgetAligner(activeItem: _activeItem),
+
                         /// show delete icon when item is within delete region
                         DeleteItem(
                           activeItem: _activeItem,
@@ -671,7 +675,7 @@ class _MainViewState extends State<MainView> {
                                       .add(EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
-                                        ..scale = mediaContent < 1 ? 1.5 : 0.8
+                                        ..scale = mediaContent < 1 ? 1 : 0.8
                                         ..position = const Offset(0, 0));
                                   //
                                   if (mediaContent >= 1) {
@@ -776,7 +780,7 @@ class _MainViewState extends State<MainView> {
       itemProvider.draggableWidget.add(EditableItem()
         ..type = ItemType.image
         ..path = path
-        ..scale = mediaContent < 1 ? 1.2 : 0.8
+        ..scale = mediaContent < 1 ? 1 : 0.8
         ..position = const Offset(0, 0));
       //
       if (mediaContent >= 1) {
@@ -968,12 +972,14 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    _inAction = true;
-    _activeItem = item;
-    _initPos = details.position;
-    _currentPos = item.position;
-    _currentScale = item.scale;
-    _currentRotation = item.rotation;
+    setState(() {
+      _inAction = true;
+      _activeItem = item;
+      _initPos = details.position;
+      _currentPos = item.position;
+      _currentScale = item.scale;
+      _currentRotation = item.rotation;
+    });
     // set vibrate
     HapticFeedback.lightImpact();
   }

@@ -28,6 +28,9 @@ class DeleteItem extends StatelessWidget {
             width: _mediaQuery.width,
             child: Center(
               child: AnimatedContainer(
+                onEnd: () {
+                  
+                },
                 alignment: Alignment.center,
                 duration: animationsDuration,
                 height: isDeletePosition ? 55.0 : 45,
