@@ -6,24 +6,26 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/item_typ
 class WidgetAligner extends StatelessWidget {
   const WidgetAligner({
     super.key,
-    required EditableItem? activeItem,
-  }) : _activeItem = activeItem;
+    this.activeItem,
+  });
 
-  final EditableItem? _activeItem;
+  final EditableItem? activeItem;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
-    var offset = _activeItem != null ? _activeItem!.position : null;
+    var offset = activeItem != null ? activeItem!.position : null;
     debugPrint('Offset: $offset');
 
-    return Visibility(
-      visible: _activeItem != null,
-      child: Stack(
+    return Builder(builder: (context) {
+      if (activeItem == null) {
+        return const SizedBox();
+      }
+      return Stack(
         alignment: const AlignmentDirectional(0, 0),
         children: [
           // Vertical Alignment
-          if (offset != null && offset.dx == 0 && offset.dy <= 1)
+          if (offset!.dx == 0 && offset.dy <= 1)
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
               child: Container(
@@ -35,7 +37,7 @@ class WidgetAligner extends StatelessWidget {
               ),
             ),
           // Horizontal Alignment
-          if (offset != null && offset == Offset.zero)
+          if (offset == Offset.zero)
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
               child: Container(
@@ -47,7 +49,7 @@ class WidgetAligner extends StatelessWidget {
               ),
             ),
         ],
-      ),
-    );
+      );
+    });
   }
 }

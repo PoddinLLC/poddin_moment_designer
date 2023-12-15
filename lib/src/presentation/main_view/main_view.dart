@@ -241,8 +241,6 @@ class _MainViewState extends State<MainView> {
                                 child: RepaintBoundary(
                                   key: contentKey,
                                   child: AnimatedContainer(
-                                    padding: EdgeInsets.only(
-                                        top: _activeItem != null ? 70 : 0),
                                     duration: const Duration(milliseconds: 200),
                                     decoration: BoxDecoration(
                                         gradient:
@@ -269,6 +267,7 @@ class _MainViewState extends State<MainView> {
                                       child: Stack(
                                         alignment: Alignment.center,
                                         children: [
+                                          
                                           /// in this case photo view works as a main background container to manage
                                           /// the gestures of all movable items.
                                           PhotoView.customChild(
