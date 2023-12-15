@@ -25,24 +25,24 @@ class WidgetAligner extends StatelessWidget {
           // Vertical Alignment
           if (offset != null && offset.dx == 0 && offset.dy <= 1)
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 15),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
               child: Container(
                 width: 1.5,
                 height: size.height * 1,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFD91C54),
+                  color: Color.fromARGB(255, 255, 0, 76),
                 ),
               ),
             ),
           // Horizontal Alignment
-          if (offset != null && offset.dx == 0 && offset.dy == 0)
+          if (offset != null && offset == Offset.zero)
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
               child: Container(
                 width: size.width,
                 height: 1.5,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFD91C54),
+                  color: Color.fromARGB(255, 255, 0, 76),
                 ),
               ),
             ),

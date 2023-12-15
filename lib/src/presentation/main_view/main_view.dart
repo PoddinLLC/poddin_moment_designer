@@ -241,6 +241,8 @@ class _MainViewState extends State<MainView> {
                                 child: RepaintBoundary(
                                   key: contentKey,
                                   child: AnimatedContainer(
+                                    padding: EdgeInsets.only(
+                                        top: _activeItem != null ? 70 : 0),
                                     duration: const Duration(milliseconds: 200),
                                     decoration: BoxDecoration(
                                         gradient:
@@ -360,7 +362,6 @@ class _MainViewState extends State<MainView> {
                           IgnorePointer(
                             ignoring: true,
                             child: Align(
-                              alignment: const Alignment(0, 0),
                               child: Text(
                                 widget.centerText!,
                                 style: AppFonts.getTextThemeENUM(
@@ -389,6 +390,9 @@ class _MainViewState extends State<MainView> {
                             ),
                           ),
 
+                        /// Show item alignment indicator
+                        WidgetAligner(activeItem: _activeItem),
+
                         /// top tools
                         if (controlNotifier.isTextEditing == false &&
                             controlNotifier.isPainting == false &&
@@ -403,9 +407,6 @@ class _MainViewState extends State<MainView> {
                                 //     renderingNotifier: renderingNotifier,
                                 //     saveOnGallery: true),
                               )),
-
-                        /// Show item alignment indicator
-                        WidgetAligner(activeItem: _activeItem),
 
                         /// show delete icon when item is within delete region
                         DeleteItem(

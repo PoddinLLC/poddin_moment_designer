@@ -67,15 +67,13 @@ class _FileImageBGState extends State<FileImageBG> {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       key: paintKey,
-      child: Center(
-        child: Image.file(
-          width: widget.dimension!.width * widget.scale!,
-          height: widget.dimension!.height * widget.scale!,
-          File(widget.filePath!.path),
-          key: imageKey,
-          fit: BoxFit.cover,
-          filterQuality: FilterQuality.high,
-        ),
+      child: Image.file(
+        width: widget.dimension!.width * widget.scale!,
+        height: widget.dimension!.height * widget.scale!,
+        File(widget.filePath!.path),
+        key: imageKey,
+        fit: BoxFit.cover,
+        filterQuality: FilterQuality.high,
       ),
     );
   }
