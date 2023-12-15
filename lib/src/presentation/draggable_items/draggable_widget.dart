@@ -285,7 +285,7 @@ class DraggableWidget extends StatelessWidget {
     double top = 0.0;
     if (draggableWidget.type == ItemType.text ||
         draggableWidget.type == ItemType.image) {
-      top = size.width / 1.3;
+      top = size.height / 1.3;
     }
     return top;
   }
