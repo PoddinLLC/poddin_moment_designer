@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -104,10 +105,11 @@ class DraggableWidget extends StatelessWidget {
 
       /// image [file_image_gb.dart]
       case ItemType.image:
-        overlayWidget = GestureDetector(
+        overlayWidget = AnimatedOnTapButton(
           onLongPress: () {
             _onReorder(context, draggableWidget);
           },
+          onTap: () {},
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
@@ -314,40 +316,14 @@ class DraggableWidget extends StatelessWidget {
       final lastItem = _itemProvider.last;
       _itemProvider[_itemProvider.indexOf(item)] = lastItem;
       _itemProvider.last = item;
-      // _itemProvider.removeAt(_itemProvider.indexOf(item));
-      // await Future.delayed(const Duration(milliseconds: 100));
-      // _itemProvider.add(
-      //   EditableItem()
-      //     ..position = item.position
-      //     ..text = item.text
-      //     ..scale = item.scale
-      //     ..type = item.type
-      //     ..textList = item.textList
-      //     ..backGroundColor = item.backGroundColor
-      //     ..fontFamily = item.fontFamily
-      //     ..textAlign = item.textAlign
-      //     ..textColor = item.textColor
-      //     ..fontAnimationIndex = item.fontAnimationIndex
-      //     ..animationType = item.animationType
-      //     ..fontSize = item.fontSize,
-      // );
     }
     // bring image to top
     if (item.type == ItemType.image) {
       final lastItem = _itemProvider.last;
       _itemProvider[_itemProvider.indexOf(item)] = lastItem;
       _itemProvider.last = item;
-      // _itemProvider.removeAt(_itemProvider.indexOf(item));
-      // await Future.delayed(const Duration(milliseconds: 100));
-      // _itemProvider.add(
-      //   EditableItem()
-      //     ..position = item.position
-      //     ..path = item.path
-      //     ..scale = item.scale
-      //     ..type = item.type,
-      // );
     }
-    // HapticFeedback.lightImpact();
+    HapticFeedback.lightImpact();
   }
 
   /// onTap text

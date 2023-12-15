@@ -269,20 +269,10 @@ class _MainViewState extends State<MainView> {
                                       child: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          /// in this case photo view works as a main background container to manage
-                                          /// the gestures of all movable items.
-                                          PhotoView.customChild(
-                                            backgroundDecoration:
-                                                const BoxDecoration(
-                                                    color: Colors.transparent),
-                                            child: Container(),
-                                          ),
-
                                           /// Show item alignment indicator
                                           IgnorePointer(
                                             child: Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(107, 53, 52, 52)),
+                                              decoration: const BoxDecoration(),
                                               width: _screenSize.size.width,
                                               height: _screenSize.size.height,
                                               child: Stack(
@@ -318,6 +308,15 @@ class _MainViewState extends State<MainView> {
                                                 ],
                                               ),
                                             ),
+                                          ),
+
+                                          /// in this case photo view works as a main background container to manage
+                                          /// the gestures of all movable items.
+                                          PhotoView.customChild(
+                                            backgroundDecoration:
+                                                const BoxDecoration(
+                                                    color: Colors.transparent),
+                                            child: Container(),
                                           ),
 
                                           /// list content items
