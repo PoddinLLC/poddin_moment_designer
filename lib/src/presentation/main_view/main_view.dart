@@ -268,8 +268,10 @@ class _MainViewState extends State<MainView> {
                                         alignment: Alignment.center,
                                         children: [
                                           /// Show item alignment indicator
-                                          WidgetAligner(
-                                              activeItem: _activeItem),
+                                          Visibility(
+                                            visible: _activeItem != null,
+                                            child: alignerIndicator(),
+                                          ),
 
                                           /// in this case photo view works as a main background container to manage
                                           /// the gestures of all movable items.
@@ -755,6 +757,40 @@ class _MainViewState extends State<MainView> {
           },
         ),
       ),
+    );
+  }
+
+  /// Alignment indicator
+  Widget alignerIndicator() {
+    debugPrint('Offset: ${_activeItem!.position}');
+    return Stack(
+      alignment: const AlignmentDirectional(0, 0),
+      children: [
+        // Vertical Alignment
+        if (_activeItem?.position.dx == 0.0 && _activeItem!.position.dy <= 0.3)
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+            child: Container(
+              width: 1.2,
+              height: _screenSize.size.height * 1,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 0, 76),
+              ),
+            ),
+          ),
+        // Horizontal Alignment
+        if (_activeItem?.position == const Offset(0.0, 0.0))
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
+            child: Container(
+              width: _screenSize.size.width,
+              height: 1.2,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 255, 0, 76),
+              ),
+            ),
+          ),
+      ],
     );
   }
 

@@ -34,7 +34,7 @@ class _WidgetAlignerState extends State<WidgetAligner> {
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
               child: Container(
-                width: 1.5,
+                width: 1.2,
                 height: size.height * 1,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 0, 76),
@@ -47,7 +47,7 @@ class _WidgetAlignerState extends State<WidgetAligner> {
               padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
               child: Container(
                 width: size.width,
-                height: 1.5,
+                height: 1.2,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 0, 76),
                 ),
