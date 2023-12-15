@@ -186,7 +186,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    offset = _activeItem != null ? _activeItem!.position : offset;
+    offset = _activeItem != null ? _activeItem!.position : null;
     final page = widget.initialMode!;
     debugPrint('{"Active Content Offset": $offset}');
     //
@@ -279,56 +279,45 @@ class _MainViewState extends State<MainView> {
                                           ),
 
                                           /// Show item alignment indicator
-                                          Visibility(
-                                            visible: _activeItem != null,
-                                            child: IgnorePointer(
-                                              child: SizedBox(
-                                                width: _screenSize.size.width,
-                                                height: _screenSize.size.height,
-                                                child: Stack(
-                                                  alignment: Alignment.center,
-                                                  children: [
-                                                    // Vertical Alignment
-                                                    if (offset != null &&
-                                                        offset!.dx == 0.0 &&
-                                                        offset!.dy <= 0.3)
-                                                      Align(
-                                                        child: Container(
-                                                          width: 1.2,
-                                                          height: _screenSize
-                                                              .size.height,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    0,
-                                                                    76),
-                                                          ),
+                                          IgnorePointer(
+                                            child: SizedBox(
+                                              width: _screenSize.size.width,
+                                              height: _screenSize.size.height,
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  // Vertical Alignment
+                                                  if (offset != null &&
+                                                      offset!.dx == 0.0 &&
+                                                      offset!.dy <= 0.3)
+                                                    Align(
+                                                      child: Container(
+                                                        width: 1.2,
+                                                        height: _screenSize
+                                                            .size.height,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromARGB(
+                                                              255, 255, 0, 76),
                                                         ),
                                                       ),
-                                                    // Horizontal Alignment
-                                                    if (offset != null &&
-                                                        offset == Offset.zero)
-                                                      Align(
-                                                        child: Container(
-                                                          width: _screenSize
-                                                              .size.width,
-                                                          height: 1.2,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    0,
-                                                                    76),
-                                                          ),
+                                                    ),
+                                                  // Horizontal Alignment
+                                                  if (offset != null &&
+                                                      offset == Offset.zero)
+                                                    Align(
+                                                      child: Container(
+                                                        width: _screenSize
+                                                            .size.width,
+                                                        height: 1.2,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Color.fromARGB(
+                                                              255, 255, 0, 76),
                                                         ),
                                                       ),
-                                                  ],
-                                                ),
+                                                    ),
+                                                ],
                                               ),
                                             ),
                                           ),
