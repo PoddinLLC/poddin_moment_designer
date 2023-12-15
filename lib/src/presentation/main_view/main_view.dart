@@ -11,7 +11,6 @@ import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:poddin_moment_designer/src/presentation/draggable_items/widget_aligner.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
 import 'package:poddin_moment_designer/src/domain/models/painting_model.dart';
@@ -139,7 +138,7 @@ class _MainViewState extends State<MainView> {
   /// galleryCam switcher
   bool switchToGallery = false;
   int mediaContent = 0;
-  Offset offset = Offset.zero;
+  Offset? offset;
 
   /// recorder controller
   // final WidgetRecorderController _recorderController =
@@ -185,48 +184,11 @@ class _MainViewState extends State<MainView> {
     super.dispose();
   }
 
-  /// Alignment indicator
-  Widget alignerIndicator() {
-    debugPrint('Offset: $offset');
-    return SizedBox(
-      width: _screenSize.size.width,
-      height: _screenSize.size.height,
-      child: Stack(
-        alignment: const AlignmentDirectional(0, 0),
-        children: [
-          // Vertical Alignment
-          if (offset.dx == 0.0 && offset.dy <= 0.3)
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-              child: Container(
-                width: 1.2,
-                height: _screenSize.size.height,
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 0, 76),
-                ),
-              ),
-            ),
-          // Horizontal Alignment
-          if (offset == const Offset(0.0, 0.0))
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
-              child: Container(
-                width: _screenSize.size.width,
-                height: 1.2,
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 0, 76),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     offset = _activeItem != null ? _activeItem!.position : offset;
     final page = widget.initialMode!;
+    debugPrint('{"Active Content Offset": $offset}');
     //
     return WillPopScope(
       onWillPop: _popScope,
@@ -246,7 +208,7 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
-              maintainBottomViewPadding: true,
+              // maintainBottomViewPadding: true,
               child: Stack(
                 children: [
                   ScrollablePageView(
@@ -320,7 +282,52 @@ class _MainViewState extends State<MainView> {
                                           Visibility(
                                             visible: _activeItem != null,
                                             child: IgnorePointer(
-                                              child: alignerIndicator(),
+                                              child: SizedBox(
+                                                width: _screenSize.size.width,
+                                                height: _screenSize.size.height,
+                                                child: Stack(
+                                                  alignment: Alignment.center,
+                                                  children: [
+                                                    // Vertical Alignment
+                                                    if (offset!.dx == 0.0 &&
+                                                        offset!.dy <= 0.3)
+                                                      Align(
+                                                        child: Container(
+                                                          width: 1.2,
+                                                          height: _screenSize
+                                                              .size.height,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    0,
+                                                                    76),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    // Horizontal Alignment
+                                                    if (offset == Offset.zero)
+                                                      Align(
+                                                        child: Container(
+                                                          width: _screenSize
+                                                              .size.width,
+                                                          height: 1.2,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    0,
+                                                                    76),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ),
 
@@ -943,6 +950,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
+    debugPrint('{"On Scale Start": $details\n"Content": $_activeItem}');
 
     setState(() {
       _initPos = details.focalPoint;
@@ -961,6 +969,9 @@ class _MainViewState extends State<MainView> {
 
     final left = (delta.dx / _screenSize.size.width) + _currentPos.dx;
     final top = (delta.dy / _screenSize.size.height) + _currentPos.dy;
+
+    debugPrint(
+        '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
       _activeItem!.position = Offset(left, top);
@@ -1021,6 +1032,8 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
+    debugPrint('{"Update item position": $details\n"Content": $item}');
+
     setState(() {
       _inAction = true;
       _activeItem = item;

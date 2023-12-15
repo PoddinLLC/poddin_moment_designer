@@ -58,7 +58,7 @@ class DraggableWidget extends StatelessWidget {
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
                 onLongPress: () =>
-                    _onReorder(context, draggableWidget, _controlProvider),
+                    _onReorder(context, draggableWidget),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -107,7 +107,7 @@ class DraggableWidget extends StatelessWidget {
       case ItemType.image:
         overlayWidget = GestureDetector(
           onLongPress: () {
-            _onReorder(context, draggableWidget, _controlProvider);
+            _onReorder(context, draggableWidget);
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -286,6 +286,7 @@ class DraggableWidget extends StatelessWidget {
     if (draggableWidget.type == ItemType.text ||
         draggableWidget.type == ItemType.image) {
       top = size.width / 1.3;
+      debugPrint('{"Top offset: $top"}');
     }
     return top;
   }
@@ -301,21 +302,19 @@ class DraggableWidget extends StatelessWidget {
   }
 
   /// onLongPress content
-  void _onReorder(
+  Future<void> _onReorder(
     BuildContext context,
     EditableItem item,
-    ControlNotifier controlNotifier,
-  ) {
-    var _editorProvider =
-        Provider.of<TextEditingNotifier>(this.context, listen: false);
+  ) async {
     var _itemProvider =
-        Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
+        Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
+            .draggableWidget;
 
     // bring text to top
     if (item.type == ItemType.text) {
-      _itemProvider.draggableWidget
-          .removeAt(_itemProvider.draggableWidget.indexOf(item));
-      _itemProvider.draggableWidget.add(
+      _itemProvider.removeAt(_itemProvider.indexOf(item));
+      await Future.delayed(const Duration(milliseconds: 150));
+      _itemProvider.add(
         EditableItem()
           ..position = item.position
           ..text = item.text
@@ -333,9 +332,9 @@ class DraggableWidget extends StatelessWidget {
     }
     // bring image to top
     if (item.type == ItemType.image) {
-      _itemProvider.draggableWidget
-          .removeAt(_itemProvider.draggableWidget.indexOf(item));
-      _itemProvider.draggableWidget.add(
+      _itemProvider.removeAt(_itemProvider.indexOf(item));
+      await Future.delayed(const Duration(milliseconds: 150));
+      _itemProvider.add(
         EditableItem()
           ..position = item.position
           ..path = item.path
