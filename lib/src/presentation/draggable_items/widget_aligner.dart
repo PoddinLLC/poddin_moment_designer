@@ -14,7 +14,7 @@ class WidgetAligner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
-    var offset = _activeItem?.position;
+    var offset = _activeItem != null ? _activeItem!.position : null;
     debugPrint('Offset: $offset');
 
     return Visibility(
