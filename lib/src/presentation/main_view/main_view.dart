@@ -188,34 +188,38 @@ class _MainViewState extends State<MainView> {
   /// Alignment indicator
   Widget alignerIndicator() {
     debugPrint('Offset: $offset');
-    return Stack(
-      alignment: const AlignmentDirectional(0, 0),
-      children: [
-        // Vertical Alignment
-        if (offset.dx == 0.0 && offset.dy <= 0.3)
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-            child: Container(
-              width: 1.2,
-              height: _screenSize.size.height * 1,
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 255, 0, 76),
+    return SizedBox(
+      width: _screenSize.size.width,
+      height: _screenSize.size.height,
+      child: Stack(
+        alignment: const AlignmentDirectional(0, 0),
+        children: [
+          // Vertical Alignment
+          if (offset.dx == 0.0 && offset.dy <= 0.3)
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+              child: Container(
+                width: 1.2,
+                height: _screenSize.size.height,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 255, 0, 76),
+                ),
               ),
             ),
-          ),
-        // Horizontal Alignment
-        if (offset == const Offset(0.0, 0.0))
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
-            child: Container(
-              width: _screenSize.size.width,
-              height: 1.2,
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 255, 0, 76),
+          // Horizontal Alignment
+          if (offset == const Offset(0.0, 0.0))
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 5, 0),
+              child: Container(
+                width: _screenSize.size.width,
+                height: 1.2,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 255, 0, 76),
+                ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -303,12 +307,6 @@ class _MainViewState extends State<MainView> {
                                       child: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          /// Show item alignment indicator
-                                          Visibility(
-                                            visible: _activeItem != null,
-                                            child: alignerIndicator(),
-                                          ),
-
                                           /// in this case photo view works as a main background container to manage
                                           /// the gestures of all movable items.
                                           PhotoView.customChild(
@@ -316,6 +314,14 @@ class _MainViewState extends State<MainView> {
                                                 const BoxDecoration(
                                                     color: Colors.transparent),
                                             child: Container(),
+                                          ),
+
+                                          /// Show item alignment indicator
+                                          Visibility(
+                                            visible: _activeItem != null,
+                                            child: IgnorePointer(
+                                              child: alignerIndicator(),
+                                            ),
                                           ),
 
                                           /// list content items
