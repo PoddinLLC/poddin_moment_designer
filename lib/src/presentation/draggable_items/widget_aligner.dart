@@ -23,7 +23,9 @@ class WidgetAligner extends StatelessWidget {
         alignment: const AlignmentDirectional(0, 0),
         children: [
           // Vertical Alignment
-          if (offset!.dx == size.width / 2 && offset.dy <= size.height)
+          if (offset != null &&
+              offset.dx == size.width / 2 &&
+              offset.dy <= size.height)
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 15, 0, 15),
               child: Container(
@@ -35,8 +37,12 @@ class WidgetAligner extends StatelessWidget {
               ),
             ),
           // Horizontal Alignment
-          if ((offset.dx == size.width / 2 && offset.dy == size.height / 2) ||
-              (offset.dx <= size.width / 2 && offset.dy == size.height / 2))
+          if ((offset != null &&
+                  offset.dx == size.width / 2 &&
+                  offset.dy == size.height / 2) ||
+              (offset != null &&
+                  offset.dx <= size.width / 2 &&
+                  offset.dy == size.height / 2))
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 15, 0),
               child: Container(
