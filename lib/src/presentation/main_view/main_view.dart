@@ -135,7 +135,7 @@ class _MainViewState extends State<MainView> {
   bool _inAction = false;
 
   /// screen size
-  Size screenSize = const Size(0, 0);
+  Size screenSize = const Size(500, 800);
 
   /// galleryCam switcher
   bool switchToGallery = false;
@@ -287,9 +287,8 @@ class _MainViewState extends State<MainView> {
                                               alignment: Alignment.center,
                                               children: [
                                                 // Vertical Alignment
-                                                if (activeOffset.dx ==
-                                                        center.dx &&
-                                                    activeOffset.dy <= height)
+                                                if (activeOffset.dx == 0 &&
+                                                    activeOffset.dy <= 1)
                                                   Container(
                                                     width: 1.2,
                                                     height: height,
@@ -300,7 +299,7 @@ class _MainViewState extends State<MainView> {
                                                     ),
                                                   ),
                                                 // Horizontal Alignment
-                                                if (activeOffset == center)
+                                                if (activeOffset == Offset.zero)
                                                   Container(
                                                     width: width,
                                                     height: 1.2,
@@ -344,10 +343,11 @@ class _MainViewState extends State<MainView> {
                                             },
                                             onPointerMove: (details) {
                                               setState(() {
-                                                activeOffset = details.position;
+                                                activeOffset =
+                                                    details.localPosition;
                                               });
                                               debugPrint(
-                                                  '{"Content Position": $activeOffset/n"Pointer Move Details": $details/n"Screen Size": $screenSize');
+                                                  '{"Content Position": $activeOffset/n"Pointer Details": $details/n"ScreenSize": $screenSize');
                                               _deletePosition(
                                                 editableItem,
                                                 details,
