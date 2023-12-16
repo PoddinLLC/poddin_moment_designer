@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, unused_import
 import 'dart:async';
 import 'dart:io';
+import 'dart:js_interop';
+import 'dart:math';
 import 'package:camerawesome/pigeon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -189,6 +191,11 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     final page = widget.initialMode!;
+    final padding = MediaQuery.paddingOf(context);
+    final height = _screenSize.size.height - padding.vertical;
+    final width = min(_screenSize.size.width, 500).toDouble();
+    final center = Offset(double.parse((width / 2).toStringAsFixed(1)),
+        double.parse((height / 2).toStringAsFixed(1)));
     //
     return WillPopScope(
       onWillPop: _popScope,
@@ -234,9 +241,8 @@ class _MainViewState extends State<MainView> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: SizedBox(
-                                width: _screenSize.size.width,
-                                height: _screenSize.size.height -
-                                    _screenSize.viewPadding.top,
+                                width: width,
+                                height: height,
                                 // child: ScreenRecorder(
                                 //   controller: _recorderController,
                                 child: RepaintBoundary(
@@ -273,18 +279,18 @@ class _MainViewState extends State<MainView> {
                                         IgnorePointer(
                                           child: Container(
                                             decoration: const BoxDecoration(),
-                                            width: _screenSize.size.width,
-                                            height: _screenSize.size.height,
+                                            width: width,
+                                            height: height,
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
                                                 // Vertical Alignment
-                                                if (activeOffset.dx == 0.0 &&
-                                                    activeOffset.dy <= 0.3)
+                                                if (activeOffset.dx ==
+                                                        center.dx &&
+                                                    activeOffset.dy <= height)
                                                   Container(
                                                     width: 1.2,
-                                                    height:
-                                                        _screenSize.size.height,
+                                                    height: height,
                                                     decoration:
                                                         const BoxDecoration(
                                                       color: Color.fromARGB(
@@ -292,10 +298,9 @@ class _MainViewState extends State<MainView> {
                                                     ),
                                                   ),
                                                 // Horizontal Alignment
-                                                if (activeOffset == Offset.zero)
+                                                if (activeOffset == center)
                                                   Container(
-                                                    width:
-                                                        _screenSize.size.width,
+                                                    width: width,
                                                     height: 1.2,
                                                     decoration:
                                                         const BoxDecoration(
@@ -320,7 +325,7 @@ class _MainViewState extends State<MainView> {
                                         /// list content items
                                         ...itemProvider.draggableWidget.map(
                                           (editableItem) => DraggableWidget(
-                                            dimension: _screenSize.size,
+                                            dimension: Size(width, height),
                                             context: context,
                                             draggableWidget: editableItem,
                                             onPointerDown: (details) {
@@ -337,10 +342,11 @@ class _MainViewState extends State<MainView> {
                                             },
                                             onPointerMove: (details) {
                                               setState(() {
-                                                activeOffset = details.position;
+                                                activeOffset =
+                                                    details.localPosition;
                                               });
                                               debugPrint(
-                                                  '{"Content Offset": $activeOffset}');
+                                                  '{"Content Offset": $activeOffset/n"Center Offset": $center}/n"Pointer Move Details": $details');
                                               _deletePosition(
                                                 editableItem,
                                                 details,
@@ -361,11 +367,8 @@ class _MainViewState extends State<MainView> {
                                               ),
                                               child: RepaintBoundary(
                                                 child: SizedBox(
-                                                  width: _screenSize.size.width,
-                                                  height:
-                                                      _screenSize.size.height -
-                                                          _screenSize
-                                                              .viewPadding.top,
+                                                  width: width,
+                                                  height: height,
                                                   child: StreamBuilder<
                                                       List<PaintingModel>>(
                                                     stream: paintingProvider

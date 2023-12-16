@@ -1,6 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'dart:io';
+import 'dart:math';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class DraggableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.sizeOf(context);
+    var padding = MediaQuery.paddingOf(context);
+    final height = _size.height - padding.vertical;
     var _colorProvider =
         Provider.of<GradientNotifier>(this.context, listen: false);
     var _controlProvider =
@@ -164,7 +167,7 @@ class DraggableWidget extends StatelessWidget {
 
     /// set widget data position on main screen
     return AnimatedAlignPositioned(
-      duration: const Duration(milliseconds: 50),
+      // duration: const Duration(milliseconds: 50),
       dy: (draggableWidget.deletePosition
           ? _deleteTopOffset(_size)
           : (draggableWidget.position.dy * _size.height)),
@@ -172,6 +175,8 @@ class DraggableWidget extends StatelessWidget {
           ? 0
           : (draggableWidget.position.dx * _size.width)),
       alignment: Alignment.center,
+      maxChildHeight: height,
+      maxChildWidth: min(_size.width, 500).toDouble(),
       child: Transform.scale(
         scale: draggableWidget.deletePosition
             ? _deleteScale()
