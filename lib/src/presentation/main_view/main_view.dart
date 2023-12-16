@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, unused_import
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, unused_import, prefer_const_constructors
 import 'dart:async';
 import 'dart:io';
 import 'dart:js_interop';
@@ -278,34 +278,32 @@ class _MainViewState extends State<MainView> {
                                         /// Show item alignment indicator
                                         IgnorePointer(
                                           child: Container(
-                                            decoration: const BoxDecoration(),
+                                            decoration: BoxDecoration(),
                                             width: width,
                                             height: height,
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
                                                 // Vertical Alignment
-                                                if (_activeItem != null &&
-                                                    activeOffset.dx == 0.0 &&
-                                                    activeOffset.dy <= 1.0)
+                                                if (activeOffset.dx == 0.0 &&
+                                                    activeOffset.dy <= 1.0 &&
+                                                    _activeItem != null)
                                                   Container(
                                                     width: 1.2,
                                                     height: height,
-                                                    decoration:
-                                                        const BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       color: Color.fromARGB(
                                                           255, 255, 0, 76),
                                                     ),
                                                   ),
                                                 // Horizontal Alignment
-                                                if (_activeItem != null &&
-                                                    activeOffset ==
-                                                        const Offset(0.0, 0.1))
+                                                if (activeOffset ==
+                                                        Offset(0.0, 0.1) &&
+                                                    _activeItem != null)
                                                   Container(
                                                     width: width,
                                                     height: 1.2,
-                                                    decoration:
-                                                        const BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       color: Color.fromARGB(
                                                           255, 255, 0, 76),
                                                     ),
