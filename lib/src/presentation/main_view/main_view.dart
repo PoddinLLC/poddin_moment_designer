@@ -135,7 +135,7 @@ class _MainViewState extends State<MainView> {
   bool _inAction = false;
 
   /// screen size
-  final _screenSize = MediaQueryData.fromView(WidgetsBinding.instance.window);
+  Size screenSize = const Size(0, 0);
 
   /// galleryCam switcher
   bool switchToGallery = false;
@@ -154,6 +154,8 @@ class _MainViewState extends State<MainView> {
       var _control = Provider.of<ControlNotifier>(context, listen: false);
       var _tempItemProvider =
           Provider.of<DraggableWidgetNotifier>(context, listen: false);
+      //
+      screenSize = MediaQuery.sizeOf(context);
 
       /// initialize providers
       _control.giphyKey = widget.giphyKey!;
@@ -192,8 +194,8 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     final page = widget.initialMode!;
     final padding = MediaQuery.paddingOf(context);
-    final height = _screenSize.size.height - padding.vertical;
-    final width = min(_screenSize.size.width, 500).toDouble();
+    final height = screenSize.height - padding.vertical;
+    final width = min(screenSize.width, 500).toDouble();
     final center = Offset(double.parse((width / 2).toStringAsFixed(1)),
         double.parse((height / 2).toStringAsFixed(1)));
     //
@@ -342,11 +344,10 @@ class _MainViewState extends State<MainView> {
                                             },
                                             onPointerMove: (details) {
                                               setState(() {
-                                                activeOffset =
-                                                    details.localPosition;
+                                                activeOffset = details.position;
                                               });
                                               debugPrint(
-                                                  '{"Content Offset": $activeOffset/n"Center Offset": $center}/n"Pointer Move Details": $details');
+                                                  '{"Content Position": $activeOffset/n"Pointer Move Details": $details/n"Screen Size": $screenSize');
                                               _deletePosition(
                                                 editableItem,
                                                 details,
@@ -943,7 +944,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
-    debugPrint('{"On Scale Start": $details\n"Content": $_activeItem}');
+    // debugPrint('{"On Scale Start": $details\n"Content": $_activeItem}');
 
     setState(() {
       _initPos = details.focalPoint;
@@ -960,8 +961,8 @@ class _MainViewState extends State<MainView> {
     }
     final delta = details.focalPoint - _initPos;
 
-    final left = (delta.dx / _screenSize.size.width) + _currentPos.dx;
-    final top = (delta.dy / _screenSize.size.height) + _currentPos.dy;
+    final left = (delta.dx / screenSize.width) + _currentPos.dx;
+    final top = (delta.dy / screenSize.height) + _currentPos.dy;
 
     // debugPrint(
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
@@ -1025,7 +1026,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    debugPrint('{"Current item position": $details\n"Content": $item}');
+    debugPrint('{"Current item position": $details');
 
     setState(() {
       _inAction = true;

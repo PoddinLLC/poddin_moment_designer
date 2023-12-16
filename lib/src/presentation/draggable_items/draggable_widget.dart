@@ -1,7 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'dart:io';
-import 'dart:math';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +37,6 @@ class DraggableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _size = MediaQuery.sizeOf(context);
-    var padding = MediaQuery.paddingOf(context);
-    final height = _size.height - padding.vertical;
     var _colorProvider =
         Provider.of<GradientNotifier>(this.context, listen: false);
     var _controlProvider =
@@ -55,7 +51,7 @@ class DraggableWidget extends StatelessWidget {
               constraints: BoxConstraints(
                 minHeight: 50,
                 minWidth: 50,
-                maxWidth: _size.width - 100,
+                maxWidth: dimension!.width - 100,
               ),
               width: draggableWidget.deletePosition ? 0 : null,
               height: draggableWidget.deletePosition ? 0 : null,
@@ -167,16 +163,16 @@ class DraggableWidget extends StatelessWidget {
 
     /// set widget data position on main screen
     return AnimatedAlignPositioned(
-      // duration: const Duration(milliseconds: 50),
+      duration: const Duration(milliseconds: 50),
       dy: (draggableWidget.deletePosition
-          ? _deleteTopOffset(_size)
-          : (draggableWidget.position.dy * _size.height)),
+          ? _deleteTopOffset(dimension)
+          : (draggableWidget.position.dy * dimension!.height)),
       dx: (draggableWidget.deletePosition
           ? 0
-          : (draggableWidget.position.dx * _size.width)),
+          : (draggableWidget.position.dx * dimension!.width)),
       alignment: Alignment.center,
-      maxChildHeight: height,
-      maxChildWidth: min(_size.width, 500).toDouble(),
+      maxChildHeight: dimension!.height,
+      maxChildWidth: dimension!.width,
       child: Transform.scale(
         scale: draggableWidget.deletePosition
             ? _deleteScale()
