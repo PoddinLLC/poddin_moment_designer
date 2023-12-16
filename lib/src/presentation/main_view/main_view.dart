@@ -268,9 +268,6 @@ class _MainViewState extends State<MainView> {
                                                   end: Alignment.bottomCenter,
                                                 ),
                                     ),
-                                    // child: GestureDetector(
-                                    //   onScaleStart: _onScaleStart,
-                                    //   onScaleUpdate: _onScaleUpdate,
                                     child: Stack(
                                       alignment: Alignment.center,
                                       children: [
@@ -285,8 +282,9 @@ class _MainViewState extends State<MainView> {
                                               children: [
                                                 // Vertical Alignment
                                                 if (activeOffset.dx == 0.0 &&
-                                                    activeOffset.dy <= 1.0 &&
-                                                    _activeItem != null)
+                                                    activeOffset.dy < 1.0 &&
+                                                    _activeItem != null &&
+                                                    !_isDeletePosition)
                                                   Container(
                                                     width: 1.2,
                                                     height: height,
@@ -298,7 +296,8 @@ class _MainViewState extends State<MainView> {
                                                 // Horizontal Alignment
                                                 if (activeOffset ==
                                                         Offset(0.0, 0.1) &&
-                                                    _activeItem != null)
+                                                    _activeItem != null &&
+                                                    !_isDeletePosition)
                                                   Container(
                                                     width: width,
                                                     height: 1.2,
@@ -343,8 +342,11 @@ class _MainViewState extends State<MainView> {
                                               setState(() {
                                                 activeOffset = details.delta;
                                               });
-                                              debugPrint(
-                                                  '{"Content Position": $activeOffset\n"Local": ${details.localDelta}\n"Screen Size": $screenSize');
+                                              debugPrint('''
+                                                  {
+                                                    "Content Position": $activeOffset\n"Screen Size": $screenSize
+                                                    }
+                                                  ''');
                                               _deletePosition(
                                                 editableItem,
                                                 details,
@@ -390,7 +392,6 @@ class _MainViewState extends State<MainView> {
                                         ),
                                       ],
                                     ),
-                                    // ),
                                   ),
                                 ),
                                 // ),
