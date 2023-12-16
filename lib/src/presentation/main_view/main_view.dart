@@ -344,10 +344,10 @@ class _MainViewState extends State<MainView> {
                                             onPointerMove: (details) {
                                               setState(() {
                                                 activeOffset =
-                                                    details.localPosition;
+                                                    details.localDelta;
                                               });
                                               debugPrint(
-                                                  '{"Content Position": $activeOffset/n"Pointer Details": $details/n"ScreenSize": $screenSize');
+                                                  '{"Content Position": $activeOffset/n"Pointer Details": $details/n"Screen Size": $screenSize');
                                               _deletePosition(
                                                 editableItem,
                                                 details,
