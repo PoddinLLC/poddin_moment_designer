@@ -287,7 +287,8 @@ class _MainViewState extends State<MainView> {
                                               alignment: Alignment.center,
                                               children: [
                                                 // Vertical Alignment
-                                                if (activeOffset.dx == 0 &&
+                                                if (_activeItem != null &&
+                                                    activeOffset.dx == 0 &&
                                                     activeOffset.dy <= 1)
                                                   Container(
                                                     width: 1.2,
@@ -299,7 +300,9 @@ class _MainViewState extends State<MainView> {
                                                     ),
                                                   ),
                                                 // Horizontal Alignment
-                                                if (activeOffset == Offset.zero)
+                                                if (_activeItem != null &&
+                                                    activeOffset ==
+                                                        const Offset(0, 0))
                                                   Container(
                                                     width: width,
                                                     height: 1.2,
@@ -343,11 +346,10 @@ class _MainViewState extends State<MainView> {
                                             },
                                             onPointerMove: (details) {
                                               setState(() {
-                                                activeOffset =
-                                                    details.localDelta;
+                                                activeOffset = details.delta;
                                               });
                                               debugPrint(
-                                                  '{"Content Position": $activeOffset/n"Pointer Details": $details/n"Screen Size": $screenSize');
+                                                  '{"Content Position": $activeOffset\n"Local": ${details.localDelta}\n"Screen Size": $screenSize');
                                               _deletePosition(
                                                 editableItem,
                                                 details,
