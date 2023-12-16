@@ -196,8 +196,6 @@ class _MainViewState extends State<MainView> {
     final padding = MediaQuery.paddingOf(context);
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
-    final center = Offset(double.parse((width / 2).toStringAsFixed(1)),
-        double.parse((height / 2).toStringAsFixed(1)));
     //
     return WillPopScope(
       onWillPop: _popScope,
@@ -288,8 +286,8 @@ class _MainViewState extends State<MainView> {
                                               children: [
                                                 // Vertical Alignment
                                                 if (_activeItem != null &&
-                                                    activeOffset.dx == 0 &&
-                                                    activeOffset.dy <= 1)
+                                                    activeOffset.dx == 0.0 &&
+                                                    activeOffset.dy <= 1.0)
                                                   Container(
                                                     width: 1.2,
                                                     height: height,
@@ -302,7 +300,7 @@ class _MainViewState extends State<MainView> {
                                                 // Horizontal Alignment
                                                 if (_activeItem != null &&
                                                     activeOffset ==
-                                                        const Offset(0, 0))
+                                                        const Offset(0.0, 0.1))
                                                   Container(
                                                     width: width,
                                                     height: 1.2,
