@@ -138,7 +138,9 @@ class _MainViewState extends State<MainView> {
   /// galleryCam switcher
   bool switchToGallery = false;
   int mediaContent = 0;
-  Offset? offset;
+
+  //
+  Offset activeOffset = Offset.infinite;
 
   /// recorder controller
   // final WidgetRecorderController _recorderController =
@@ -186,9 +188,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    offset = _activeItem != null ? _activeItem!.position : null;
     final page = widget.initialMode!;
-    debugPrint('{"Active Content Offset": $offset}');
     //
     return WillPopScope(
       onWillPop: _popScope,
@@ -208,7 +208,6 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
-              // maintainBottomViewPadding: true,
               child: Stack(
                 children: [
                   ScrollablePageView(
@@ -245,149 +244,152 @@ class _MainViewState extends State<MainView> {
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 200),
                                     decoration: BoxDecoration(
-                                        gradient:
-                                            controlNotifier.mediaPath.isEmpty
-                                                ? LinearGradient(
-                                                    colors: controlNotifier
-                                                            .gradientColors![
-                                                        controlNotifier
-                                                            .gradientIndex],
-                                                    begin: Alignment.topLeft,
-                                                    end: Alignment.bottomRight,
-                                                  )
-                                                : LinearGradient(
-                                                    colors: [
-                                                      colorProvider.color1,
-                                                      colorProvider.color2
-                                                    ],
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                  )),
-                                    child: GestureDetector(
-                                      onScaleStart: _onScaleStart,
-                                      onScaleUpdate: _onScaleUpdate,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          /// Show item alignment indicator
-                                          IgnorePointer(
-                                            child: Container(
-                                              decoration: const BoxDecoration(),
-                                              width: _screenSize.size.width,
-                                              height: _screenSize.size.height,
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  // Vertical Alignment
-                                                  if (offset != null &&
-                                                      offset!.dx == 0.0 &&
-                                                      offset!.dy <= 0.3)
-                                                    Container(
-                                                      width: 1.2,
-                                                      height: _screenSize
-                                                          .size.height,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromARGB(
-                                                            255, 255, 0, 76),
-                                                      ),
-                                                    ),
-                                                  // Horizontal Alignment
-                                                  if (offset != null &&
-                                                      offset == Offset.zero)
-                                                    Container(
-                                                      width: _screenSize
-                                                          .size.width,
-                                                      height: 1.2,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromARGB(
-                                                            255, 255, 0, 76),
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-
-                                          /// in this case photo view works as a main background container to manage
-                                          /// the gestures of all movable items.
-                                          PhotoView.customChild(
-                                            backgroundDecoration:
-                                                const BoxDecoration(
-                                                    color: Colors.transparent),
-                                            child: Container(),
-                                          ),
-
-                                          /// list content items
-                                          ...itemProvider.draggableWidget.map(
-                                            (editableItem) => DraggableWidget(
-                                              dimension: _screenSize.size,
-                                              context: context,
-                                              draggableWidget: editableItem,
-                                              onPointerDown: (details) {
-                                                _updateItemPosition(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                              onPointerUp: (details) {
-                                                _deleteItemOnCoordinates(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                              onPointerMove: (details) {
-                                                _deletePosition(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                            ),
-                                          ),
-
-                                          /// finger paint
-                                          IgnorePointer(
-                                            ignoring: true,
-                                            child: Align(
-                                              alignment: Alignment.topCenter,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
+                                      gradient:
+                                          controlNotifier.mediaPath.isEmpty
+                                              ? LinearGradient(
+                                                  colors: controlNotifier
+                                                          .gradientColors![
+                                                      controlNotifier
+                                                          .gradientIndex],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                )
+                                              : LinearGradient(
+                                                  colors: [
+                                                    colorProvider.color1,
+                                                    colorProvider.color2
+                                                  ],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
                                                 ),
-                                                child: RepaintBoundary(
-                                                  child: SizedBox(
+                                    ),
+                                    // child: GestureDetector(
+                                    //   onScaleStart: _onScaleStart,
+                                    //   onScaleUpdate: _onScaleUpdate,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        /// Show item alignment indicator
+                                        IgnorePointer(
+                                          child: Container(
+                                            decoration: const BoxDecoration(),
+                                            width: _screenSize.size.width,
+                                            height: _screenSize.size.height,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                // Vertical Alignment
+                                                if (activeOffset.dx == 0.0 &&
+                                                    activeOffset.dy <= 0.3)
+                                                  Container(
+                                                    width: 1.2,
+                                                    height:
+                                                        _screenSize.size.height,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color.fromARGB(
+                                                          255, 255, 0, 76),
+                                                    ),
+                                                  ),
+                                                // Horizontal Alignment
+                                                if (activeOffset == Offset.zero)
+                                                  Container(
                                                     width:
                                                         _screenSize.size.width,
-                                                    height: _screenSize
-                                                            .size.height -
-                                                        _screenSize
-                                                            .viewPadding.top,
-                                                    child: StreamBuilder<
-                                                        List<PaintingModel>>(
-                                                      stream: paintingProvider
-                                                          .linesStreamController
-                                                          .stream,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        return CustomPaint(
-                                                          painter: Sketcher(
-                                                            lines:
-                                                                paintingProvider
-                                                                    .lines,
-                                                          ),
-                                                        );
-                                                      },
+                                                    height: 1.2,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color.fromARGB(
+                                                          255, 255, 0, 76),
                                                     ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+
+                                        /// in this case photo view works as a main background container to manage
+                                        /// the gestures of all movable items.
+                                        PhotoView.customChild(
+                                          backgroundDecoration:
+                                              const BoxDecoration(
+                                                  color: Colors.transparent),
+                                          child: Container(),
+                                        ),
+
+                                        /// list content items
+                                        ...itemProvider.draggableWidget.map(
+                                          (editableItem) => DraggableWidget(
+                                            dimension: _screenSize.size,
+                                            context: context,
+                                            draggableWidget: editableItem,
+                                            onPointerDown: (details) {
+                                              _updateItemPosition(
+                                                editableItem,
+                                                details,
+                                              );
+                                            },
+                                            onPointerUp: (details) {
+                                              _deleteItemOnCoordinates(
+                                                editableItem,
+                                                details,
+                                              );
+                                            },
+                                            onPointerMove: (details) {
+                                              setState(() {
+                                                activeOffset = details.position;
+                                              });
+                                              debugPrint(
+                                                  '{"Content Offset": $activeOffset}');
+                                              _deletePosition(
+                                                editableItem,
+                                                details,
+                                              );
+                                            },
+                                          ),
+                                        ),
+
+                                        /// finger paint
+                                        IgnorePointer(
+                                          ignoring: true,
+                                          child: Align(
+                                            alignment: Alignment.topCenter,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: RepaintBoundary(
+                                                child: SizedBox(
+                                                  width: _screenSize.size.width,
+                                                  height:
+                                                      _screenSize.size.height -
+                                                          _screenSize
+                                                              .viewPadding.top,
+                                                  child: StreamBuilder<
+                                                      List<PaintingModel>>(
+                                                    stream: paintingProvider
+                                                        .linesStreamController
+                                                        .stream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return CustomPaint(
+                                                        painter: Sketcher(
+                                                          lines:
+                                                              paintingProvider
+                                                                  .lines,
+                                                        ),
+                                                      );
+                                                    },
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
+                                    // ),
                                   ),
                                 ),
                                 // ),
@@ -1020,7 +1022,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    debugPrint('{"Update item position": $details\n"Content": $item}');
+    debugPrint('{"Current item position": $details\n"Content": $item}');
 
     setState(() {
       _inAction = true;

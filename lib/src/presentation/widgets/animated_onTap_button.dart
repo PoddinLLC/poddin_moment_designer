@@ -61,7 +61,6 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
       },
       onTapDown: (dp) {
         _controllerA!.reverse();
-        widget.onLongPress;
       },
       onTapUp: (dp) {
         try {
@@ -75,8 +74,9 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         }
       },
       onTapCancel: () {
-      // _controllerA!.fling();
+        // _controllerA!.fling();
       },
+      onLongPress: widget.onLongPress,
       child: Transform.scale(
         scale: squareScaleA,
         child: widget.child,

@@ -307,22 +307,22 @@ class DraggableWidget extends StatelessWidget {
     BuildContext context,
     EditableItem item,
   ) async {
-    var _itemProvider =
+    final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
             .draggableWidget;
 
     // bring text to top
-    if (item.type == ItemType.text) {
-      final lastItem = _itemProvider.last;
-      _itemProvider[_itemProvider.indexOf(item)] = lastItem;
-      _itemProvider.last = item;
-    }
+    // if (item.type == ItemType.text) {
+    final lastItem = _itemProvider.last;
+    _itemProvider[_itemProvider.indexOf(item)] = lastItem;
+    _itemProvider.last = item;
+    // }
     // bring image to top
-    if (item.type == ItemType.image) {
-      final lastItem = _itemProvider.last;
-      _itemProvider[_itemProvider.indexOf(item)] = lastItem;
-      _itemProvider.last = item;
-    }
+    // if (item.type == ItemType.image) {
+    //   final lastItem = _itemProvider.last;
+    //   _itemProvider[_itemProvider.indexOf(item)] = lastItem;
+    //   _itemProvider.last = item;
+    // }
     HapticFeedback.lightImpact();
   }
 
