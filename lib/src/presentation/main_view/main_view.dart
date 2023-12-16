@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, unused_import, prefer_const_constructors
 import 'dart:async';
 import 'dart:io';
-import 'dart:js_interop';
 import 'dart:math';
 import 'package:camerawesome/pigeon.dart';
 import 'package:flutter/foundation.dart';
