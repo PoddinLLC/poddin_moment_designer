@@ -46,16 +46,16 @@ class _FileImageBGState extends State<FileImageBG> {
           stateController: stateController,
         ).searchPixel(
             Offset(imageKey.currentState!.context.size!.width / 2, 480));
-        var cd12 = await ColorDetection(
+        var cd2 = await ColorDetection(
           currentKey: currentKey,
           paintKey: paintKey,
           stateController: stateController,
         ).searchPixel(
             Offset(imageKey.currentState!.context.size!.width / 2.03, 530));
         color1 = cd1;
-        color2 = cd12;
-        setState(() {});
+        color2 = cd2;
         widget.generatedGradient(color1, color2);
+        setState(() {});
         callback.cancel();
         stateController.close();
       }

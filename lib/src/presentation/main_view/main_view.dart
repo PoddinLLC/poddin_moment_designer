@@ -733,7 +733,7 @@ class _MainViewState extends State<MainView> {
                                 // if page = 1, initial view is camera mode
                                 // editor page index is 1, camera page index is 0
                                 scrollProvider.pageController
-                                    .jumpToPage(page == 1 ? 1 : 0);
+                                    .jumpToPage(page);
                                 // reset switch variabale
                                 switchToGallery = false;
                               }

@@ -66,7 +66,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         try {
           if (mounted) {
             _timer = Timer(const Duration(milliseconds: 100), () {
-              //  _controllerA!.fling();
+              _controllerA!.fling();
             });
           }
         } catch (e) {
@@ -74,9 +74,12 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         }
       },
       onTapCancel: () {
-        // _controllerA!.fling();
+        _controllerA!.fling();
       },
-      onLongPress: widget.onLongPress,
+      onLongPress: () {
+        _controllerA!.reverse();
+        widget.onLongPress;
+      },
       child: Transform.scale(
         scale: squareScaleA,
         child: widget.child,
