@@ -10,6 +10,24 @@ class DraggableWidgetNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Insert item
+  insertAt(int index, EditableItem element) {
+    _draggableWidget.insert(index, element);
+    notifyListeners();
+  }
+
+  /// Add item
+  addItem(EditableItem item) {
+    _draggableWidget.add(item);
+    notifyListeners();
+  }
+
+  /// Remove item
+  removeItem(EditableItem item){
+    _draggableWidget.remove(item);
+    notifyListeners();
+  }
+
   // GiphyGif? _gif;
   // GiphyGif? get giphy => _gif;
   // set giphy(GiphyGif? giphy) {

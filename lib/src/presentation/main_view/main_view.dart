@@ -728,7 +728,7 @@ class _MainViewState extends State<MainView> {
                                 }
                                 //
                                 // add photo to editor view
-                                itemProvider.draggableWidget.add(EditableItem()
+                                itemProvider.addItem(EditableItem()
                                   ..type = ItemType.image
                                   ..path = path
                                   ..scale = mediaContent < 1 ? 1.2 : 0.8
@@ -828,7 +828,7 @@ class _MainViewState extends State<MainView> {
       controlNotifier.mediaPath = path;
     }
     // add image to editor
-    itemProvider.draggableWidget.add(EditableItem()
+    itemProvider.addItem(EditableItem()
       ..type = ItemType.image
       ..path = path
       ..scale = mediaContent < 1 ? 1.2 : 0.8
@@ -998,8 +998,7 @@ class _MainViewState extends State<MainView> {
   /// remove item when it's in the delete region
   void _deleteItemOnCoordinates(EditableItem item, PointerUpEvent details) {
     var _itemProvider =
-        Provider.of<DraggableWidgetNotifier>(context, listen: false)
-            .draggableWidget;
+        Provider.of<DraggableWidgetNotifier>(context, listen: false);
     var control = Provider.of<ControlNotifier>(context, listen: false);
     _inAction = false;
 
@@ -1014,7 +1013,7 @@ class _MainViewState extends State<MainView> {
         mediaContent--;
       }
       //
-      _itemProvider.removeAt(_itemProvider.indexOf(item));
+      _itemProvider.removeItem(item);
       HapticFeedback.heavyImpact();
     }
     //
@@ -1048,13 +1047,15 @@ class _MainViewState extends State<MainView> {
     EditableItem item,
   ) async {
     final _itemProvider =
-        Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
-            .draggableWidget;
+        Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
 
-    _itemProvider.remove(item);
+    _itemProvider.removeItem(item);
     await Future.delayed(const Duration(milliseconds: 200));
-    _itemProvider.insert(_itemProvider.indexOf(_itemProvider.last) + 1, item);
-    setState(() {});
+    _itemProvider.insertAt(
+        _itemProvider.draggableWidget
+                .indexOf(_itemProvider.draggableWidget.last) +
+            1,
+        item);
     // final lastItem = _itemProvider.last;
     // replace last item with current item
     // _itemProvider.last = item;
