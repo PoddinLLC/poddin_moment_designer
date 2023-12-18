@@ -134,7 +134,7 @@ class _MainViewState extends State<MainView> {
   bool _inAction = false;
 
   /// screen size
-  Size screenSize = const Size.square(0);
+  Size screenSize = const Size.square(1024);
 
   /// galleryCam switcher
   bool switchToGallery = false;
@@ -323,7 +323,7 @@ class _MainViewState extends State<MainView> {
                                         /// list content items
                                         ...itemProvider.draggableWidget.map(
                                           (editableItem) => GestureDetector(
-                                            onPanStart: (details) {
+                                            onPanUpdate: (details) {
                                               if (_activeItem != null) {
                                                 setState(() {
                                                   activeOffset =
@@ -335,7 +335,7 @@ class _MainViewState extends State<MainView> {
                                               }
                                               //
                                               debugPrint(
-                                                  'onPointerMove callback detected');
+                                                  'Gesture callback detected');
                                               _deletePosition(editableItem);
                                             },
                                             child: DraggableWidget(
