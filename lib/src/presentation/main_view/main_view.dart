@@ -322,48 +322,38 @@ class _MainViewState extends State<MainView> {
 
                                         /// list content items
                                         ...itemProvider.draggableWidget.map(
-                                          (editableItem) => GestureDetector(
-                                            onPanUpdate: (details) {
-                                              if (_activeItem != null) {
-                                                setState(() {
-                                                  activeOffset =
-                                                      details.globalPosition;
-                                                });
-                                                debugPrint('''
+                                          (editableItem) => DraggableWidget(
+                                            dimension: Size(width, height),
+                                            context: context,
+                                            draggableWidget: editableItem,
+                                            onPointerDown: (details) {
+                                              debugPrint(
+                                                  'onPointerDown callback detected');
+                                              _updateItemPosition(
+                                                editableItem,
+                                                details,
+                                              );
+                                            },
+                                            onPointerUp: (details) {
+                                              debugPrint(
+                                                  'onPointerUp callback detected');
+                                              _deleteItemOnCoordinates(
+                                                editableItem,
+                                                details,
+                                              );
+                                            },
+                                            onPointerMove: (details) {
+                                              setState(() {
+                                                activeOffset = details.position;
+                                              });
+                                              debugPrint('''
                                                   "Content Position": $activeOffset\n"Screen Size": $screenSize
                                                   ''');
-                                              }
                                               //
                                               debugPrint(
-                                                  'Gesture callback detected');
+                                                  'onPointerMove callback detected');
                                               _deletePosition(editableItem);
                                             },
-                                            child: DraggableWidget(
-                                              dimension: Size(width, height),
-                                              context: context,
-                                              draggableWidget: editableItem,
-                                              onPointerDown: (details) {
-                                                debugPrint(
-                                                    'onPointerDown callback detected');
-                                                _updateItemPosition(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                              onPointerUp: (details) {
-                                                debugPrint(
-                                                    'onPointerUp callback detected');
-                                                _deleteItemOnCoordinates(
-                                                  editableItem,
-                                                  details,
-                                                );
-                                              },
-                                              onPointerMove: (details) {
-                                                // debugPrint(
-                                                //     'onPointerMove callback detected');
-                                                // _deletePosition(editableItem);
-                                              },
-                                            ),
                                           ),
                                         ),
 
