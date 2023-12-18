@@ -339,7 +339,7 @@ class _MainViewState extends State<MainView> {
                                     },
                                     onPointerMove: (details) {
                                       // setState(() {
-                                      //   activeOffset = _activeItem!.position;
+                                      activeOffset = _activeItem!.position;
                                       // });
                                       debugPrint(
                                           '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
@@ -939,14 +939,14 @@ class _MainViewState extends State<MainView> {
     //
     final position = details.focalPoint - _initPos;
 
-    final left = (position.dx / width) + _currentPos.dx;
-    final top = (position.dy / height) + _currentPos.dy;
+    final left = (position.dx / width); // + _currentPos.dx;
+    final top = (position.dy / height); //+ _currentPos.dy;
 
     // debugPrint(
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
-      activeOffset = details.focalPoint;
+      // activeOffset = details.focalPoint;
       _activeItem!.position = Offset(left, top);
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
