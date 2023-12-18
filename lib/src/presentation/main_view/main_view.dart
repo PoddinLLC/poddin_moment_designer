@@ -952,13 +952,13 @@ class _MainViewState extends State<MainView> {
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       setState(() {
-        //  _isDeletePosition = true;
-        //  item.deletePosition = true;
+        _isDeletePosition = true;
+        item.deletePosition = true;
       });
     } else {
       setState(() {
-        // _isDeletePosition = false;
-        //  item.deletePosition = false;
+        _isDeletePosition = false;
+        item.deletePosition = false;
       });
     }
   }
@@ -975,18 +975,18 @@ class _MainViewState extends State<MainView> {
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
         if (mediaContent >= 1) {
-          //  control.mediaPath = '';
+          control.mediaPath = '';
         }
         //
-        //  mediaContent--;
+        mediaContent--;
       }
       //
-      // _itemProvider.removeItem(item);
+      _itemProvider.removeItem(item);
       HapticFeedback.heavyImpact();
     }
     //
     setState(() {
-      //  _activeItem = null;
+      _activeItem = null;
     });
   }
 
