@@ -267,45 +267,41 @@ class _MainViewState extends State<MainView> {
                               alignment: Alignment.center,
                               children: [
                                 /// Show item alignment indicator
-                                IgnorePointer(
-                                  child: SizedBox(
-                                    width: width,
-                                    height: height,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        // Vertical Alignment
-                                        if (activeOffset.dx == width / 2 &&
-                                            activeOffset.dy > 100 &&
-                                            _activeItem != null &&
-                                            !_isDeletePosition)
-                                          Container(
-                                            width: 1.2,
-                                            height: height,
-                                            decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 255, 0, 76),
+                                if (_activeItem != null && !_isDeletePosition)
+                                  IgnorePointer(
+                                    child: SizedBox(
+                                      width: width,
+                                      height: height,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          // Vertical Alignment
+                                          if (activeOffset.dx == 0.0 &&
+                                              activeOffset.dy <= 1)
+                                            Container(
+                                              width: 1.2,
+                                              height: height,
+                                              decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 255, 0, 76),
+                                              ),
                                             ),
-                                          ),
-                                        // Horizontal Alignment
-                                        if ((activeOffset ==
-                                                    Offset(0.0, -0.0) ||
-                                                activeOffset ==
-                                                    Offset(0.0, 0.0)) &&
-                                            _activeItem != null &&
-                                            !_isDeletePosition)
-                                          Container(
-                                            width: width,
-                                            height: 1.2,
-                                            decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 255, 0, 76),
+                                          // Horizontal Alignment
+                                          if (activeOffset ==
+                                                  Offset(0.0, 0.0) ||
+                                              activeOffset == Offset(0.0, -0.0))
+                                            Container(
+                                              width: width,
+                                              height: 1.2,
+                                              decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 255, 0, 76),
+                                              ),
                                             ),
-                                          ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
 
                                 /// in this case photo view works as a main background container to manage
                                 /// the gestures of all movable items.
@@ -937,7 +933,7 @@ class _MainViewState extends State<MainView> {
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
     //
-    final position = details.focalPoint - _initPos;
+    final position = details.focalPoint; //- _initPos;
 
     final left = (position.dx / width); // + _currentPos.dx;
     final top = (position.dy / height); //+ _currentPos.dy;
@@ -946,7 +942,6 @@ class _MainViewState extends State<MainView> {
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
-      // activeOffset = details.focalPoint;
       _activeItem!.position = Offset(left, top);
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
