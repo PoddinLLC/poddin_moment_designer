@@ -296,7 +296,8 @@ class _MainViewState extends State<MainView> {
                                                   ),
                                                 // Horizontal Alignment
                                                 if (activeOffset ==
-                                                        Offset(width / 2, height / 2) &&
+                                                        Offset(width / 2,
+                                                            height / 2) &&
                                                     _activeItem != null &&
                                                     !_isDeletePosition)
                                                   Container(
@@ -344,8 +345,13 @@ class _MainViewState extends State<MainView> {
                                               );
                                             },
                                             onPointerMove: (details) {
+                                              final vExtent = min(
+                                                  details.position.dy, height);
+                                              final hExtent = min(
+                                                  details.position.dx, width);
                                               setState(() {
-                                                activeOffset = details.position;
+                                                activeOffset =
+                                                    Offset(hExtent, vExtent);
                                               });
                                               debugPrint(
                                                   '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
