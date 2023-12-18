@@ -986,7 +986,7 @@ class _MainViewState extends State<MainView> {
     }
     //
     setState(() {
-      _activeItem = null;
+    //  _activeItem = null;
     });
   }
 
