@@ -277,7 +277,7 @@ class _MainViewState extends State<MainView> {
                                         children: [
                                           // Vertical Alignment
                                           if (activeOffset.dx == 0.0 &&
-                                              activeOffset.dy <= 1)
+                                              activeOffset.dy <= 1.0)
                                             Container(
                                               width: 1.2,
                                               height: height,
@@ -933,8 +933,8 @@ class _MainViewState extends State<MainView> {
     //
     final position = details.focalPoint - _initPos;
 
-    final left = (position.dx / width); // + _currentPos.dx;
-    final top = (position.dy / height); //+ _currentPos.dy;
+    final left = (position.dx / width) + _currentPos.dx;
+    final top = (position.dy / height) + _currentPos.dy;
 
     // debugPrint(
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
