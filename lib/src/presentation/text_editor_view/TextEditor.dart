@@ -47,6 +47,7 @@ class _TextEditorState extends State<TextEditor> {
           builder: (_, controlNotifier, editorNotifier, __) {
             return Scaffold(
               backgroundColor: Colors.transparent,
+              resizeToAvoidBottomInset: false,
               body: GestureDetector(
                 /// onTap => Close view and create/modify item object
                 onTap: () => _onTap(context, controlNotifier, editorNotifier),

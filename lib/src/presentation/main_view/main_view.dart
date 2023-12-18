@@ -266,43 +266,6 @@ class _MainViewState extends State<MainView> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                /// Show item alignment indicator
-                                if (_activeItem != null && !_isDeletePosition)
-                                  IgnorePointer(
-                                    child: SizedBox(
-                                      width: width,
-                                      height: height,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          // Vertical Alignment
-                                          if (activeOffset.dx == 0.0 &&
-                                              activeOffset.dy <= 1.0)
-                                            Container(
-                                              width: 1.2,
-                                              height: height,
-                                              decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 255, 0, 76),
-                                              ),
-                                            ),
-                                          // Horizontal Alignment
-                                          if (activeOffset ==
-                                                  Offset(0.0, 0.0) ||
-                                              activeOffset == Offset(0.0, -0.0))
-                                            Container(
-                                              width: width,
-                                              height: 1.2,
-                                              decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 255, 0, 76),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-
                                 /// in this case photo view works as a main background container to manage
                                 /// the gestures of all movable items.
                                 PhotoView.customChild(
@@ -414,6 +377,40 @@ class _MainViewState extends State<MainView> {
                                           ],
                                   ),
                                 ),
+                          ),
+                        ),
+                      ),
+
+                    /// Show item alignment indicator
+                    if (_activeItem != null && !_isDeletePosition)
+                      IgnorePointer(
+                        child: SizedBox(
+                          width: width,
+                          height: height,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Vertical Alignment
+                              if (activeOffset.dx == 0.0 &&
+                                  activeOffset.dy <= 1.0)
+                                Container(
+                                  width: 1.2,
+                                  height: height,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 0, 76),
+                                  ),
+                                ),
+                              // Horizontal Alignment
+                              if (activeOffset == Offset(0.0, 0.0) ||
+                                  activeOffset == Offset(0.0, -0.0))
+                                Container(
+                                  width: width,
+                                  height: 1.2,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 0, 76),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       ),
