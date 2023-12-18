@@ -324,15 +324,19 @@ class _MainViewState extends State<MainView> {
                                         ...itemProvider.draggableWidget.map(
                                           (editableItem) => GestureDetector(
                                             onPanStart: (details) {
-                                              // if (_activeItem != null) {
-                                              setState(() {
-                                                activeOffset =
-                                                    details.globalPosition;
-                                              });
-                                              debugPrint('''
+                                              if (_activeItem != null) {
+                                                setState(() {
+                                                  activeOffset =
+                                                      details.globalPosition;
+                                                });
+                                                debugPrint('''
                                                   "Content Position": $activeOffset\n"Screen Size": $screenSize
                                                   ''');
-                                              //ƒ }
+                                              }
+                                              //
+                                              debugPrint(
+                                                  'onPointerMove callback detected');
+                                              _deletePosition(editableItem);
                                             },
                                             child: DraggableWidget(
                                               dimension: Size(width, height),
@@ -355,12 +359,9 @@ class _MainViewState extends State<MainView> {
                                                 );
                                               },
                                               onPointerMove: (details) {
-                                                debugPrint(
-                                                    'onPointerMove callback detected');
-                                                _deletePosition(
-                                                  editableItem,
-                                                  details,
-                                                );
+                                                // debugPrint(
+                                                //     'onPointerMove callback detected');
+                                                // _deletePosition(editableItem);
                                               },
                                             ),
                                           ),
@@ -983,7 +984,7 @@ class _MainViewState extends State<MainView> {
   }
 
   /// update content deletePosition when dragged to delete region
-  void _deletePosition(EditableItem item, PointerMoveEvent details) {
+  void _deletePosition(EditableItem item) {
     if (item.position.dy >= 0.29 &&
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
@@ -1034,7 +1035,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-   // debugPrint('{"Current item position": $details');
+    // debugPrint('{"Current item position": $details');
 
     setState(() {
       _inAction = true;
