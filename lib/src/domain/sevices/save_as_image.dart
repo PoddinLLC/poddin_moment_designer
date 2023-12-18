@@ -44,7 +44,7 @@ Future takePicture({
     if (saveToGallery) {
       final result = await ImageGallerySaver.saveImage(pngBytes,
           quality: 100,
-          name: "${fileName}_${DateTime.now().microsecondsSinceEpoch}");
+          name: "${fileName}_${DateTime.now().millisecondsSinceEpoch}");
       if (result != null) {
         return true;
       } else {

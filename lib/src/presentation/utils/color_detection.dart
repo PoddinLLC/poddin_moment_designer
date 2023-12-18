@@ -32,11 +32,6 @@ class ColorDetection {
     double px = localPosition.dx;
     double py = localPosition.dy;
 
-    // int pixel32 = photo!.getPixelSafe(px.toInt(), py.toInt());
-    // int hex = abgrToArgb(pixel32);
-    // stateController!.add(Color(hex));
-    // return Color(hex);
-
     img.Pixel pixel32 = photo!.getPixelSafe(px.toInt(), py.toInt());
     Color hex = Color.fromARGB(pixel32.a.toInt(), pixel32.r.toInt(),
         pixel32.g.toInt(), pixel32.b.toInt());
@@ -57,14 +52,6 @@ class ColorDetection {
 
   void setImageBytes(ByteData imageBytes) {
     Uint8List values = imageBytes.buffer.asUint8List();
-    photo = null;
     photo = img.decodeImage(values);
   }
-}
-
-// image lib uses uses KML color format, convert #AABBGGRR to regular #AARRGGBB
-int abgrToArgb(int argbColor) {
-  int r = (argbColor >> 16) & 0xFF;
-  int b = argbColor & 0xFF;
-  return (argbColor & 0xFF00FF00) | (b << 16) | r;
 }

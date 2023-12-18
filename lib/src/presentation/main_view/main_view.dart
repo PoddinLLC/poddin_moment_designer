@@ -134,7 +134,7 @@ class _MainViewState extends State<MainView> {
   bool _inAction = false;
 
   /// screen size
-  Size screenSize = const Size(500, 800);
+  Size screenSize = const Size.square(0);
 
   /// galleryCam switcher
   bool switchToGallery = false;
@@ -168,7 +168,7 @@ class _MainViewState extends State<MainView> {
         _tempItemProvider.draggableWidget.add(EditableItem()
           ..type = ItemType.image
           ..path = widget.mediaPath!
-          ..scale = 1
+          ..scale = 1.2
           ..position = const Offset(0, 0));
       }
       if (widget.gradientColors != null) {
@@ -322,36 +322,47 @@ class _MainViewState extends State<MainView> {
 
                                         /// list content items
                                         ...itemProvider.draggableWidget.map(
-                                          (editableItem) => DraggableWidget(
-                                            dimension: Size(width, height),
-                                            context: context,
-                                            draggableWidget: editableItem,
-                                            onPointerDown: (details) {
-                                              _updateItemPosition(
-                                                editableItem,
-                                                details,
-                                              );
-                                            },
-                                            onPointerUp: (details) {
-                                              _deleteItemOnCoordinates(
-                                                editableItem,
-                                                details,
-                                              );
-                                            },
-                                            onPointerMove: (details) {
+                                          (editableItem) => GestureDetector(
+                                            onPanStart: (details) {
+                                              // if (_activeItem != null) {
                                               setState(() {
-                                                activeOffset = details.delta;
+                                                activeOffset =
+                                                    details.globalPosition;
                                               });
                                               debugPrint('''
-                                                  {
-                                                    "Content Position": $activeOffset\n"Screen Size": $screenSize
-                                                    }
+                                                  "Content Position": $activeOffset\n"Screen Size": $screenSize
                                                   ''');
-                                              _deletePosition(
-                                                editableItem,
-                                                details,
-                                              );
+                                              //ƒ }
                                             },
+                                            child: DraggableWidget(
+                                              dimension: Size(width, height),
+                                              context: context,
+                                              draggableWidget: editableItem,
+                                              onPointerDown: (details) {
+                                                debugPrint(
+                                                    'onPointerDown callback detected');
+                                                _updateItemPosition(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                              onPointerUp: (details) {
+                                                debugPrint(
+                                                    'onPointerUp callback detected');
+                                                _deleteItemOnCoordinates(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                              onPointerMove: (details) {
+                                                debugPrint(
+                                                    'onPointerMove callback detected');
+                                                _deletePosition(
+                                                  editableItem,
+                                                  details,
+                                                );
+                                              },
+                                            ),
                                           ),
                                         ),
 
@@ -720,7 +731,7 @@ class _MainViewState extends State<MainView> {
                                       .add(EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
-                                        ..scale = mediaContent < 1 ? 1 : 0.8
+                                        ..scale = mediaContent < 1 ? 1.2 : 0.8
                                         ..position = const Offset(0, 0));
                                   //
                                   if (mediaContent >= 1) {
@@ -732,8 +743,7 @@ class _MainViewState extends State<MainView> {
                                 // nav to editor view
                                 // if page = 1, initial view is camera mode
                                 // editor page index is 1, camera page index is 0
-                                scrollProvider.pageController
-                                    .jumpToPage(page);
+                                scrollProvider.pageController.jumpToPage(page);
                                 // reset switch variabale
                                 switchToGallery = false;
                               }
@@ -825,7 +835,7 @@ class _MainViewState extends State<MainView> {
       itemProvider.draggableWidget.add(EditableItem()
         ..type = ItemType.image
         ..path = path
-        ..scale = mediaContent < 1 ? 1 : 0.8
+        ..scale = mediaContent < 1 ? 1.2 : 0.8
         ..position = const Offset(0, 0));
       //
       if (mediaContent >= 1) {
@@ -1024,7 +1034,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    debugPrint('{"Current item position": $details');
+   // debugPrint('{"Current item position": $details');
 
     setState(() {
       _inAction = true;

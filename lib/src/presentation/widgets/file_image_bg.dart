@@ -1,9 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:poddin_moment_designer/src/presentation/utils/color_detection.dart';
 
 class FileImageBG extends StatefulWidget {
@@ -36,26 +34,23 @@ class _FileImageBGState extends State<FileImageBG> {
   void initState() {
     currentKey = paintKey;
     Timer.periodic(const Duration(milliseconds: 150), (callback) async {
-      if (imageKey.currentState!.context.size!.height == 0.0 ||
-          widget.scale! < 1) {
-        //
-      } else {
+      if (widget.scale! >= 1) {
         var cd1 = await ColorDetection(
           currentKey: currentKey,
           paintKey: paintKey,
           stateController: stateController,
         ).searchPixel(
-            Offset(imageKey.currentState!.context.size!.width / 2, 480));
+            Offset(widget.dimension!.width / 2, 480));
         var cd2 = await ColorDetection(
           currentKey: currentKey,
           paintKey: paintKey,
           stateController: stateController,
         ).searchPixel(
-            Offset(imageKey.currentState!.context.size!.width / 2.03, 530));
+            Offset(widget.dimension!.width / 2.03, 530));
         color1 = cd1;
         color2 = cd2;
-        widget.generatedGradient(color1, color2);
         setState(() {});
+        widget.generatedGradient(color1, color2);
         callback.cancel();
         stateController.close();
       }
