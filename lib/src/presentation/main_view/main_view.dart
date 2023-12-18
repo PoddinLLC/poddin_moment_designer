@@ -288,8 +288,10 @@ class _MainViewState extends State<MainView> {
                                             ),
                                           ),
                                         // Horizontal Alignment
-                                        if (activeOffset ==
-                                                Offset(width / 2, height / 2) &&
+                                        if ((activeOffset ==
+                                                    Offset(0.0, -0.0) ||
+                                                activeOffset ==
+                                                    Offset(0.0, 0.0)) &&
                                             _activeItem != null &&
                                             !_isDeletePosition)
                                           Container(
@@ -336,9 +338,9 @@ class _MainViewState extends State<MainView> {
                                       );
                                     },
                                     onPointerMove: (details) {
-                                      setState(() {
-                                        activeOffset = _activeItem!.position;
-                                      });
+                                      // setState(() {
+                                      //   activeOffset = _activeItem!.position;
+                                      // });
                                       debugPrint(
                                           '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
                                       debugPrint(
@@ -934,6 +936,7 @@ class _MainViewState extends State<MainView> {
     final padding = MediaQuery.paddingOf(context);
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
+    //
     final position = details.focalPoint - _initPos;
 
     final left = (position.dx / width) + _currentPos.dx;
@@ -943,6 +946,7 @@ class _MainViewState extends State<MainView> {
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
+      activeOffset = details.focalPoint;
       _activeItem!.position = Offset(left, top);
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
