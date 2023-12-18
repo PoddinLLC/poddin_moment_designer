@@ -214,422 +214,357 @@ class _MainViewState extends State<MainView> {
             // return Consumer<RenderingNotifier>(
             //   builder: (_, renderingNotifier, __) {
             return SafeArea(
-              child: Stack(
-                children: [
-                  ScrollablePageView(
-                    scrollPhysics: false,
-                    page: page,
-                    pageController: scrollProvider.pageController,
-                    gridController: scrollProvider.gridController,
-                    editor: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ///gradient container
-                        /// this container will contain all widgets(image/texts/draws/sticker)
-                        /// wrap this widget with coloredFilter
-                        GestureDetector(
-                          onScaleStart: _onScaleStart,
-                          onScaleUpdate: _onScaleUpdate,
-                          onTap: () {
-                            controlNotifier.isTextEditing =
-                                !controlNotifier.isTextEditing;
-                            setState(() {});
-                          },
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: SizedBox(
-                                width: width,
-                                height: height,
-                                // child: ScreenRecorder(
-                                //   controller: _recorderController,
-                                child: RepaintBoundary(
-                                  key: contentKey,
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    decoration: BoxDecoration(
-                                      gradient:
-                                          controlNotifier.mediaPath.isEmpty
-                                              ? LinearGradient(
-                                                  colors: controlNotifier
-                                                          .gradientColors![
-                                                      controlNotifier
-                                                          .gradientIndex],
-                                                  begin: Alignment.topLeft,
-                                                  end: Alignment.bottomRight,
-                                                )
-                                              : LinearGradient(
-                                                  colors: [
-                                                    colorProvider.color1,
-                                                    colorProvider.color2
-                                                  ],
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
-                                                ),
+              maintainBottomViewPadding: true,
+              child: ScrollablePageView(
+                scrollPhysics: false,
+                page: page,
+                pageController: scrollProvider.pageController,
+                gridController: scrollProvider.gridController,
+                editor: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // gradient container
+                    // this container will contain all widgets(image/texts/draws/sticker)
+                    // wrap this widget with coloredFilter
+                    GestureDetector(
+                      onScaleStart: _onScaleStart,
+                      onScaleUpdate: _onScaleUpdate,
+                      onTap: () {
+                        controlNotifier.isTextEditing =
+                            !controlNotifier.isTextEditing;
+                        setState(() {});
+                      },
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        // child: ScreenRecorder(
+                        //   controller: _recorderController,
+                        child: RepaintBoundary(
+                          key: contentKey,
+                          child: AnimatedContainer(
+                            constraints: BoxConstraints(
+                              maxHeight: height,
+                              maxWidth: width,
+                            ),
+                            duration: const Duration(milliseconds: 200),
+                            decoration: BoxDecoration(
+                              gradient: controlNotifier.mediaPath.isEmpty
+                                  ? LinearGradient(
+                                      colors: controlNotifier.gradientColors![
+                                          controlNotifier.gradientIndex],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    )
+                                  : LinearGradient(
+                                      colors: [
+                                        colorProvider.color1,
+                                        colorProvider.color2
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
                                     ),
+                            ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                /// Show item alignment indicator
+                                IgnorePointer(
+                                  child: SizedBox(
+                                    width: width,
+                                    height: height,
                                     child: Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        /// Show item alignment indicator
-                                        IgnorePointer(
-                                          child: Container(
-                                            decoration: BoxDecoration(),
-                                            width: width,
+                                        // Vertical Alignment
+                                        if (activeOffset.dx == width / 2 &&
+                                            activeOffset.dy > 100 &&
+                                            _activeItem != null &&
+                                            !_isDeletePosition)
+                                          Container(
+                                            width: 1.2,
                                             height: height,
-                                            child: Stack(
-                                              alignment: Alignment.center,
-                                              children: [
-                                                // Vertical Alignment
-                                                if (activeOffset.dx ==
-                                                        width / 2 &&
-                                                    activeOffset.dy > 100 &&
-                                                    _activeItem != null &&
-                                                    !_isDeletePosition)
-                                                  Container(
-                                                    width: 1.2,
-                                                    height: height,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(
-                                                          255, 255, 0, 76),
-                                                    ),
-                                                  ),
-                                                // Horizontal Alignment
-                                                if (activeOffset ==
-                                                        Offset(width / 2,
-                                                            height / 2) &&
-                                                    _activeItem != null &&
-                                                    !_isDeletePosition)
-                                                  Container(
-                                                    width: width,
-                                                    height: 1.2,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(
-                                                          255, 255, 0, 76),
-                                                    ),
-                                                  ),
-                                              ],
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 255, 0, 76),
                                             ),
                                           ),
-                                        ),
-
-                                        /// in this case photo view works as a main background container to manage
-                                        /// the gestures of all movable items.
-                                        PhotoView.customChild(
-                                          backgroundDecoration:
-                                              const BoxDecoration(
-                                                  color: Colors.transparent),
-                                          child: Container(),
-                                        ),
-
-                                        /// list content items
-                                        ...itemProvider.draggableWidget.map(
-                                          (editableItem) => DraggableWidget(
-                                            dimension: Size(width, height),
-                                            context: context,
-                                            draggableWidget: editableItem,
-                                            onPointerDown: (details) {
-                                              debugPrint(
-                                                  'onPointerDown callback detected');
-                                              _updateItemPosition(
-                                                editableItem,
-                                                details,
-                                              );
-                                            },
-                                            onPointerUp: (details) {
-                                              debugPrint(
-                                                  'onPointerUp callback detected');
-                                              _deleteItemOnCoordinates(
-                                                editableItem,
-                                                details,
-                                              );
-                                            },
-                                            onPointerMove: (details) {
-                                              var vExtent = min(
-                                                  details.position.dy, height);
-                                              var hExtent = min(
-                                                  details.position.dx, width);
-                                              setState(() {
-                                                activeOffset =
-                                                    Offset(hExtent, vExtent);
-                                              });
-                                              debugPrint(
-                                                  '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
-                                              //
-                                              debugPrint(
-                                                  'onPointerMove callback detected');
-                                              _deletePosition(editableItem);
-                                            },
-                                            longPress: () {
-                                              debugPrint(
-                                                  'longPress callback detected');
-                                              reorder(context, editableItem);
-                                            },
-                                          ),
-                                        ),
-
-                                        /// finger paint
-                                        IgnorePointer(
-                                          ignoring: true,
-                                          child: Align(
-                                            alignment: Alignment.topCenter,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              child: RepaintBoundary(
-                                                child: SizedBox(
-                                                  width: width,
-                                                  height: height,
-                                                  child: StreamBuilder<
-                                                      List<PaintingModel>>(
-                                                    stream: paintingProvider
-                                                        .linesStreamController
-                                                        .stream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      return CustomPaint(
-                                                        painter: Sketcher(
-                                                          lines:
-                                                              paintingProvider
-                                                                  .lines,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
+                                        // Horizontal Alignment
+                                        if (activeOffset ==
+                                                Offset(width / 2, height / 2) &&
+                                            _activeItem != null &&
+                                            !_isDeletePosition)
+                                          Container(
+                                            width: width,
+                                            height: 1.2,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 255, 0, 76),
                                             ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                // ),
-                              ),
-                            ),
-                          ),
-                        ),
 
-                        /// middle text
-                        if (itemProvider.draggableWidget.isEmpty &&
-                            !controlNotifier.isTextEditing &&
-                            paintingProvider.lines.isEmpty)
-                          IgnorePointer(
-                            ignoring: true,
-                            child: Align(
-                              child: Text(
-                                widget.centerText ?? 'Type Something',
-                                style: AppFonts.getTextThemeENUM(
-                                        FontType.garamond)
-                                    .bodyLarge!
-                                    .merge(
-                                      TextStyle(
-                                        package: 'poddin_moment_designer',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 25,
-                                        color: Colors.white.withOpacity(0.5),
-                                        shadows: !controlNotifier
-                                                .enableTextShadow
-                                            ? []
-                                            : <Shadow>[
-                                                Shadow(
-                                                    offset:
-                                                        const Offset(1.0, 1.0),
-                                                    blurRadius: 3.0,
-                                                    color: Colors.black45
-                                                        .withOpacity(0.3))
-                                              ],
+                                /// in this case photo view works as a main background container to manage
+                                /// the gestures of all movable items.
+                                PhotoView.customChild(
+                                  backgroundDecoration: const BoxDecoration(
+                                      color: Colors.transparent),
+                                  child: Container(),
+                                ),
+
+                                /// list content items
+                                ...itemProvider.draggableWidget.map(
+                                  (editableItem) => DraggableWidget(
+                                    dimension: Size(width, height),
+                                    context: context,
+                                    draggableWidget: editableItem,
+                                    onPointerDown: (details) {
+                                      debugPrint(
+                                          'onPointerDown callback detected');
+                                      _updateItemPosition(
+                                        editableItem,
+                                        details,
+                                      );
+                                    },
+                                    onPointerUp: (details) {
+                                      debugPrint(
+                                          'onPointerUp callback detected');
+                                      _deleteItemOnCoordinates(
+                                        editableItem,
+                                        details,
+                                      );
+                                    },
+                                    onPointerMove: (details) {
+                                      setState(() {
+                                        activeOffset = _activeItem!.position;
+                                      });
+                                      debugPrint(
+                                          '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
+                                      debugPrint(
+                                          'onPointerMove callback detected');
+                                      _deletePosition(editableItem);
+                                    },
+                                    longPress: () {
+                                      debugPrint('longPress callback detected');
+                                      reorder(context, editableItem);
+                                    },
+                                  ),
+                                ),
+
+                                /// finger paint
+                                IgnorePointer(
+                                  ignoring: true,
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: RepaintBoundary(
+                                        child: SizedBox(
+                                          width: width,
+                                          height: height,
+                                          child: StreamBuilder<
+                                              List<PaintingModel>>(
+                                            stream: paintingProvider
+                                                .linesStreamController.stream,
+                                            builder: (context, snapshot) {
+                                              return CustomPaint(
+                                                painter: Sketcher(
+                                                  lines: paintingProvider.lines,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
-                              ),
-                            ),
-                          ),
-
-                        /// top tools
-                        if (controlNotifier.isTextEditing == false &&
-                            controlNotifier.isPainting == false &&
-                            _activeItem == null)
-                          Align(
-                              alignment: Alignment.topCenter,
-                              child: TopTools(
-                                contentKey: contentKey,
-                                context: context,
-                                // renderWidget: () => startRecording(
-                                //     controlNotifier: controlNotifier,
-                                //     renderingNotifier: renderingNotifier,
-                                //     saveOnGallery: true),
-                              )),
-
-                        /// show delete icon when item is within delete region
-                        DeleteItem(
-                          activeItem: _activeItem,
-                          animationsDuration: const Duration(milliseconds: 300),
-                          isDeletePosition: _isDeletePosition,
-                        ),
-
-                        /// bottom tools
-                        if (controlNotifier.isTextEditing == false &&
-                            controlNotifier.isPainting == false &&
-                            _activeItem == null)
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: BottomTools(
-                              contentKey: contentKey,
-                              // renderWidget: () => startRecording(
-                              //     controlNotifier: controlNotifier,
-                              //     renderingNotifier: renderingNotifier,
-                              //     saveOnGallery: false),
-                              onDone: (bytes) {
-                                setState(() {
-                                  widget.onDone!(bytes);
-                                });
-                              },
-                              onDoneButtonStyle: widget.onDoneButtonStyle,
-                              editorBackgroundColor:
-                                  widget.editorBackgroundColor,
-                            ),
-                          ),
-
-                        /// show text editor
-                        Visibility(
-                          visible: controlNotifier.isTextEditing,
-                          child: TextEditor(
-                            context: context,
-                          ),
-                        ),
-
-                        /// show painting sketch
-                        Visibility(
-                          visible: controlNotifier.isPainting,
-                          child: const Painting(),
-                        )
-                      ],
-                    ),
-                    // Show camera and gallery
-                    camera: Stack(
-                      children: [
-                        //Camera
-                        if (!switchToGallery)
-                          CameraAwesomeBuilder.awesome(
-                            enablePhysicalButton: true,
-                            saveConfig: SaveConfig.photo(
-                              exifPreferences:
-                                  ExifPreferences(saveGPSLocation: false),
-                              mirrorFrontCamera: true,
-                              pathBuilder: (sensors) async {
-                                final extDir =
-                                    await getApplicationDocumentsDirectory();
-                                final testDir = await Directory(
-                                        '${extDir.path}/poddin_moments')
-                                    .create(recursive: true);
-                                // 2.
-                                if (sensors.length == 1) {
-                                  final filePath =
-                                      '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
-                                  // 3.
-                                  return SingleCaptureRequest(
-                                      filePath, sensors.first);
-                                } else {
-                                  // 4.
-                                  return MultipleCaptureRequest(
-                                    {
-                                      for (final sensor in sensors)
-                                        sensor:
-                                            '${testDir.path}/${sensor.position == SensorPosition.front ? 'front_' : "back_"}${DateTime.now().millisecondsSinceEpoch}.jpg',
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            sensorConfig: SensorConfig.single(
-                              aspectRatio: CameraAspectRatios.ratio_16_9,
-                              sensor: Sensor.position(SensorPosition.front),
-                            ),
-                            topActionsBuilder: (state) => AwesomeTopActions(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 10),
-                              state: state,
-                              children: [
-                                AwesomeOrientedWidget(
-                                  child: () {
-                                    if (page == 0) {
-                                      // if default view is Editor mode
-                                      return GestureDetector(
-                                        onTap: () {
-                                          // nav to editor view
-                                          // page == 0 (initial view is Editor mode)
-                                          // editor index is 0, camera index is 1
-                                          scrollProvider.pageController
-                                              .animateToPage(0,
-                                                  duration: const Duration(
-                                                      milliseconds: 300),
-                                                  curve: Curves.ease);
-                                        },
-                                        child: const AwesomeCircleWidget.icon(
-                                          icon:
-                                              Icons.arrow_back_ios_new_rounded,
-                                        ),
-                                      );
-                                    } else {
-                                      // if default view is Camera mode
-                                      return GestureDetector(
-                                        onTap: () {
-                                          // nav to editor view
-                                          // page == 1 (initial view is Camera mode)
-                                          // editor index is 1, camera index is 0
-                                          scrollProvider.pageController
-                                              .animateToPage(1,
-                                                  duration: const Duration(
-                                                      milliseconds: 300),
-                                                  curve: Curves.ease);
-                                        },
-                                        child: Container(
-                                          height: 40,
-                                          width: 40,
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFD91C54),
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 1.5,
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
-                                            child: const ImageIcon(
-                                              AssetImage(
-                                                  'assets/icons/text.png',
-                                                  package:
-                                                      'poddin_moment_designer'),
-                                              color: Colors.white,
-                                              size: 18,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  }(),
+                                  ),
                                 ),
-                                // flash light btn
-                                AwesomeFlashButton(state: state),
-                                // gallery btn
-                                AwesomeOrientedWidget(
-                                  child: GestureDetector(
+                              ],
+                            ),
+                          ),
+                        ),
+                        // ),
+                      ),
+                    ),
+
+                    /// middle text
+                    if (itemProvider.draggableWidget.isEmpty &&
+                        !controlNotifier.isTextEditing &&
+                        paintingProvider.lines.isEmpty)
+                      IgnorePointer(
+                        ignoring: true,
+                        child: Align(
+                          child: Text(
+                            widget.centerText ?? 'Type Something',
+                            style: AppFonts.getTextThemeENUM(FontType.garamond)
+                                .bodyLarge!
+                                .merge(
+                                  TextStyle(
+                                    package: 'poddin_moment_designer',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 25,
+                                    color: Colors.white.withOpacity(0.5),
+                                    shadows: !controlNotifier.enableTextShadow
+                                        ? []
+                                        : <Shadow>[
+                                            Shadow(
+                                                offset: const Offset(1.0, 1.0),
+                                                blurRadius: 3.0,
+                                                color: Colors.black45
+                                                    .withOpacity(0.3))
+                                          ],
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ),
+
+                    /// top tools
+                    if (controlNotifier.isTextEditing == false &&
+                        controlNotifier.isPainting == false &&
+                        _activeItem == null)
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: TopTools(
+                          contentKey: contentKey,
+                          context: context,
+                          // renderWidget: () => startRecording(
+                          //     controlNotifier: controlNotifier,
+                          //     renderingNotifier: renderingNotifier,
+                          //     saveOnGallery: true),
+                        ),
+                      ),
+
+                    /// show delete icon when item is within delete region
+                    DeleteItem(
+                      activeItem: _activeItem,
+                      animationsDuration: const Duration(milliseconds: 300),
+                      isDeletePosition: _isDeletePosition,
+                    ),
+
+                    /// bottom tools
+                    if (controlNotifier.isTextEditing == false &&
+                        controlNotifier.isPainting == false &&
+                        _activeItem == null)
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: BottomTools(
+                          contentKey: contentKey,
+                          // renderWidget: () => startRecording(
+                          //     controlNotifier: controlNotifier,
+                          //     renderingNotifier: renderingNotifier,
+                          //     saveOnGallery: false),
+                          onDone: (bytes) {
+                            setState(() {
+                              widget.onDone!(bytes);
+                            });
+                          },
+                          onDoneButtonStyle: widget.onDoneButtonStyle,
+                          editorBackgroundColor: widget.editorBackgroundColor,
+                        ),
+                      ),
+
+                    /// show text editor
+                    Visibility(
+                      visible: controlNotifier.isTextEditing,
+                      child: TextEditor(
+                        context: context,
+                      ),
+                    ),
+
+                    /// show painting sketch
+                    Visibility(
+                      visible: controlNotifier.isPainting,
+                      child: const Painting(),
+                    )
+                  ],
+                ),
+                // Show camera and gallery
+                camera: Stack(
+                  children: [
+                    //Camera
+                    if (!switchToGallery)
+                      CameraAwesomeBuilder.awesome(
+                        enablePhysicalButton: true,
+                        saveConfig: SaveConfig.photo(
+                          exifPreferences:
+                              ExifPreferences(saveGPSLocation: false),
+                          mirrorFrontCamera: true,
+                          pathBuilder: (sensors) async {
+                            final extDir =
+                                await getApplicationDocumentsDirectory();
+                            final testDir =
+                                await Directory('${extDir.path}/poddin_moments')
+                                    .create(recursive: true);
+                            // 2.
+                            if (sensors.length == 1) {
+                              final filePath =
+                                  '${testDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+                              // 3.
+                              return SingleCaptureRequest(
+                                  filePath, sensors.first);
+                            } else {
+                              // 4.
+                              return MultipleCaptureRequest(
+                                {
+                                  for (final sensor in sensors)
+                                    sensor:
+                                        '${testDir.path}/${sensor.position == SensorPosition.front ? 'front_' : "back_"}${DateTime.now().millisecondsSinceEpoch}.jpg',
+                                },
+                              );
+                            }
+                          },
+                        ),
+                        sensorConfig: SensorConfig.single(
+                          aspectRatio: CameraAspectRatios.ratio_16_9,
+                          sensor: Sensor.position(SensorPosition.front),
+                        ),
+                        topActionsBuilder: (state) => AwesomeTopActions(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 10),
+                          state: state,
+                          children: [
+                            AwesomeOrientedWidget(
+                              child: () {
+                                if (page == 0) {
+                                  // if default view is Editor mode
+                                  return GestureDetector(
                                     onTap: () {
-                                      // switch to gallery view
-                                      setState(() {
-                                        switchToGallery = true;
-                                      });
+                                      // nav to editor view
+                                      // page == 0 (initial view is Editor mode)
+                                      // editor index is 0, camera index is 1
+                                      scrollProvider.pageController
+                                          .animateToPage(0,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.ease);
+                                    },
+                                    child: const AwesomeCircleWidget.icon(
+                                      icon: Icons.arrow_back_ios_new_rounded,
+                                    ),
+                                  );
+                                } else {
+                                  // if default view is Camera mode
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // nav to editor view
+                                      // page == 1 (initial view is Camera mode)
+                                      // editor index is 1, camera index is 0
+                                      scrollProvider.pageController
+                                          .animateToPage(1,
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.ease);
                                     },
                                     child: Container(
                                       height: 40,
                                       width: 40,
+                                      padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
+                                        color: const Color(0xFFD91C54),
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           color: Colors.white,
@@ -639,168 +574,201 @@ class _MainViewState extends State<MainView> {
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(50.0),
-                                        child: const CoverThumbnail(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            middleContentBuilder: (state) {
-                              // Use this to add widgets on the middle of the preview
-                              return Column(
-                                children: [
-                                  const Spacer(),
-                                  if (state.captureMode == CaptureMode.photo)
-                                    AwesomeFilterWidget(
-                                        state: state,
-                                        filterListPadding:
-                                            const EdgeInsets.only(bottom: 10)),
-                                ],
-                              );
-                            },
-                            bottomActionsBuilder: (state) =>
-                                AwesomeBottomActions(
-                              onMediaTap: (mediaCapture) => onPreviewTap(
-                                context,
-                                mediaCapture,
-                                controlNotifier,
-                                itemProvider,
-                                scrollProvider,
-                                page,
-                              ),
-                              state: state,
-                              left: AwesomeCameraSwitchButton(
-                                state: state,
-                                iconBuilder: () {
-                                  return const AwesomeCircleWidget.icon(
-                                    icon: Icons.cameraswitch,
-                                    scale: 1.2,
-                                  );
-                                },
-                              ),
-                            ),
-                            theme: AwesomeTheme(
-                              bottomActionsBackgroundColor: Colors.black12,
-                              buttonTheme: AwesomeButtonTheme(
-                                padding: const EdgeInsets.all(10),
-                                iconSize: 20,
-                                buttonBuilder: (child, onTap) {
-                                  return SizedBox(
-                                    // dimension: 40,
-                                    child: ClipOval(
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        shape: const CircleBorder(),
-                                        child: GestureDetector(
-                                          onTap: onTap,
-                                          child: child,
+                                        child: const ImageIcon(
+                                          AssetImage('assets/icons/text.png',
+                                              package:
+                                                  'poddin_moment_designer'),
+                                          color: Colors.white,
+                                          size: 18,
                                         ),
                                       ),
                                     ),
                                   );
-                                },
-                              ),
+                                }
+                              }(),
                             ),
-                            defaultFilter: AwesomeFilter.LoFi,
-                            progressIndicator: const Center(
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator.adaptive(
-                                  strokeWidth: 2,
+                            // flash light btn
+                            AwesomeFlashButton(state: state),
+                            // gallery btn
+                            AwesomeOrientedWidget(
+                              child: GestureDetector(
+                                onTap: () {
+                                  // switch to gallery view
+                                  setState(() {
+                                    switchToGallery = true;
+                                  });
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    child: const CoverThumbnail(),
+                                  ),
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                        middleContentBuilder: (state) {
+                          // Use this to add widgets on the middle of the preview
+                          return Column(
+                            children: [
+                              const Spacer(),
+                              if (state.captureMode == CaptureMode.photo)
+                                AwesomeFilterWidget(
+                                    state: state,
+                                    filterListPadding:
+                                        const EdgeInsets.only(bottom: 10)),
+                            ],
+                          );
+                        },
+                        bottomActionsBuilder: (state) => AwesomeBottomActions(
+                          onMediaTap: (mediaCapture) => onPreviewTap(
+                            context,
+                            mediaCapture,
+                            controlNotifier,
+                            itemProvider,
+                            scrollProvider,
+                            page,
                           ),
-                        //
-                        // Gallery
-                        if (switchToGallery)
-                          AlbumImagePicker(
-                            onSelected: (images) async {
-                              final selected = await images.first.file;
-                              final path = selected?.path;
-                              if (path != null) {
-                                // set media path value
-                                if (mediaContent == 0) {
-                                  controlNotifier.mediaPath = path;
-                                  setState(() {});
-                                }
-                                //
-                                // add photo to editor view
-                                itemProvider.addItem(EditableItem()
-                                  ..type = ItemType.image
-                                  ..path = path
-                                  ..scale = mediaContent < 1 ? 1.2 : 0.8
-                                  ..position = const Offset(0, 0));
-                                //
-                                if (mediaContent >= 1) {
-                                  controlNotifier.mediaPath = '';
-                                }
-                                //
-                                mediaContent++;
-                                // nav to editor view
-                                // if page = 1, initial view is camera mode
-                                // editor page index is 1, camera page index is 0
-                                scrollProvider.pageController.jumpToPage(page);
-                                // reset switch variabale
-                                switchToGallery = false;
-                              }
+                          state: state,
+                          left: AwesomeCameraSwitchButton(
+                            state: state,
+                            iconBuilder: () {
+                              return const AwesomeCircleWidget.icon(
+                                icon: Icons.cameraswitch,
+                                scale: 1.2,
+                              );
                             },
-                            selectionBuilder: (_, selected, index) {
-                              if (selected) {
-                                return CircleAvatar(
-                                  backgroundColor: const Color(0xFFD91C54),
-                                  radius: 10,
-                                  child: Text(
-                                    '${index + 1}',
-                                    style: const TextStyle(
-                                        fontSize: 10,
-                                        height: 1.4,
-                                        color: Colors.white),
+                          ),
+                        ),
+                        theme: AwesomeTheme(
+                          bottomActionsBackgroundColor: Colors.black12,
+                          buttonTheme: AwesomeButtonTheme(
+                            padding: const EdgeInsets.all(10),
+                            iconSize: 20,
+                            buttonBuilder: (child, onTap) {
+                              return SizedBox(
+                                // dimension: 40,
+                                child: ClipOval(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    shape: const CircleBorder(),
+                                    child: GestureDetector(
+                                      onTap: onTap,
+                                      child: child,
+                                    ),
                                   ),
-                                );
-                              }
-                              return const SizedBox();
+                                ),
+                              );
                             },
-                            crossAxisCount: 3,
-                            maxSelection: 1,
-                            // onSelectedMax: () {
-                            //   Fluttertoast.showToast(
-                            //     msg: "You have reached the maximum allowed",
-                            //     toastLength: Toast.LENGTH_SHORT,
-                            //     gravity: ToastGravity.CENTER,
-                            //     textColor: Colors.white,
-                            //     fontSize: 14.0,
-                            //   );
-                            // },
-                            albumBackGroundColor: Colors.black87,
-                            appBarHeight: 45,
-                            itemBackgroundColor: Colors.black87,
-                            appBarColor: Colors.black,
-                            albumTextStyle: const TextStyle(
-                                color: Colors.white, fontSize: 14),
-                            albumSubTextStyle: const TextStyle(
-                                color: Colors.grey, fontSize: 10),
-                            albumDividerColor: Colors.black54,
-                            listBackgroundColor: Colors.black87,
-                            childAspectRatio: 0.6,
-                            type: AlbumType.image,
-                            closeWidget: CloseButton(
-                              color: Colors.white,
-                              onPressed: () {
-                                setState(() => switchToGallery = false);
-                              },
-                            ),
-                            thumbnailQuality: 300,
                           ),
-                      ],
-                    ),
-                  ),
-                  //
-                  //const RenderingIndicator()
-                ],
+                        ),
+                        defaultFilter: AwesomeFilter.LoFi,
+                        progressIndicator: const Center(
+                          child: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: CircularProgressIndicator.adaptive(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    //
+                    // Gallery
+                    if (switchToGallery)
+                      AlbumImagePicker(
+                        onSelected: (images) async {
+                          final selected = await images.first.file;
+                          final path = selected?.path;
+                          if (path != null) {
+                            // set media path value
+                            if (mediaContent == 0) {
+                              controlNotifier.mediaPath = path;
+                              setState(() {});
+                            }
+                            //
+                            // add photo to editor view
+                            itemProvider.addItem(EditableItem()
+                              ..type = ItemType.image
+                              ..path = path
+                              ..scale = mediaContent < 1 ? 1.2 : 0.8
+                              ..position = const Offset(0, 0));
+                            //
+                            if (mediaContent >= 1) {
+                              controlNotifier.mediaPath = '';
+                            }
+                            //
+                            mediaContent++;
+                            // nav to editor view
+                            // if page = 1, initial view is camera mode
+                            // editor page index is 1, camera page index is 0
+                            scrollProvider.pageController.jumpToPage(page);
+                            // reset switch variabale
+                            switchToGallery = false;
+                          }
+                        },
+                        selectionBuilder: (_, selected, index) {
+                          if (selected) {
+                            return CircleAvatar(
+                              backgroundColor: const Color(0xFFD91C54),
+                              radius: 10,
+                              child: Text(
+                                '${index + 1}',
+                                style: const TextStyle(
+                                    fontSize: 10,
+                                    height: 1.4,
+                                    color: Colors.white),
+                              ),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                        crossAxisCount: 3,
+                        maxSelection: 1,
+                        // onSelectedMax: () {
+                        //   Fluttertoast.showToast(
+                        //     msg: "You have reached the maximum allowed",
+                        //     toastLength: Toast.LENGTH_SHORT,
+                        //     gravity: ToastGravity.CENTER,
+                        //     textColor: Colors.white,
+                        //     fontSize: 14.0,
+                        //   );
+                        // },
+                        albumBackGroundColor: Colors.black87,
+                        appBarHeight: 45,
+                        itemBackgroundColor: Colors.black87,
+                        appBarColor: Colors.black,
+                        albumTextStyle:
+                            const TextStyle(color: Colors.white, fontSize: 14),
+                        albumSubTextStyle:
+                            const TextStyle(color: Colors.grey, fontSize: 10),
+                        albumDividerColor: Colors.black54,
+                        listBackgroundColor: Colors.black87,
+                        childAspectRatio: 0.6,
+                        type: AlbumType.image,
+                        closeWidget: CloseButton(
+                          color: Colors.white,
+                          onPressed: () {
+                            setState(() => switchToGallery = false);
+                          },
+                        ),
+                        thumbnailQuality: 300,
+                      ),
+                  ],
+                ),
               ),
+              //
+              //const RenderingIndicator()
             );
             //   },
             // );
@@ -963,10 +931,13 @@ class _MainViewState extends State<MainView> {
       return;
     }
     debugPrint('onScaleUpdate callback detected');
-    final delta = details.focalPoint - _initPos;
+    final padding = MediaQuery.paddingOf(context);
+    final height = screenSize.height - padding.vertical;
+    final width = min(screenSize.width, 500).toDouble();
+    final position = details.focalPoint - _initPos;
 
-    final left = (delta.dx / screenSize.width) + _currentPos.dx;
-    final top = (delta.dy / screenSize.height) + _currentPos.dy;
+    final left = (position.dx / width) + _currentPos.dx;
+    final top = (position.dy / height) + _currentPos.dy;
 
     // debugPrint(
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');

@@ -105,7 +105,7 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         overlayWidget = AnimatedOnTapButton(
-          onDoubleTap: () => longPress!.call(),
+          onLongPress: () => longPress!.call(),
           onTap: () {},
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -123,10 +123,10 @@ class DraggableWidget extends StatelessWidget {
                 dimension: dimension,
                 scale: draggableWidget.scale,
                 filePath: File(draggableWidget.path),
-                generatedGradient: (color1, color2) {
-                  _colorProvider.color1 = color1;
-                  _colorProvider.color2 = color2;
-                },
+                // generatedGradient: (color1, color2) {
+                //   _colorProvider.color1 = color1;
+                //   _colorProvider.color2 = color2;
+                // },
               ),
             ),
           ),

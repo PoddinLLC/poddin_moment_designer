@@ -1,21 +1,24 @@
 // ignore_for_file: library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:poddin_moment_designer/src/domain/providers/notifiers/gradient_notifier.dart';
 import 'dart:async';
 import 'package:poddin_moment_designer/src/presentation/utils/color_detection.dart';
+import 'package:provider/provider.dart';
 
 class FileImageBG extends StatefulWidget {
   final File? filePath;
   final Size? dimension;
   final double? scale;
-  final void Function(Color color1, Color color2) generatedGradient;
+ // final void Function(Color color1, Color color2) generatedGradient;
   const FileImageBG({
     super.key,
     required this.filePath,
-    required this.generatedGradient,
+   // this.generatedGradient,
     required this.dimension,
     required this.scale,
   });
+  //
   @override
   _FileImageBGState createState() => _FileImageBGState();
 }
@@ -27,11 +30,10 @@ class _FileImageBGState extends State<FileImageBG> {
   GlobalKey? currentKey;
 
   final StreamController<Color> stateController = StreamController<Color>();
-  Color color1 = const Color(0xFFFFFFFF);
-  Color color2 = const Color(0xFFFFFFFF);
 
   @override
   void initState() {
+   var colorProvider = Provider.of<GradientNotifier>(context, listen: false);
     currentKey = paintKey;
     Timer.periodic(const Duration(milliseconds: 150), (callback) async {
       if (widget.scale! >= 1) {
@@ -39,18 +41,14 @@ class _FileImageBGState extends State<FileImageBG> {
           currentKey: currentKey,
           paintKey: paintKey,
           stateController: stateController,
-        ).searchPixel(
-            Offset(widget.dimension!.width / 2, 480));
+        ).searchPixel(Offset(widget.dimension!.width / 2, 480));
         var cd2 = await ColorDetection(
           currentKey: currentKey,
           paintKey: paintKey,
           stateController: stateController,
-        ).searchPixel(
-            Offset(widget.dimension!.width / 2.03, 530));
-        color1 = cd1;
-        color2 = cd2;
-        setState(() {});
-        widget.generatedGradient(color1, color2);
+        ).searchPixel(Offset(widget.dimension!.width / 2.03, 530));
+        colorProvider.color1 = cd1;
+        colorProvider.color2 = cd2;
         callback.cancel();
         stateController.close();
       }
