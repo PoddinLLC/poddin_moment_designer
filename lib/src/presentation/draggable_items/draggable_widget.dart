@@ -311,10 +311,12 @@ class DraggableWidget extends StatelessWidget {
     final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
             .draggableWidget;
-    // replace current item with last item
-    _itemProvider[_itemProvider.indexOf(item)] = _itemProvider.last;
+    //
+    final lastItem = _itemProvider.last;
     // replace last item with current item
     _itemProvider.last = item;
+    // replace current item with last item
+    _itemProvider[_itemProvider.indexOf(item)] = lastItem;
     // vibrate
     HapticFeedback.lightImpact();
   }

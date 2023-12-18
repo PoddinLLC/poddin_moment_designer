@@ -281,8 +281,9 @@ class _MainViewState extends State<MainView> {
                                               alignment: Alignment.center,
                                               children: [
                                                 // Vertical Alignment
-                                                if (activeOffset.dx == 0.0 &&
-                                                    activeOffset.dy < 1.0 &&
+                                                if (activeOffset.dx ==
+                                                        width / 2 &&
+                                                    activeOffset.dy > 100 &&
                                                     _activeItem != null &&
                                                     !_isDeletePosition)
                                                   Container(
@@ -295,7 +296,7 @@ class _MainViewState extends State<MainView> {
                                                   ),
                                                 // Horizontal Alignment
                                                 if (activeOffset ==
-                                                        Offset(0.0, 0.1) &&
+                                                        Offset(width / 2, height / 2) &&
                                                     _activeItem != null &&
                                                     !_isDeletePosition)
                                                   Container(
@@ -346,9 +347,8 @@ class _MainViewState extends State<MainView> {
                                               setState(() {
                                                 activeOffset = details.position;
                                               });
-                                              debugPrint('''
-                                                  "Content Position": $activeOffset\n"Screen Size": $screenSize
-                                                  ''');
+                                              debugPrint(
+                                                  '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
                                               //
                                               debugPrint(
                                                   'onPointerMove callback detected');
@@ -943,8 +943,8 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
+    debugPrint('onScaleStart callback detected');
     // debugPrint('{"On Scale Start": $details\n"Content": $_activeItem}');
-
     setState(() {
       _initPos = details.focalPoint;
       _currentPos = _activeItem!.position;
@@ -958,6 +958,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
+    debugPrint('onScaleUpdate callback detected');
     final delta = details.focalPoint - _initPos;
 
     final left = (delta.dx / screenSize.width) + _currentPos.dx;
