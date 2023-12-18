@@ -328,10 +328,8 @@ class _MainViewState extends State<MainView> {
                                     onPointerUp: (details) {
                                       debugPrint(
                                           'onPointerUp callback detected');
-                                      _deleteItemOnCoordinates(
-                                        editableItem,
-                                        details,
-                                      );
+                                      // _deleteItemOnCoordinates(
+                                      //     editableItem, details);
                                     },
                                     onPointerMove: (details) {
                                       // setState(() {
@@ -341,7 +339,7 @@ class _MainViewState extends State<MainView> {
                                           '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
                                       debugPrint(
                                           'onPointerMove callback detected');
-                                      _deletePosition(editableItem);
+                                      //  _deletePosition(editableItem);
                                     },
                                     longPress: () {
                                       debugPrint('longPress callback detected');
