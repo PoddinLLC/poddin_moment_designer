@@ -169,8 +169,6 @@ class DraggableWidget extends StatelessWidget {
           ? 0
           : (draggableWidget.position.dx * dimension!.width)),
       alignment: Alignment.center,
-      maxChildHeight: dimension!.height,
-      maxChildWidth: dimension!.width,
       child: Transform.scale(
         scale: draggableWidget.deletePosition
             ? _deleteScale()

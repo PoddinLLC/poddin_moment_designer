@@ -362,7 +362,7 @@ class _MainViewState extends State<MainView> {
                                             },
                                             longPress: () {
                                               debugPrint(
-                                                  'onDoubleTap callback detected');
+                                                  'longPress callback detected');
                                               reorder(context, editableItem);
                                             },
                                           ),
@@ -1050,7 +1050,7 @@ class _MainViewState extends State<MainView> {
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
 
     _itemProvider.removeItem(item);
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 300));
     _itemProvider.insertAt(
         _itemProvider.draggableWidget
                 .indexOf(_itemProvider.draggableWidget.last) +
