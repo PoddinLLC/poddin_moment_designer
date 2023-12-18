@@ -345,9 +345,9 @@ class _MainViewState extends State<MainView> {
                                               );
                                             },
                                             onPointerMove: (details) {
-                                              final vExtent = min(
+                                              var vExtent = min(
                                                   details.position.dy, height);
-                                              final hExtent = min(
+                                              var hExtent = min(
                                                   details.position.dx, width);
                                               setState(() {
                                                 activeOffset =
