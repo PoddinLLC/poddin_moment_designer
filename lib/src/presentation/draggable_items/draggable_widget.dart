@@ -1,11 +1,8 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
-
-import 'dart:async';
 import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -24,6 +21,7 @@ class DraggableWidget extends StatelessWidget {
   final Function(PointerDownEvent)? onPointerDown;
   final Function(PointerUpEvent)? onPointerUp;
   final Function(PointerMoveEvent)? onPointerMove;
+  final Function()? onDoubleTap;
   final Size? dimension;
   final BuildContext context;
   const DraggableWidget({
@@ -34,6 +32,7 @@ class DraggableWidget extends StatelessWidget {
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerMove,
+    this.onDoubleTap,
   });
 
   @override
@@ -58,7 +57,7 @@ class DraggableWidget extends StatelessWidget {
               height: draggableWidget.deletePosition ? 0 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
-                onDoubleTap: () => _onReorder(context, draggableWidget),
+                onDoubleTap: () => onDoubleTap,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -106,7 +105,7 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         overlayWidget = AnimatedOnTapButton(
-          onDoubleTap: () => _onReorder(context, draggableWidget),
+          onDoubleTap: () => onDoubleTap,
           onTap: () {},
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -300,28 +299,6 @@ class DraggableWidget extends StatelessWidget {
       scale = 0.2;
     }
     return scale;
-  }
-
-  /// onLongPress content
-  Future<void> _onReorder(
-    BuildContext context,
-    EditableItem item,
-  ) async {
-    final _itemProvider =
-        Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
-            .draggableWidget;
-
-    _itemProvider.remove(item);
-    await Future.delayed(const Duration(milliseconds: 200));
-    _itemProvider.insert(_itemProvider.indexOf(_itemProvider.last) + 1, item);
-
-    // final lastItem = _itemProvider.last;
-    // replace last item with current item
-    // _itemProvider.last = item;
-    // replace current item with last item
-    // _itemProvider[_itemProvider.indexOf(item)] = lastItem;
-    // vibrate
-    HapticFeedback.lightImpact();
   }
 
   /// onTap text

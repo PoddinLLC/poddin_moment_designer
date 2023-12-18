@@ -13,7 +13,7 @@ class TextEditingNotifier extends ChangeNotifier {
   TextAnimationType _animationType = TextAnimationType.none;
   bool _isFontFamily = true;
   bool _isTextAnimation = false;
-  Offset _position = Offset(0.0, 0.0);
+  Offset _position = const Offset(0.0, 0.0);
 
   PageController _fontFamilyController = PageController(viewportFraction: .125);
   PageController _textAnimationController =

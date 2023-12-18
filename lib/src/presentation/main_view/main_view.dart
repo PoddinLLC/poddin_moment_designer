@@ -360,6 +360,11 @@ class _MainViewState extends State<MainView> {
                                                   'onPointerMove callback detected');
                                               _deletePosition(editableItem);
                                             },
+                                            onDoubleTap: () {
+                                              debugPrint(
+                                                  'onDoubleTap callback detected');
+                                              reorder(context, editableItem);
+                                            },
                                           ),
                                         ),
 
@@ -1034,6 +1039,28 @@ class _MainViewState extends State<MainView> {
       _currentRotation = item.rotation;
     });
     // set vibrate
+    HapticFeedback.lightImpact();
+  }
+
+  /// onLongPress content
+  Future<void> reorder(
+    BuildContext context,
+    EditableItem item,
+  ) async {
+    final _itemProvider =
+        Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
+            .draggableWidget;
+
+    _itemProvider.remove(item);
+    await Future.delayed(const Duration(milliseconds: 200));
+    _itemProvider.insert(_itemProvider.indexOf(_itemProvider.last) + 1, item);
+
+    // final lastItem = _itemProvider.last;
+    // replace last item with current item
+    // _itemProvider.last = item;
+    // replace current item with last item
+    // _itemProvider[_itemProvider.indexOf(item)] = lastItem;
+    // vibrate
     HapticFeedback.lightImpact();
   }
 }
