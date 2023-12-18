@@ -931,7 +931,7 @@ class _MainViewState extends State<MainView> {
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
     //
-    final position = details.focalPoint; //- _initPos;
+    final position = details.focalPoint - _initPos;
 
     final left = (position.dx / width); // + _currentPos.dx;
     final top = (position.dy / height); //+ _currentPos.dy;
@@ -986,7 +986,7 @@ class _MainViewState extends State<MainView> {
     }
     //
     setState(() {
-    //  _activeItem = null;
+      //  _activeItem = null;
     });
   }
 
