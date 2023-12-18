@@ -360,7 +360,7 @@ class _MainViewState extends State<MainView> {
                                                   'onPointerMove callback detected');
                                               _deletePosition(editableItem);
                                             },
-                                            onDoubleTap: () {
+                                            longPress: () {
                                               debugPrint(
                                                   'onDoubleTap callback detected');
                                               reorder(context, editableItem);
