@@ -722,21 +722,18 @@ class _MainViewState extends State<MainView> {
                                   setState(() {});
                                 }
                                 //
-                                setState(() {
-                                  // add photo to editor view
-                                  itemProvider.draggableWidget
-                                      .add(EditableItem()
-                                        ..type = ItemType.image
-                                        ..path = path
-                                        ..scale = mediaContent < 1 ? 1.2 : 0.8
-                                        ..position = const Offset(0, 0));
-                                  //
-                                  if (mediaContent >= 1) {
-                                    controlNotifier.mediaPath = '';
-                                  }
-                                  //
-                                  mediaContent++;
-                                });
+                                // add photo to editor view
+                                itemProvider.draggableWidget.add(EditableItem()
+                                  ..type = ItemType.image
+                                  ..path = path
+                                  ..scale = mediaContent < 1 ? 1.2 : 0.8
+                                  ..position = const Offset(0, 0));
+                                //
+                                if (mediaContent >= 1) {
+                                  controlNotifier.mediaPath = '';
+                                }
+                                //
+                                mediaContent++;
                                 // nav to editor view
                                 // if page = 1, initial view is camera mode
                                 // editor page index is 1, camera page index is 0
@@ -823,24 +820,20 @@ class _MainViewState extends State<MainView> {
     );
     // set media path value
     if (mediaContent == 0) {
-      setState(() {
-        controlNotifier.mediaPath = path;
-      });
+      controlNotifier.mediaPath = path;
     }
     // add image to editor
-    setState(() {
-      itemProvider.draggableWidget.add(EditableItem()
-        ..type = ItemType.image
-        ..path = path
-        ..scale = mediaContent < 1 ? 1.2 : 0.8
-        ..position = const Offset(0, 0));
-      //
-      if (mediaContent >= 1) {
-        controlNotifier.mediaPath = '';
-      }
-      //
-      mediaContent++;
-    });
+    itemProvider.draggableWidget.add(EditableItem()
+      ..type = ItemType.image
+      ..path = path
+      ..scale = mediaContent < 1 ? 1.2 : 0.8
+      ..position = const Offset(0, 0));
+    //
+    if (mediaContent >= 1) {
+      controlNotifier.mediaPath = '';
+    }
+    //
+    mediaContent++;
     // nav to editor view
     // if page = 1, initial view is camera mode
     // editor page index is 1, camera page index is 0
@@ -1009,13 +1002,11 @@ class _MainViewState extends State<MainView> {
         item.position.dx >= -0.12 &&
         item.position.dx <= 0.12) {
       if (item.type == ItemType.image) {
-        setState(() {
-          if (mediaContent >= 1) {
-            control.mediaPath = '';
-          }
-          //
-          mediaContent--;
-        });
+        if (mediaContent >= 1) {
+          control.mediaPath = '';
+        }
+        //
+        mediaContent--;
       }
       //
       _itemProvider.removeAt(_itemProvider.indexOf(item));

@@ -13,6 +13,7 @@ class TextEditingNotifier extends ChangeNotifier {
   TextAnimationType _animationType = TextAnimationType.none;
   bool _isFontFamily = true;
   bool _isTextAnimation = false;
+  Offset _position = Offset(0.0, 0.0);
 
   PageController _fontFamilyController = PageController(viewportFraction: .125);
   PageController _textAnimationController =
@@ -59,9 +60,15 @@ class TextEditingNotifier extends ChangeNotifier {
   TextEditingController get textController => _textController;
   List<String> get textList => _textList;
   TextAnimationType get animationType => _animationType;
+  Offset get textPosition => _position;
 
   set text(String text) {
     _text = text;
+    notifyListeners();
+  }
+
+  set textPosition(Offset value) {
+    _position = value;
     notifyListeners();
   }
 
@@ -189,6 +196,7 @@ class TextEditingNotifier extends ChangeNotifier {
     _isTextAnimation = false;
     _textList = [];
     _animationType = TextAnimationType.none;
+    _position = Offset.zero;
   }
 
   disposeController() {

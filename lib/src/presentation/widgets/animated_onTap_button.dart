@@ -9,9 +9,14 @@ class AnimatedOnTapButton extends StatefulWidget {
   final Widget child;
   final void Function() onTap;
   final Function()? onLongPress;
+  final Function()? onDoubleTap;
 
   const AnimatedOnTapButton(
-      {super.key, required this.onTap, required this.child, this.onLongPress});
+      {super.key,
+      required this.onTap,
+      required this.child,
+      this.onLongPress,
+      this.onDoubleTap});
 
   @override
   _AnimatedOnTapButtonState createState() => _AnimatedOnTapButtonState();
@@ -77,6 +82,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         _controllerA!.fling();
       },
       onLongPress: () => widget.onLongPress,
+      onDoubleTap: () => widget.onDoubleTap,
       child: Transform.scale(
         scale: squareScaleA,
         child: widget.child,

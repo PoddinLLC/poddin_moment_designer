@@ -156,7 +156,7 @@ class _TextEditorState extends State<TextEditor> {
         ..textList = editorNotifier.textList
         ..animationType =
             editorNotifier.animationList[editorNotifier.fontAnimationIndex]
-        ..position = const Offset(0.0, 0.0));
+        ..position = editorNotifier.textPosition);
       editorNotifier.setDefaults();
       controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
     } else {

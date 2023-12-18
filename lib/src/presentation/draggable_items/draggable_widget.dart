@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
+import 'dart:async';
 import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
@@ -57,7 +58,7 @@ class DraggableWidget extends StatelessWidget {
               height: draggableWidget.deletePosition ? 0 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
-                onLongPress: () => _onReorder(context, draggableWidget),
+                onDoubleTap: () => _onReorder(context, draggableWidget),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -105,9 +106,7 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         overlayWidget = AnimatedOnTapButton(
-          onLongPress: () {
-            _onReorder(context, draggableWidget);
-          },
+          onDoubleTap: () => _onReorder(context, draggableWidget),
           onTap: () {},
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -311,12 +310,16 @@ class DraggableWidget extends StatelessWidget {
     final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false)
             .draggableWidget;
-    //
-    final lastItem = _itemProvider.last;
+
+    _itemProvider.remove(item);
+    await Future.delayed(const Duration(milliseconds: 200));
+    _itemProvider.insert(_itemProvider.indexOf(_itemProvider.last) + 1, item);
+
+    // final lastItem = _itemProvider.last;
     // replace last item with current item
-    _itemProvider.last = item;
+    // _itemProvider.last = item;
     // replace current item with last item
-    _itemProvider[_itemProvider.indexOf(item)] = lastItem;
+    // _itemProvider[_itemProvider.indexOf(item)] = lastItem;
     // vibrate
     HapticFeedback.lightImpact();
   }
@@ -344,6 +347,7 @@ class DraggableWidget extends StatelessWidget {
     _editorProvider.animationType = item.animationType;
     _editorProvider.textList = item.textList;
     _editorProvider.fontAnimationIndex = item.fontAnimationIndex;
+    _editorProvider.textPosition = item.position;
     _itemProvider.draggableWidget
         .removeAt(_itemProvider.draggableWidget.indexOf(item));
     _editorProvider.fontFamilyController = PageController(
