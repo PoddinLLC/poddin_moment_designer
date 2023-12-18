@@ -332,9 +332,9 @@ class _MainViewState extends State<MainView> {
                                           editableItem, details);
                                     },
                                     onPointerMove: (details) {
-                                      // setState(() {
-                                      activeOffset = _activeItem!.position;
-                                      // });
+                                      setState(() {
+                                        activeOffset = _activeItem!.position;
+                                      });
                                       debugPrint(
                                           '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
                                       debugPrint(
