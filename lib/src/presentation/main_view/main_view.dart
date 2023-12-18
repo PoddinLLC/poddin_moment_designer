@@ -1054,7 +1054,7 @@ class _MainViewState extends State<MainView> {
     _itemProvider.remove(item);
     await Future.delayed(const Duration(milliseconds: 200));
     _itemProvider.insert(_itemProvider.indexOf(_itemProvider.last) + 1, item);
-
+    setState(() {});
     // final lastItem = _itemProvider.last;
     // replace last item with current item
     // _itemProvider.last = item;
