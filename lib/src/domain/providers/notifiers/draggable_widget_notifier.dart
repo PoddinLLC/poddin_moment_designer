@@ -10,9 +10,15 @@ class DraggableWidgetNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Insert item
+  /// Insert item at index
   insertAt(int index, EditableItem element) {
     _draggableWidget.insert(index, element);
+    notifyListeners();
+  }
+
+  /// Remove item at index
+  removeAt(int index) {
+    _draggableWidget.removeAt(index);
     notifyListeners();
   }
 
@@ -23,7 +29,7 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   }
 
   /// Remove item
-  removeItem(EditableItem item){
+  removeItem(EditableItem item) {
     _draggableWidget.remove(item);
     notifyListeners();
   }

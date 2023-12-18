@@ -1,15 +1,14 @@
 // ignore_for_file: file_names, library_private_types_in_public_api, unused_import
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AnimatedOnTapButton extends StatefulWidget {
   final Widget child;
   final void Function() onTap;
-  final Function()? onLongPress;
-  final Function()? onDoubleTap;
+  final void Function()? onLongPress;
+  final void Function()? onDoubleTap;
 
   const AnimatedOnTapButton(
       {super.key,
@@ -81,8 +80,8 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
       onTapCancel: () {
         _controllerA!.fling();
       },
-      onLongPress: () => widget.onLongPress,
-      onDoubleTap: () => widget.onDoubleTap,
+      onLongPress: () => widget.onLongPress!(),
+      onDoubleTap: () => widget.onDoubleTap!(),
       child: Transform.scale(
         scale: squareScaleA,
         child: widget.child,

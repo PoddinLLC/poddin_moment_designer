@@ -144,7 +144,7 @@ class _TextEditorState extends State<TextEditor> {
       }
 
       /// create Text Item
-      _editableItemNotifier.draggableWidget.add(EditableItem()
+      _editableItemNotifier.addItem(EditableItem()
         ..type = ItemType.text
         ..text = editorNotifier.text.trim()
         ..backGroundColor = editorNotifier.backGroundColor
