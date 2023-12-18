@@ -1048,20 +1048,16 @@ class _MainViewState extends State<MainView> {
   ) async {
     final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
-
-    _itemProvider.removeItem(item);
-    await Future.delayed(const Duration(milliseconds: 300));
-    _itemProvider.insertAt(
-        _itemProvider.draggableWidget
-                .indexOf(_itemProvider.draggableWidget.last) +
-            1,
-        item);
-    // final lastItem = _itemProvider.last;
-    // replace last item with current item
-    // _itemProvider.last = item;
-    // replace current item with last item
-    // _itemProvider[_itemProvider.indexOf(item)] = lastItem;
-    // vibrate
-    HapticFeedback.lightImpact();
+    if (_itemProvider.draggableWidget.length > 1) {
+      _itemProvider.removeAt(_itemProvider.draggableWidget.indexOf(item));
+      await Future.delayed(const Duration(milliseconds: 300));
+      _itemProvider.insertAt(
+          _itemProvider.draggableWidget
+                  .indexOf(_itemProvider.draggableWidget.last) +
+              1,
+          item);
+      // vibrate
+      HapticFeedback.lightImpact();
+    }
   }
 }
