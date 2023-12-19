@@ -893,7 +893,9 @@ class _MainViewState extends State<MainView> {
     }
 
     /// show close dialog
-    else if (!controlNotifier.isTextEditing && !controlNotifier.isPainting) {
+    else if (!controlNotifier.isTextEditing &&
+        !controlNotifier.isPainting &&
+        content.draggableWidget.isNotEmpty) {
       return widget.onBackPress ??
           exitDialog(
               context: context,

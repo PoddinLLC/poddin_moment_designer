@@ -10,11 +10,11 @@ class FileImageBG extends StatefulWidget {
   final File? filePath;
   final Size? dimension;
   final double? scale;
- // final void Function(Color color1, Color color2) generatedGradient;
+  // final void Function(Color color1, Color color2) generatedGradient;
   const FileImageBG({
     super.key,
     required this.filePath,
-   // this.generatedGradient,
+    // this.generatedGradient,
     required this.dimension,
     required this.scale,
   });
@@ -33,7 +33,7 @@ class _FileImageBGState extends State<FileImageBG> {
 
   @override
   void initState() {
-   var colorProvider = Provider.of<GradientNotifier>(context, listen: false);
+    var colorProvider = Provider.of<GradientNotifier>(context, listen: false);
     currentKey = paintKey;
     Timer.periodic(const Duration(milliseconds: 150), (callback) async {
       if (widget.scale! >= 1) {
@@ -49,6 +49,7 @@ class _FileImageBGState extends State<FileImageBG> {
         ).searchPixel(Offset(widget.dimension!.width / 2.03, 530));
         colorProvider.color1 = cd1;
         colorProvider.color2 = cd2;
+        setState(() {});
         callback.cancel();
         stateController.close();
       }
