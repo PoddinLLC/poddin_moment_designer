@@ -512,6 +512,7 @@ class _MainViewState extends State<MainView> {
                           },
                         ),
                         sensorConfig: SensorConfig.single(
+                          flashMode: FlashMode.auto,
                           aspectRatio: CameraAspectRatios.ratio_16_9,
                           sensor: Sensor.position(SensorPosition.front),
                         ),
@@ -1017,7 +1018,7 @@ class _MainViewState extends State<MainView> {
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
     if (_itemProvider.draggableWidget.length > 1) {
       _itemProvider.removeAt(_itemProvider.draggableWidget.indexOf(item));
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 150));
       _itemProvider.insertAt(
           _itemProvider.draggableWidget
                   .indexOf(_itemProvider.draggableWidget.last) +
