@@ -35,13 +35,13 @@ class _FileImageBGState extends State<FileImageBG> {
   void initState() {
     var colorProvider = Provider.of<GradientNotifier>(context, listen: false);
     currentKey = paintKey;
-    Timer.periodic(const Duration(milliseconds: 150), (callback) async {
+    Timer.periodic(const Duration(milliseconds: 200), (callback) async {
       if (widget.scale! >= 1) {
         var cd1 = await ColorDetection(
           currentKey: currentKey,
           paintKey: paintKey,
           stateController: stateController,
-        ).searchPixel(Offset(widget.dimension!.width / 2, 480));
+        ).searchPixel(Offset(widget.dimension!.width / 2.03, 480));
         var cd2 = await ColorDetection(
           currentKey: currentKey,
           paintKey: paintKey,
@@ -49,7 +49,6 @@ class _FileImageBGState extends State<FileImageBG> {
         ).searchPixel(Offset(widget.dimension!.width / 2.03, 530));
         colorProvider.color1 = cd1;
         colorProvider.color2 = cd2;
-        setState(() {});
         callback.cancel();
         stateController.close();
       }
@@ -67,7 +66,6 @@ class _FileImageBGState extends State<FileImageBG> {
         File(widget.filePath!.path),
         key: imageKey,
         fit: BoxFit.cover,
-        filterQuality: FilterQuality.high,
       ),
     );
   }
