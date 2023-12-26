@@ -512,7 +512,6 @@ class _MainViewState extends State<MainView> {
                           },
                         ),
                         sensorConfig: SensorConfig.single(
-                          flashMode: FlashMode.auto,
                           aspectRatio: CameraAspectRatios.ratio_16_9,
                           sensor: Sensor.position(SensorPosition.front),
                         ),

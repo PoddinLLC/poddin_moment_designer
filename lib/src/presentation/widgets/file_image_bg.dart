@@ -38,8 +38,8 @@ class _FileImageBGState extends State<FileImageBG> {
         imageProvider: FileImage(File(widget.filePath!.path)),
         defaultColor: Colors.black,
         builder: (context, img) {
-          var color1 = img.pixelColorAtAlignment!(Alignment.topCenter);
-          var color2 = img.pixelColorAtAlignment!(Alignment.bottomCenter);
+          var color1 = img.pixelColorAtAlignment!(Alignment.topLeft);
+          var color2 = img.pixelColorAtAlignment!(Alignment.center);
           colorProvider.color1 = color1;
           colorProvider.color2 = color2;
           return Image.file(
