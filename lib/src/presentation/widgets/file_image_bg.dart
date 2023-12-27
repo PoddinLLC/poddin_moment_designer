@@ -39,8 +39,8 @@ class _FileImageBGState extends State<FileImageBG> {
     Alignment.bottomCenter,
     Alignment.bottomRight
   ];
-  double imgHeight = double.infinity;
-  double imgWidth = double.infinity;
+  double imgHeight = 1024;
+  double imgWidth = 800;
 
   @override
   void initState() {
@@ -59,25 +59,34 @@ class _FileImageBGState extends State<FileImageBG> {
         imageProvider: FileImage(File(widget.filePath!.path)),
         defaultColor: Colors.black,
         builder: (context, img) {
-          var color1 =
-              img.pixelColorAtAlignment!(color1alignment.elementAt(value));
-          var color2 =
-              img.pixelColorAtAlignment!(color2alignment.elementAt(value));
-          //
           imgHeight = img.hasImage
               ? (img.height! > height)
                   ? img.height! / 1.5
                   : img.height! * 1.0
-              : imgHeight;
+              : 1024;
           imgWidth = img.hasImage
               ? (img.width! > width)
                   ? img.width! / 1.5
                   : img.width! * 1.0
-              : imgHeight;
-          setState(() {});
+              : 800;
+          var color1 = img.pixelColorAtAlignment!(color1alignment[value]);
+          var color2 = img.pixelColorAtAlignment!(color2alignment[value]);
           //
           colorProvider.color1 = color1;
           colorProvider.color2 = color2;
+          if (mounted && img.hasImage) {
+            // imgHeight = img.hasImage
+            //     ? (img.height! > height)
+            //         ? img.height! / 1.5
+            //         : img.height! * 1.0
+            //     : 1024;
+            // imgWidth = img.hasImage
+            //     ? (img.width! > width)
+            //         ? img.width! / 1.5
+            //         : img.width! * 1.0
+            //     : 800;
+            setState(() {});
+          }
           //
           return Image.file(
             width: width * widget.scale!,
