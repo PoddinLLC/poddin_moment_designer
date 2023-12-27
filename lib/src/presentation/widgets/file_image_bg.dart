@@ -41,8 +41,8 @@ class _FileImageBGState extends State<FileImageBG> {
     Alignment.centerRight,
     Alignment.center
   ];
-  double imgHeight = 1048;
-  double imgWidth = 800;
+  double? imgHeight;
+  double? imgWidth;
 
   @override
   void initState() {
@@ -51,8 +51,13 @@ class _FileImageBGState extends State<FileImageBG> {
       final fileByte = await widget.filePath!.readAsBytes();
       final buffer = await ui.ImmutableBuffer.fromUint8List(fileByte);
       final descriptor = await ui.ImageDescriptor.encoded(buffer);
-      imgWidth = descriptor.width * 1.0;
-      imgHeight = descriptor.height * 1.0;
+      final width = descriptor.width * 1.0;
+      final height = descriptor.height * 1.0;
+      // get image aspect ratio
+      final aspectRatio = width / height;
+      // resize image to fit screen width
+      imgWidth = widget.dimension!.width;
+      imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
       if (mounted) setState(() {});
     });
 
@@ -62,8 +67,6 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   Widget build(BuildContext context) {
     final colorProvider = Provider.of<GradientNotifier>(context, listen: false);
-    var height = min(widget.dimension!.height, imgHeight);
-    var width = min(widget.dimension!.width, imgWidth);
     //
     return RepaintBoundary(
       key: paintKey,
@@ -79,9 +82,9 @@ class _FileImageBGState extends State<FileImageBG> {
           return Image.file(
             File(widget.filePath!.path),
             key: imageKey,
-            width: width * widget.scale!,
-            height: height * widget.scale!,
-            fit: BoxFit.cover,
+            width: (imgWidth ?? widget.dimension!.width) * widget.scale!,
+            height: (imgHeight ?? widget.dimension!.height) * widget.scale!,
+            fit: BoxFit.contain,
             filterQuality: FilterQuality.high,
           );
         },
