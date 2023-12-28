@@ -231,6 +231,7 @@ class _MainViewState extends State<MainView> {
                     GestureDetector(
                       onScaleStart: _onScaleStart,
                       onScaleUpdate: _onScaleUpdate,
+                      onPanUpdate: currentItemOffset,
                       onTap: () {
                         controlNotifier.isTextEditing =
                             !controlNotifier.isTextEditing;
@@ -303,7 +304,6 @@ class _MainViewState extends State<MainView> {
                                       debugPrint(
                                           'onPointerMove callback detected');
                                       _deletePosition(editableItem);
-                                      currentItemOffset();
                                     },
                                     longPress: () {
                                       debugPrint('longPress callback detected');
@@ -773,11 +773,11 @@ class _MainViewState extends State<MainView> {
   }
 
   /// get active item offet
-  currentItemOffset() async {
+  void currentItemOffset(DragUpdateDetails details) async {
     final RenderBox renderBox =
         activeItemKey.currentContext!.findRenderObject()! as RenderBox;
     final size = renderBox.size;
-    final position = renderBox.localToGlobal(Offset.zero);
+    final position = details.globalPosition; //renderBox.localToGlobal(Offset.zero);
     Offset myOffset =
         Offset(position.dx + size.width / 2, position.dy + size.height / 2);
     setState(() {
