@@ -48,6 +48,7 @@ class DraggableWidget extends StatelessWidget {
         overlayWidget = IntrinsicWidth(
           child: IntrinsicHeight(
             child: Container(
+              key: key,
               constraints: BoxConstraints(
                 minHeight: 50,
                 minWidth: 50,
@@ -110,6 +111,7 @@ class DraggableWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
+              key: key,
               constraints: BoxConstraints(
                 maxHeight: dimension!.height * draggableWidget.scale,
                 maxWidth: dimension!.width * draggableWidget.scale,
@@ -123,10 +125,6 @@ class DraggableWidget extends StatelessWidget {
                 dimension: dimension,
                 scale: draggableWidget.scale,
                 filePath: File(draggableWidget.path),
-                // generatedGradient: (color1, color2) {
-                //   _colorProvider.color1 = color1;
-                //   _colorProvider.color2 = color2;
-                // },
               ),
             ),
           ),
@@ -142,6 +140,7 @@ class DraggableWidget extends StatelessWidget {
               /// create Gif widget
               Center(
                 child: Container(
+                  key: key,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
