@@ -56,10 +56,10 @@ class _FileImageBGState extends State<FileImageBG> {
       // get image aspect ratio
       final aspectRatio = width / height;
       // resize image to fit screen width
-      imgWidth = widget.dimension!.width;
-      imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
-      // if (mounted)
-      setState(() {});
+      setState(() {
+        imgWidth = widget.dimension!.width;
+        imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
+      });
     });
 
     super.initState();

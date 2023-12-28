@@ -122,6 +122,7 @@ class _MainViewState extends State<MainView> {
 
   ///Editable item
   EditableItem? _activeItem;
+  final GlobalKey activeItemKey = GlobalKey();
 
   /// Gesture Detector listen changes
   Offset _initPos = const Offset(0, 0);
@@ -141,7 +142,7 @@ class _MainViewState extends State<MainView> {
   int mediaContent = 0;
 
   //
-  Offset activeOffset = Offset.infinite;
+  Offset activeOffset = Offset.zero;
 
   /// recorder controller
   // final WidgetRecorderController _recorderController =
@@ -277,6 +278,9 @@ class _MainViewState extends State<MainView> {
                                 /// list content items
                                 ...itemProvider.draggableWidget.map(
                                   (editableItem) => DraggableWidget(
+                                    key: editableItem == _activeItem
+                                        ? activeItemKey
+                                        : null,
                                     dimension: Size(width, height),
                                     context: context,
                                     draggableWidget: editableItem,
@@ -295,9 +299,6 @@ class _MainViewState extends State<MainView> {
                                           editableItem, details);
                                     },
                                     onPointerMove: (details) {
-                                      setState(() {
-                                        activeOffset = _activeItem!.position;
-                                      });
                                       debugPrint(
                                           '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
                                       debugPrint(
@@ -934,11 +935,20 @@ class _MainViewState extends State<MainView> {
 
     final left = (position.dx / width) + _currentPos.dx;
     final top = (position.dy / height) + _currentPos.dy;
+    //
+    final RenderBox renderBox =
+        activeItemKey.currentContext?.findRenderObject() as RenderBox;
+    final globalPosition = renderBox.localToGlobal(
+        Offset.zero); // active item position relative to the entire screen
+
+    debugPrint(
+        'Active item current global position: ${Offset(globalPosition.dx, globalPosition.dy)}');
 
     // debugPrint(
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
+      activeOffset = Offset(globalPosition.dx, globalPosition.dy);
       _activeItem!.position = Offset(left, top);
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
@@ -994,7 +1004,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    // debugPrint('{"Current item position": $details');
+     debugPrint('{"Update item position callback detected!');
 
     setState(() {
       _inAction = true;
@@ -1017,7 +1027,7 @@ class _MainViewState extends State<MainView> {
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
     if (_itemProvider.draggableWidget.length > 1) {
       _itemProvider.removeAt(_itemProvider.draggableWidget.indexOf(item));
-      await Future.delayed(const Duration(milliseconds: 150));
+      await Future.delayed(const Duration(milliseconds: 100));
       _itemProvider.insertAt(
           _itemProvider.draggableWidget
                   .indexOf(_itemProvider.draggableWidget.last) +
