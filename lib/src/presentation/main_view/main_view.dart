@@ -780,9 +780,9 @@ class _MainViewState extends State<MainView> {
     Offset myOffset =
         Offset(position.dx + size.width / 2, position.dy + size.height / 2);
     setState(() {
-      activeOffset = myOffset;
+      activeOffset = position;
     });
-    debugPrint('''"Content Offset": $myOffset\n"Raw position": $position''');
+    debugPrint('''Content Offset: $myOffset\nRaw position: $position''');
   }
 
   /// Preview tap action
@@ -950,9 +950,6 @@ class _MainViewState extends State<MainView> {
     final left = (position.dx / width) + _currentPos.dx;
     final top = (position.dy / height) + _currentPos.dy;
 
-    // debugPrint(
-    //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
-
     setState(() {
       _activeItem!.position = Offset(left, top);
       _activeItem!.rotation = details.rotation + _currentRotation;
@@ -1009,7 +1006,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    debugPrint('{"Update item position callback detected!');
+    debugPrint('Update item position callback detected!');
 
     setState(() {
       _inAction = true;
