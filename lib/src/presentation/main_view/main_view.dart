@@ -231,7 +231,6 @@ class _MainViewState extends State<MainView> {
                     GestureDetector(
                       onScaleStart: _onScaleStart,
                       onScaleUpdate: _onScaleUpdate,
-                      onPanUpdate: currentItemOffset,
                       onTap: () {
                         controlNotifier.isTextEditing =
                             !controlNotifier.isTextEditing;
@@ -773,11 +772,11 @@ class _MainViewState extends State<MainView> {
   }
 
   /// get active item offet
-  void currentItemOffset(DragUpdateDetails details) async {
+  void currentItemOffset(ScaleUpdateDetails details) async {
     final RenderBox renderBox =
         activeItemKey.currentContext!.findRenderObject()! as RenderBox;
     final size = renderBox.size;
-    final position = details.globalPosition; //renderBox.localToGlobal(Offset.zero);
+    final position = details.focalPoint; //renderBox.localToGlobal(Offset.zero);
     Offset myOffset =
         Offset(position.dx + size.width / 2, position.dy + size.height / 2);
     setState(() {
@@ -926,7 +925,7 @@ class _MainViewState extends State<MainView> {
       return;
     }
     debugPrint('onScaleStart callback detected');
-    // debugPrint('{"On Scale Start": $details\n"Content": $_activeItem}');
+
     setState(() {
       _initPos = details.focalPoint;
       _currentPos = _activeItem!.position;
@@ -941,6 +940,7 @@ class _MainViewState extends State<MainView> {
       return;
     }
     debugPrint('onScaleUpdate callback detected');
+    currentItemOffset(details);
     final padding = MediaQuery.paddingOf(context);
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
