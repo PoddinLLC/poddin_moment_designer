@@ -939,7 +939,7 @@ class _MainViewState extends State<MainView> {
     final RenderBox renderBox =
         activeItemKey.currentContext?.findRenderObject() as RenderBox;
     final globalPosition = renderBox.localToGlobal(
-        Offset.zero); // active item position relative to the entire screen
+        Offset.zero, ancestor: renderBox); // active item position relative to the entire screen
 
     debugPrint(
         'Active item current global position: ${Offset(globalPosition.dx, globalPosition.dy)}');
