@@ -300,10 +300,13 @@ class _MainViewState extends State<MainView> {
                                     },
                                     onPointerMove: (details) {
                                       debugPrint(
-                                          '''"Content Position": $activeOffset\n"Screen Size": $screenSize''');
-                                      debugPrint(
                                           'onPointerMove callback detected');
                                       _deletePosition(editableItem);
+                                      setState(() {
+                                        activeOffset = details.position;
+                                      });
+                                      debugPrint(
+                                          '''"Content Position": ${details.position}\n"Screen Size": $screenSize''');
                                     },
                                     longPress: () {
                                       debugPrint('longPress callback detected');
@@ -935,20 +938,11 @@ class _MainViewState extends State<MainView> {
 
     final left = (position.dx / width) + _currentPos.dx;
     final top = (position.dy / height) + _currentPos.dy;
-    //
-    final RenderBox renderBox =
-        activeItemKey.currentContext?.findRenderObject() as RenderBox;
-    final globalPosition = renderBox.localToGlobal(
-        Offset.zero, ancestor: renderBox); // active item position relative to the entire screen
-
-    debugPrint(
-        'Active item current global position: ${Offset(globalPosition.dx, globalPosition.dy)}');
 
     // debugPrint(
     //     '{"On Scale Update": $details\n"Init Position": $_initPos\n"Delta": $delta\n"Current Position": $_currentPos}');
 
     setState(() {
-      activeOffset = Offset(globalPosition.dx, globalPosition.dy);
       _activeItem!.position = Offset(left, top);
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
@@ -1004,7 +998,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-     debugPrint('{"Update item position callback detected!');
+    debugPrint('{"Update item position callback detected!');
 
     setState(() {
       _inAction = true;
