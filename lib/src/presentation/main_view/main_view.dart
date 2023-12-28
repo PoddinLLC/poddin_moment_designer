@@ -181,6 +181,7 @@ class _MainViewState extends State<MainView> {
       if (widget.colorList != null) {
         _control.colorList = widget.colorList;
       }
+      debugPrint('Screen size: $screenSize');
     });
     super.initState();
   }
@@ -298,15 +299,11 @@ class _MainViewState extends State<MainView> {
                                       _deleteItemOnCoordinates(
                                           editableItem, details);
                                     },
-                                    onPointerMove: (details) {
+                                    onPointerMove: (details) async {
                                       debugPrint(
                                           'onPointerMove callback detected');
                                       _deletePosition(editableItem);
-                                      setState(() {
-                                        activeOffset = details.localPosition;
-                                      });
-                                      debugPrint(
-                                          '''"Content Position": ${details.position}\n"Screen Size": $screenSize''');
+                                      currentItemOffset();
                                     },
                                     longPress: () {
                                       debugPrint('longPress callback detected');
@@ -773,6 +770,20 @@ class _MainViewState extends State<MainView> {
         ),
       ),
     );
+  }
+
+  /// get active item offet
+  currentItemOffset() async {
+    final RenderBox renderBox =
+        activeItemKey.currentContext!.findRenderObject()! as RenderBox;
+    final size = renderBox.size;
+    final position = renderBox.localToGlobal(Offset.zero);
+    Offset myOffset =
+        Offset(position.dx + size.width / 2, position.dy + size.height / 2);
+    setState(() {
+      activeOffset = myOffset;
+    });
+    debugPrint('''"Content Offset": $myOffset\n"Screen Size": $screenSize''');
   }
 
   /// Preview tap action
