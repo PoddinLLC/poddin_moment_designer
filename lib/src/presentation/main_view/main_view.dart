@@ -280,9 +280,6 @@ class _MainViewState extends State<MainView> {
                                 /// list content items
                                 ...itemProvider.draggableWidget.map(
                                   (editableItem) => DraggableWidget(
-                                    key: editableItem == _activeItem
-                                        ? activeItemKey
-                                        : null,
                                     dimension: Size(width, height),
                                     context: context,
                                     draggableWidget: editableItem,
@@ -774,17 +771,20 @@ class _MainViewState extends State<MainView> {
 
   /// get active item offet
   void currentItemOffset(ScaleUpdateDetails details) async {
-    final RenderBox renderBox =
-        activeItemKey.currentContext!.findRenderObject()! as RenderBox;
-    final size = renderBox.size;
+    // final RenderBox renderBox =
+    //     activeItemKey.currentContext!.findRenderObject()! as RenderBox;
+    // final size = renderBox.size;
     final position = details.focalPoint; //renderBox.localToGlobal(Offset.zero);
     // Offset myOffset =
     //     Offset(position.dx / size.width, position.dy / size.height);
     setState(() {
       activeOffset = position;
     });
-    debugPrint(
-        '''Content Offset: $position\nRaw position: $position\nSize: $size''');
+    Fluttertoast.showToast(
+        msg:
+            'Content Offset: $position, Active Offset: ${_activeItem?.position}',
+        gravity: ToastGravity.TOP);
+    debugPrint('''Content Offset: $position\nRaw position: $position''');
   }
 
   /// Preview tap action

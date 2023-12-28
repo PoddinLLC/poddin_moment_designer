@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   void initState() {
     // get image size
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    Timer(Duration.zero, () async {
       final fileByte = await widget.filePath!.readAsBytes();
       final buffer = await ui.ImmutableBuffer.fromUint8List(fileByte);
       final descriptor = await ui.ImageDescriptor.encoded(buffer);
