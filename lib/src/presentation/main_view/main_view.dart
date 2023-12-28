@@ -780,10 +780,10 @@ class _MainViewState extends State<MainView> {
     setState(() {
       activeOffset = position;
     });
-    Fluttertoast.showToast(
-        msg:
-            'Content Offset: $position, Active Offset: ${_activeItem?.position}',
-        gravity: ToastGravity.TOP);
+    // Fluttertoast.showToast(
+    //     msg:
+    //         'Content Offset: $position, Active Offset: ${_activeItem?.position}',
+    //     gravity: ToastGravity.TOP);
     debugPrint('''Content Offset: $position\nRaw position: $position''');
   }
 
