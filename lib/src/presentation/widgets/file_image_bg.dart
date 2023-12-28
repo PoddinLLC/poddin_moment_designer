@@ -1,5 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
-import 'dart:async';
+// ignore_for_file: library_private_types_in_public_api
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   void initState() {
     // get image size
-    Timer(Duration.zero, () async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final fileByte = await widget.filePath!.readAsBytes();
       final buffer = await ui.ImmutableBuffer.fromUint8List(fileByte);
       final descriptor = await ui.ImageDescriptor.encoded(buffer);
@@ -56,12 +55,10 @@ class _FileImageBGState extends State<FileImageBG> {
       // get image aspect ratio
       final aspectRatio = width / height;
       // resize image to fit screen width
-      setState(() {
-        imgWidth = widget.dimension!.width;
-        imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
-      });
+      imgWidth = widget.dimension!.width;
+      imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
+      if (mounted) setState(() {});
     });
-
     super.initState();
   }
 
