@@ -58,7 +58,8 @@ class _FileImageBGState extends State<FileImageBG> {
       // resize image to fit screen width
       imgWidth = widget.dimension!.width;
       imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
-      if (mounted) setState(() {});
+      // if (mounted)
+      setState(() {});
     });
 
     super.initState();
@@ -84,7 +85,7 @@ class _FileImageBGState extends State<FileImageBG> {
             key: imageKey,
             width: (imgWidth ?? widget.dimension!.width) * widget.scale!,
             height: (imgHeight ?? widget.dimension!.height) * widget.scale!,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             filterQuality: FilterQuality.high,
           );
         },
