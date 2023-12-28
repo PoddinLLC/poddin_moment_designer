@@ -303,7 +303,7 @@ class _MainViewState extends State<MainView> {
                                           'onPointerMove callback detected');
                                       _deletePosition(editableItem);
                                       setState(() {
-                                        activeOffset = details.position;
+                                        activeOffset = details.localPosition;
                                       });
                                       debugPrint(
                                           '''"Content Position": ${details.position}\n"Screen Size": $screenSize''');
