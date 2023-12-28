@@ -181,6 +181,7 @@ class _MainViewState extends State<MainView> {
       if (widget.colorList != null) {
         _control.colorList = widget.colorList;
       }
+      //
       debugPrint('Screen size: $screenSize');
     });
     super.initState();
@@ -391,8 +392,8 @@ class _MainViewState extends State<MainView> {
                             alignment: Alignment.center,
                             children: [
                               // Vertical Alignment
-                              if (activeOffset.dx == 0.0 &&
-                                  activeOffset.dy <= 1.0)
+                              if (activeOffset.dx == screenSize.width / 2 &&
+                                  activeOffset.dy <= screenSize.height)
                                 Container(
                                   width: 1.2,
                                   height: height,
@@ -401,8 +402,8 @@ class _MainViewState extends State<MainView> {
                                   ),
                                 ),
                               // Horizontal Alignment
-                              if (activeOffset == Offset(0.0, 0.0) ||
-                                  activeOffset == Offset(0.0, -0.0))
+                              if (activeOffset.dx <= screenSize.width &&
+                                  activeOffset.dy == screenSize.height / 2)
                                 Container(
                                   width: width,
                                   height: 1.2,
@@ -777,13 +778,13 @@ class _MainViewState extends State<MainView> {
         activeItemKey.currentContext!.findRenderObject()! as RenderBox;
     final size = renderBox.size;
     final position = details.focalPoint; //renderBox.localToGlobal(Offset.zero);
-    Offset myOffset =
-        Offset(position.dx / size.width, position.dy / size.height);
+    // Offset myOffset =
+    //     Offset(position.dx / size.width, position.dy / size.height);
     setState(() {
       activeOffset = position;
     });
     debugPrint(
-        '''Content Offset: $myOffset\nRaw position: $position\nSize: $size''');
+        '''Content Offset: $position\nRaw position: $position\nSize: $size''');
   }
 
   /// Preview tap action
