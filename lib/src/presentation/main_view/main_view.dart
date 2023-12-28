@@ -783,7 +783,7 @@ class _MainViewState extends State<MainView> {
     setState(() {
       activeOffset = myOffset;
     });
-    debugPrint('''"Content Offset": $myOffset\n"Screen Size": $screenSize''');
+    debugPrint('''"Content Offset": $myOffset\n"Raw position": $position''');
   }
 
   /// Preview tap action
