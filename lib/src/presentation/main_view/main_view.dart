@@ -284,9 +284,6 @@ class _MainViewState extends State<MainView> {
                                         : null,
                                     dimension: Size(width, height),
                                     context: context,
-                                    isActive: editableItem == _activeItem
-                                        ? editableItem.type
-                                        : null,
                                     draggableWidget: editableItem,
                                     onPointerDown: (details) {
                                       debugPrint(
@@ -786,7 +783,7 @@ class _MainViewState extends State<MainView> {
       activeOffset = position;
     });
     debugPrint(
-        '''Content Offset: $myOffset\nRaw position: $position/nSize: $size''');
+        '''Content Offset: $myOffset\nRaw position: $position\nSize: $size''');
   }
 
   /// Preview tap action
