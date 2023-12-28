@@ -24,6 +24,7 @@ class DraggableWidget extends StatelessWidget {
   final void Function()? longPress;
   final Size? dimension;
   final BuildContext context;
+  final ItemType? isActive;
   const DraggableWidget({
     super.key,
     required this.context,
@@ -33,6 +34,7 @@ class DraggableWidget extends StatelessWidget {
     this.onPointerUp,
     this.onPointerMove,
     this.longPress,
+    this.isActive,
   });
 
   @override
@@ -48,7 +50,7 @@ class DraggableWidget extends StatelessWidget {
         overlayWidget = IntrinsicWidth(
           child: IntrinsicHeight(
             child: Container(
-              key: key,
+              key: isActive == ItemType.text ? key : null,
               constraints: BoxConstraints(
                 minHeight: 50,
                 minWidth: 50,
@@ -111,7 +113,7 @@ class DraggableWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
-              key: key,
+              key: isActive == ItemType.image ? key : null,
               constraints: BoxConstraints(
                 maxHeight: dimension!.height * draggableWidget.scale,
                 maxWidth: dimension!.width * draggableWidget.scale,
@@ -140,7 +142,7 @@ class DraggableWidget extends StatelessWidget {
               /// create Gif widget
               Center(
                 child: Container(
-                  key: key,
+                  key: isActive == ItemType.gif ? key : null,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(

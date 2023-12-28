@@ -284,6 +284,9 @@ class _MainViewState extends State<MainView> {
                                         : null,
                                     dimension: Size(width, height),
                                     context: context,
+                                    isActive: editableItem == _activeItem
+                                        ? editableItem.type
+                                        : null,
                                     draggableWidget: editableItem,
                                     onPointerDown: (details) {
                                       debugPrint(
