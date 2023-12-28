@@ -778,11 +778,12 @@ class _MainViewState extends State<MainView> {
     final size = renderBox.size;
     final position = details.focalPoint; //renderBox.localToGlobal(Offset.zero);
     Offset myOffset =
-        Offset(position.dx + size.width / 2, position.dy + size.height / 2);
+        Offset(position.dx / size.width, position.dy / size.height);
     setState(() {
       activeOffset = position;
     });
-    debugPrint('''Content Offset: $myOffset\nRaw position: $position''');
+    debugPrint(
+        '''Content Offset: $myOffset\nRaw position: $position/nSize: $size''');
   }
 
   /// Preview tap action
