@@ -19,8 +19,8 @@ dependencies:
   google_fonts: ^6.1.0
   image_gallery_saver: ^2.0.3
   camerawesome: ^2.0.0-dev.1
-  album_image:
-  vs_media_picker:
+  album_image: any
+  vs_media_picker: any
 
   # modal_gif_picker: ^0.0.2
   # painting
@@ -42,9 +42,6 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.0
   # dotted_border: ^2.0.0+3
-
-dependency_overrides: 
-  photo_manager: ^3.0.0-dev.2
 
 
 flutter:
