@@ -143,7 +143,7 @@ class _TextEditorState extends State<TextEditor> {
         }
       }
 
-      /// create Text Item
+      /// create Text Widget
       _editableItemNotifier.addItem(EditableItem()
         ..type = ItemType.text
         ..text = editorNotifier.text.trim()

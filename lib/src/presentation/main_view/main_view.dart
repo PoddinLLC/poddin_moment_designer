@@ -896,13 +896,13 @@ class _MainViewState extends State<MainView> {
       return true;
     }
 
-    /// change to false text editing
+    /// change text editing state to false
     else if (controlNotifier.isTextEditing) {
       controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
       return false;
     }
 
-    /// change to false painting
+    /// change painting state to false
     else if (controlNotifier.isPainting) {
       controlNotifier.isPainting = !controlNotifier.isPainting;
       return false;
