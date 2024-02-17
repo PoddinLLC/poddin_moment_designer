@@ -19,8 +19,8 @@ dependencies:
   google_fonts: ^6.1.0
   image_gallery_saver: ^2.0.3
   camerawesome: ^2.0.0-dev.1
-  album_image: any
-  vs_media_picker: any
+  album_image: ^0.0.3+1
+  vs_media_picker: ^0.0.3
 
   # modal_gif_picker: ^0.0.2
   # painting
