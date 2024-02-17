@@ -1,6 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 import 'dart:io';
 import 'package:align_positioned/align_positioned.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
@@ -280,7 +281,7 @@ class DraggableWidget extends StatelessWidget {
     if (draggableWidget.type == ItemType.text ||
         draggableWidget.type == ItemType.image) {
       top = size.width / 1.3;
-      debugPrint('{"Top offset: $top"}');
+       if (kDebugMode) debugPrint('{"Top offset: $top"}');
     }
     return top;
   }

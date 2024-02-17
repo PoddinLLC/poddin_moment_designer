@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -196,10 +197,10 @@ class _TopToolsState extends State<TopTools> {
                         }
                       }
                       if (_createVideo) {
-                        debugPrint('creating video');
+                         if (kDebugMode) debugPrint('creating video');
                         await widget.renderWidget!();
                       } else {
-                        debugPrint('creating image');
+                         if (kDebugMode) debugPrint('creating image');
                         var response = await takePicture(
                             contentKey: widget.contentKey,
                             context: context,

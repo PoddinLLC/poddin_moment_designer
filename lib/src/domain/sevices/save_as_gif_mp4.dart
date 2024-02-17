@@ -62,7 +62,7 @@
 //         renderingNotifier.totalFrames = _frames.length;
 //         notifyListeners();
 //       } catch (e) {
-//         debugPrint(e.toString());
+//          if (kDebugMode) debugPrint(e.toString());
 //       }
 //       _binding.addPostFrameCallback(
 //         (timeStamp) {

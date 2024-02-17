@@ -28,9 +28,9 @@
 //           .then((rc) async {
 //         loading = false;
 //         notifyListeners();
-//         debugPrint(
+//          if (kDebugMode) debugPrint(
 //             'FFmpeg process exited with rc ==> ${await rc.getReturnCode()}');
-//         debugPrint('FFmpeg process exited with rc ==> ${rc.getCommand()}');
+//          if (kDebugMode) debugPrint('FFmpeg process exited with rc ==> ${rc.getCommand()}');
 //         var res = await rc.getReturnCode();
 
 //         if (res!.getValue() == 0) {

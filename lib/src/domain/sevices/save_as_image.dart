@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -54,7 +54,7 @@ Future takePicture({
       return finalpath;
     }
   } catch (e) {
-    debugPrint('exception => $e');
+     if (kDebugMode) debugPrint('exception => $e');
     return false;
   }
 }

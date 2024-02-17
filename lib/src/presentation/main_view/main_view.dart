@@ -182,7 +182,7 @@ class _MainViewState extends State<MainView> {
         _control.colorList = widget.colorList;
       }
       //
-      debugPrint('Screen size: $screenSize');
+      if (kDebugMode) debugPrint('Screen size: $screenSize');
     });
     super.initState();
   }
@@ -284,26 +284,35 @@ class _MainViewState extends State<MainView> {
                                     context: context,
                                     draggableWidget: editableItem,
                                     onPointerDown: (details) {
-                                      debugPrint(
-                                          'onPointerDown callback detected');
+                                      if (kDebugMode) {
+                                        debugPrint(
+                                            'onPointerDown callback detected');
+                                      }
                                       _updateItemPosition(
                                         editableItem,
                                         details,
                                       );
                                     },
                                     onPointerUp: (details) {
-                                      debugPrint(
-                                          'onPointerUp callback detected');
+                                      if (kDebugMode) {
+                                        debugPrint(
+                                            'onPointerUp callback detected');
+                                      }
                                       _deleteItemOnCoordinates(
                                           editableItem, details);
                                     },
                                     onPointerMove: (details) async {
-                                      debugPrint(
-                                          'onPointerMove callback detected');
+                                      if (kDebugMode) {
+                                        debugPrint(
+                                            'onPointerMove callback detected');
+                                      }
                                       _deletePosition(editableItem);
                                     },
                                     longPress: () {
-                                      debugPrint('longPress callback detected');
+                                      if (kDebugMode) {
+                                        debugPrint(
+                                            'longPress callback detected');
+                                      }
                                       reorder(context, editableItem);
                                     },
                                   ),
@@ -784,7 +793,9 @@ class _MainViewState extends State<MainView> {
     //     msg:
     //         'Content Offset: $position, Active Offset: ${_activeItem?.position}',
     //     gravity: ToastGravity.TOP);
-    debugPrint('''Content Offset: $position\nRaw position: $position''');
+    if (kDebugMode) {
+      debugPrint('''Content Offset: $position\nRaw position: $position''');
+    }
   }
 
   /// Preview tap action
@@ -850,10 +861,10 @@ class _MainViewState extends State<MainView> {
   //                   name: "${DateTime.now()}")
   //               .then((value) {
   //             if (value['isSuccess']) {
-  //               debugPrint(value['filePath']);
+  //                if (kDebugMode) debugPrint(value['filePath']);
   //               Fluttertoast.showToast(msg: 'Recording successfully saved');
   //             } else {
-  //               debugPrint('Gallery saver error: ${value['errorMessage']}');
+  //                if (kDebugMode) debugPrint('Gallery saver error: ${value['errorMessage']}');
   //               Fluttertoast.showToast(msg: 'Gallery saver error');
   //             }
   //           }).whenComplete(() {
@@ -926,7 +937,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
-    debugPrint('onScaleStart callback detected');
+    if (kDebugMode) debugPrint('onScaleStart callback detected');
 
     setState(() {
       _initPos = details.focalPoint;
@@ -941,7 +952,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
-    debugPrint('onScaleUpdate callback detected');
+    if (kDebugMode) debugPrint('onScaleUpdate callback detected');
     currentItemOffset(details);
     final padding = MediaQuery.paddingOf(context);
     final height = screenSize.height - padding.vertical;
@@ -1008,7 +1019,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    debugPrint('Update item position callback detected!');
+    if (kDebugMode) debugPrint('Update item position callback detected!');
 
     setState(() {
       _inAction = true;

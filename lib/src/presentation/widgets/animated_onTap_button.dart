@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, library_private_types_in_public_api, unused_import
 
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -74,7 +75,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
             });
           }
         } catch (e) {
-          debugPrint(e.toString());
+           if (kDebugMode) debugPrint(e.toString());
         }
       },
       onTapCancel: () {

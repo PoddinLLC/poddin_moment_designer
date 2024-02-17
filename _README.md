@@ -142,7 +142,7 @@ class _ExampleState extends State<Example> {
                 //   FontType.typewriter
                 // ],
                 onDone: (uri){
-                  debugPrint(uri);
+                   if (kDebugMode) debugPrint(uri);
                   Share.shareFiles([uri]);
                 },
               ))
