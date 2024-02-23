@@ -30,7 +30,7 @@ class DraggableWidgetNotifier extends ChangeNotifier {
 
   /// Remove item
   removeItem(EditableItem item) {
-    _draggableWidget.remove(item);
+    _draggableWidget.removeAt(_draggableWidget.indexOf(item));
     notifyListeners();
   }
 

@@ -122,27 +122,12 @@ class _TextEditorState extends State<TextEditor> {
         ));
   }
 
+  /// Save text and create widget
   void _onTap(context, ControlNotifier controlNotifier,
       TextEditingNotifier editorNotifier) {
     final _editableItemNotifier =
         Provider.of<DraggableWidgetNotifier>(context, listen: false);
-
-    /// create text list
     if (editorNotifier.text.trim().isNotEmpty) {
-      splitList = editorNotifier.text.split(' ');
-      for (int i = 0; i < splitList.length; i++) {
-        if (i == 0) {
-          editorNotifier.textList.add(splitList[0]);
-          sequenceList = splitList[0];
-        } else {
-          lastSequenceList = sequenceList;
-          // editorNotifier.textList.add(sequenceList + ' ' + splitList[i]);
-          // sequenceList = lastSequenceList + ' ' + splitList[i];
-          editorNotifier.textList.add('$sequenceList ${splitList[i]}');
-          sequenceList = '$lastSequenceList ${splitList[i]}';
-        }
-      }
-
       /// create Text Widget
       _editableItemNotifier.addItem(EditableItem()
         ..type = ItemType.text
@@ -157,11 +142,9 @@ class _TextEditorState extends State<TextEditor> {
         ..animationType =
             editorNotifier.animationList[editorNotifier.fontAnimationIndex]
         ..position = editorNotifier.textPosition);
-      editorNotifier.setDefaults();
-      controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
-    } else {
-      editorNotifier.setDefaults();
-      controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
     }
+    //
+    controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
+    editorNotifier.setDefaults();
   }
 }

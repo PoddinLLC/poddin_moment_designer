@@ -271,11 +271,11 @@ class _MainViewState extends State<MainView> {
                               children: [
                                 /// in this case photo view works as a main background container to manage
                                 /// the gestures of all movable items.
-                                PhotoView.customChild(
-                                  backgroundDecoration: const BoxDecoration(
-                                      color: Colors.transparent),
-                                  child: Container(),
-                                ),
+                                // PhotoView.customChild(
+                                //   backgroundDecoration: const BoxDecoration(
+                                //       color: Colors.transparent),
+                                //   child: Container(),
+                                // ),
 
                                 /// list content items
                                 ...itemProvider.draggableWidget.map(
@@ -320,7 +320,6 @@ class _MainViewState extends State<MainView> {
 
                                 /// finger paint
                                 IgnorePointer(
-                                  ignoring: true,
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: Container(
@@ -361,7 +360,6 @@ class _MainViewState extends State<MainView> {
                         !controlNotifier.isTextEditing &&
                         paintingProvider.lines.isEmpty)
                       IgnorePointer(
-                        ignoring: true,
                         child: Align(
                           child: Text(
                             widget.centerText ?? 'Type Something',
@@ -401,7 +399,7 @@ class _MainViewState extends State<MainView> {
                               if (activeOffset.dx == screenSize.width / 2 &&
                                   activeOffset.dy <= screenSize.height)
                                 Container(
-                                  width: 1.2,
+                                  width: 2,
                                   height: height,
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 255, 0, 76),
@@ -412,7 +410,7 @@ class _MainViewState extends State<MainView> {
                                   activeOffset.dy == screenSize.height / 2)
                                 Container(
                                   width: width,
-                                  height: 1.2,
+                                  height: 2,
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 255, 0, 76),
                                   ),
@@ -470,9 +468,7 @@ class _MainViewState extends State<MainView> {
                     /// show text editor
                     Visibility(
                       visible: controlNotifier.isTextEditing,
-                      child: TextEditor(
-                        context: context,
-                      ),
+                      child: TextEditor(context: context),
                     ),
 
                     /// show painting sketch
@@ -485,17 +481,13 @@ class _MainViewState extends State<MainView> {
                 // Show camera and gallery
                 camera: Stack(
                   children: [
-                    //Camera
+                    // Camera
                     if (!switchToGallery)
                       CameraAwesomeBuilder.awesome(
-                        enablePhysicalButton: true,
                         saveConfig: SaveConfig.photo(
-                          exifPreferences:
-                              ExifPreferences(saveGPSLocation: false),
                           mirrorFrontCamera: true,
                           pathBuilder: (sensors) async {
-                            final extDir =
-                                await getApplicationDocumentsDirectory();
+                            final extDir = await getTemporaryDirectory();
                             final testDir =
                                 await Directory('${extDir.path}/poddin_moments')
                                     .create(recursive: true);
@@ -521,6 +513,7 @@ class _MainViewState extends State<MainView> {
                         sensorConfig: SensorConfig.single(
                           aspectRatio: CameraAspectRatios.ratio_16_9,
                           sensor: Sensor.position(SensorPosition.front),
+                          flashMode: FlashMode.auto,
                         ),
                         topActionsBuilder: (state) => AwesomeTopActions(
                           padding: const EdgeInsets.only(
@@ -632,7 +625,6 @@ class _MainViewState extends State<MainView> {
                         },
                         bottomActionsBuilder: (state) => AwesomeBottomActions(
                           onMediaTap: (mediaCapture) => onPreviewTap(
-                            context,
                             mediaCapture,
                             controlNotifier,
                             itemProvider,
@@ -657,7 +649,6 @@ class _MainViewState extends State<MainView> {
                             iconSize: 20,
                             buttonBuilder: (child, onTap) {
                               return SizedBox(
-                                // dimension: 40,
                                 child: ClipOval(
                                   child: Material(
                                     color: Colors.transparent,
@@ -672,7 +663,7 @@ class _MainViewState extends State<MainView> {
                             },
                           ),
                         ),
-                        defaultFilter: AwesomeFilter.LoFi,
+                        defaultFilter: AwesomeFilter.Juno,
                         progressIndicator: const Center(
                           child: SizedBox(
                             width: 30,
@@ -683,7 +674,6 @@ class _MainViewState extends State<MainView> {
                           ),
                         ),
                       ),
-                    //
                     // Gallery
                     if (switchToGallery)
                       AlbumImagePicker(
@@ -696,18 +686,15 @@ class _MainViewState extends State<MainView> {
                               controlNotifier.mediaPath = path;
                               setState(() {});
                             }
-                            //
                             // add photo to editor view
                             itemProvider.addItem(EditableItem()
                               ..type = ItemType.image
                               ..path = path
                               ..scale = mediaContent < 1 ? 1.2 : 0.8
                               ..position = const Offset(0, 0));
-                            //
                             if (mediaContent >= 1) {
                               controlNotifier.mediaPath = '';
                             }
-                            //
                             mediaContent++;
                             // nav to editor view
                             // if page = 1, initial view is camera mode
@@ -745,7 +732,6 @@ class _MainViewState extends State<MainView> {
                         //   );
                         // },
                         albumBackGroundColor: Colors.black87,
-                        appBarHeight: 45,
                         itemBackgroundColor: Colors.black87,
                         appBarColor: Colors.black,
                         albumTextStyle:
@@ -800,7 +786,6 @@ class _MainViewState extends State<MainView> {
 
   /// Preview tap action
   onPreviewTap(
-    BuildContext context,
     MediaCapture? media,
     ControlNotifier controlNotifier,
     DraggableWidgetNotifier itemProvider,
@@ -1006,7 +991,7 @@ class _MainViewState extends State<MainView> {
       }
       //
       _itemProvider.removeItem(item);
-      HapticFeedback.heavyImpact();
+      HapticFeedback.lightImpact();
     }
     //
     setState(() {
@@ -1041,7 +1026,7 @@ class _MainViewState extends State<MainView> {
     final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
     if (_itemProvider.draggableWidget.length > 1) {
-      _itemProvider.removeAt(_itemProvider.draggableWidget.indexOf(item));
+      _itemProvider.removeItem(item);
       await Future.delayed(const Duration(milliseconds: 100));
       _itemProvider.insertAt(
           _itemProvider.draggableWidget

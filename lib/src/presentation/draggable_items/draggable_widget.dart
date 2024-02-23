@@ -4,6 +4,7 @@ import 'package:align_positioned/align_positioned.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:poddin_moment_designer/src/presentation/text_editor_view/utils/rounded_text.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -38,9 +39,9 @@ class DraggableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _colorProvider =
+    final _colorProvider =
         Provider.of<GradientNotifier>(this.context, listen: false);
-    var _controlProvider =
+    final _controlProvider =
         Provider.of<ControlNotifier>(this.context, listen: false);
     Widget overlayWidget;
 
@@ -58,43 +59,73 @@ class DraggableWidget extends StatelessWidget {
               height: draggableWidget.deletePosition ? 0 : null,
               child: AnimatedOnTapButton(
                 onTap: () => _onTap(context, draggableWidget, _controlProvider),
-                onLongPress: () => longPress!.call(),
+                onLongPress: longPress,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // show this when text has background
-                    Center(
-                      child: _text(
-                        background: true,
-                        paintingStyle: PaintingStyle.fill,
-                        controlNotifier: _controlProvider,
-                      ),
-                    ),
-                    // add stroke when text has background
-                    IgnorePointer(
-                      ignoring: true,
-                      child: Center(
-                        child: _text(
-                          background: true,
-                          paintingStyle: PaintingStyle.stroke,
-                          controlNotifier: _controlProvider,
-                        ),
-                      ),
-                    ),
-                    // default text displayed
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0, top: 0),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: _text(
-                              paintingStyle: PaintingStyle.fill,
-                              controlNotifier: _controlProvider,
+                    // show text with or without background
+                    RoundedBackgroundText(
+                      draggableWidget.text,
+                      backgroundColor: draggableWidget.backGroundColor,
+                      color: draggableWidget.textColor,
+                      textAlign: draggableWidget.textAlign,
+                      style: AppFonts.getTextThemeENUM(_controlProvider
+                              .fontList![draggableWidget.fontFamily])
+                          .bodyLarge!
+                          .merge(
+                            TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: draggableWidget.deletePosition
+                                  ? 0
+                                  : draggableWidget.fontSize,
+                              shadows: !_controlProvider.enableTextShadow
+                                  ? []
+                                  : <Shadow>[
+                                      Shadow(
+                                          offset: const Offset(0, 0),
+                                          blurRadius: 3.0,
+                                          color: draggableWidget.textColor ==
+                                                  Colors.black
+                                              ? Colors.white54
+                                              : Colors.black)
+                                    ],
                             ),
                           ),
-                        ],
-                      ),
-                    )
+                      maxLines: null,
+                    ),
+                    // show this when text has background
+                    // Center(
+                    //   child: text(
+                    //     background: true,
+                    //     paintingStyle: PaintingStyle.fill,
+                    //     controlNotifier: _controlProvider,
+                    //   ),
+                    // ),
+                    // // add stroke when text has background
+                    // IgnorePointer(
+                    //   ignoring: true,
+                    //   child: Center(
+                    //     child: text(
+                    //       background: true,
+                    //       paintingStyle: PaintingStyle.stroke,
+                    //       controlNotifier: _controlProvider,
+                    //     ),
+                    //   ),
+                    // ),
+                    // // default text displayed
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 0, top: 0),
+                    //   child: Stack(
+                    //     children: [
+                    //       Center(
+                    //         child: text(
+                    //           paintingStyle: PaintingStyle.fill,
+                    //           controlNotifier: _controlProvider,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -106,7 +137,7 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         overlayWidget = AnimatedOnTapButton(
-          onLongPress: () => longPress!.call(),
+          onLongPress: longPress,
           onTap: () {},
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -184,7 +215,7 @@ class DraggableWidget extends StatelessWidget {
   }
 
   /// text widget
-  Widget _text(
+  Widget text(
       {required ControlNotifier controlNotifier,
       required PaintingStyle paintingStyle,
       bool background = false}) {
@@ -281,7 +312,7 @@ class DraggableWidget extends StatelessWidget {
     if (draggableWidget.type == ItemType.text ||
         draggableWidget.type == ItemType.image) {
       top = size.width / 1.3;
-       if (kDebugMode) debugPrint('{"Top offset: $top"}');
+      if (kDebugMode) debugPrint('{"Top offset: $top"}');
     }
     return top;
   }
@@ -317,14 +348,14 @@ class DraggableWidget extends StatelessWidget {
     _editorProvider.textColor =
         controlNotifier.colorList!.indexOf(item.textColor);
     _editorProvider.animationType = item.animationType;
-    _editorProvider.textList = item.textList;
     _editorProvider.fontAnimationIndex = item.fontAnimationIndex;
     _editorProvider.textPosition = item.position;
-    _itemProvider.removeAt(_itemProvider.draggableWidget.indexOf(item));
     _editorProvider.fontFamilyController = PageController(
       initialPage: item.fontFamily,
       viewportFraction: .1,
     );
+    // remove text widget
+    _itemProvider.removeItem(item);
     // create new text item
     controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
   }

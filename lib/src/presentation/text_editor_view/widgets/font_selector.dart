@@ -25,7 +25,7 @@ class FontSelector extends StatelessWidget {
             itemCount: controlNotifier.fontList!.length,
             onPageChanged: (index) {
               editorNotifier.fontFamilyIndex = index;
-              HapticFeedback.heavyImpact();
+              HapticFeedback.lightImpact();
             },
             physics: const BouncingScrollPhysics(),
             allowImplicitScrolling: true,

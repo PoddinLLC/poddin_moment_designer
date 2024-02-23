@@ -26,7 +26,7 @@ class TopTextTools extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // color + font picker
+                          // change text color + font picker
                           ToolButton(
                             borderHide:
                                 !editorNotifier.isFontFamily ? false : true,
@@ -61,7 +61,7 @@ class TopTextTools extends StatelessWidget {
                                       )),
                           ),
 
-                          /// text align
+                          /// change text alignment
                           ToolButton(
                             onTap: editorNotifier.onAlignmentChange,
                             child: Transform.scale(
@@ -78,13 +78,13 @@ class TopTextTools extends StatelessWidget {
                                 )),
                           ),
 
-                          /// background color
+                          /// change background color
                           ToolButton(
                             onTap: editorNotifier.onBackGroundChange,
-                            backGroundColor: editorNotifier.backGroundColor !=
+                            backGroundColor: editorNotifier.backGroundColor ==
                                     Colors.transparent
-                                ? Colors.white.withOpacity(0.9)
-                                : Colors.black12,
+                                ? Colors.black12
+                                : editorNotifier.backGroundColor,
                             child: Transform.scale(
                                 scale: 0.8,
                                 child: Center(
@@ -95,8 +95,8 @@ class TopTextTools extends StatelessWidget {
                                     const AssetImage(
                                         'assets/icons/font_backGround.png',
                                         package: 'poddin_moment_designer'),
-                                    color: editorNotifier.backGroundColor !=
-                                            Colors.transparent
+                                    color: editorNotifier.backGroundColor ==
+                                            Colors.white
                                         ? Colors.black
                                         : Colors.white,
                                     size: 24,

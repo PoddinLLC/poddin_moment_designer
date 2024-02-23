@@ -1,6 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
+import 'package:poddin_moment_designer/src/presentation/text_editor_view/utils/rouded_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/text_editing_notifier.dart';
@@ -21,16 +22,39 @@ class TextFieldWidget extends StatelessWidget {
               maxWidth: _size.width - 100,
             ),
             child: IntrinsicWidth(
-                /// textField Box decoration
                 child: Stack(
               alignment: Alignment.center,
               children: [
-                _textField(
-                  editorNotifier: editorNotifier,
-                  textNode: _textNode,
-                  controlNotifier: controlNotifier,
-                  paintingStyle: PaintingStyle.fill,
-                )
+                RoundedBackgroundTextField(
+                  focusNode: _textNode,
+                  autofocus: true,
+                  textInputAction: TextInputAction.newline,
+                  controller: editorNotifier.textController,
+                  style: AppFonts.getTextThemeENUM(controlNotifier
+                          .fontList![editorNotifier.fontFamilyIndex])
+                      .bodyLarge!
+                      .copyWith(
+                        color: controlNotifier
+                            .colorList![editorNotifier.textColor],
+                        height: 1.4,
+                        fontSize: editorNotifier.textSize,
+                      ),
+                  backgroundColor: editorNotifier.backGroundColor,
+                  textAlign: editorNotifier.textAlign,
+                  cursorColor:
+                      controlNotifier.colorList![editorNotifier.textColor],
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  onChanged: (value) {
+                    editorNotifier.text = value;
+                  },
+                ),
+                // textField(
+                //   editorNotifier: editorNotifier,
+                //   textNode: _textNode,
+                //   controlNotifier: controlNotifier,
+                //   paintingStyle: PaintingStyle.stroke,
+                // )
               ],
             )),
           ),
@@ -39,7 +63,7 @@ class TextFieldWidget extends StatelessWidget {
     );
   }
 
-  Widget _textField({
+  Widget textField({
     required TextEditingNotifier editorNotifier,
     required FocusNode textNode,
     required ControlNotifier controlNotifier,
@@ -59,7 +83,7 @@ class TextFieldWidget extends StatelessWidget {
             height: 1.4,
             fontSize: editorNotifier.textSize,
             background: Paint()
-              ..strokeWidth = 20.0
+              ..strokeWidth = 30.0
               ..color = editorNotifier.backGroundColor
               ..style = paintingStyle
               ..strokeJoin = StrokeJoin.round

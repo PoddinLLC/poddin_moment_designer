@@ -24,7 +24,7 @@
 //             itemCount: editorNotifier.animationList.length,
 //             onPageChanged: (index) {
 //               editorNotifier.fontAnimationIndex = index;
-//               HapticFeedback.heavyImpact();
+//               HapticFeedback.lightImpact();
 //             },
 //             physics: const BouncingScrollPhysics(),
 //             allowImplicitScrolling: true,
