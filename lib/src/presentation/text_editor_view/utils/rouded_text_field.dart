@@ -506,13 +506,14 @@ class _RoundedBackgroundTextFieldState
     );
 
     return Stack(
-      alignment: switch (widget.textAlign) {
-        TextAlign.end => AlignmentDirectional.topEnd,
-        TextAlign.start => AlignmentDirectional.topStart,
-        TextAlign.left => Alignment.topLeft,
-        TextAlign.right => Alignment.topRight,
-        TextAlign.center || _ => Alignment.topCenter,
-      },
+      // alignment: switch (widget.textAlign) {
+      //   TextAlign.end => AlignmentDirectional.topEnd,
+      //   TextAlign.start => AlignmentDirectional.topStart,
+      //   TextAlign.left => Alignment.topLeft,
+      //   TextAlign.right => Alignment.topRight,
+      //   TextAlign.center || _ => Alignment.topCenter,
+      // },
+      alignment: Alignment.center,
       children: [
         if (textController.text.isNotEmpty)
           Positioned(
@@ -547,8 +548,8 @@ class _RoundedBackgroundTextFieldState
                 ),
               ),
             ),
-          )
-        else if (widget.hint != null)
+          ),
+        if (widget.hint != null)
           Positioned.fill(
             child: Padding(
               padding: padding,
@@ -582,6 +583,7 @@ class _RoundedBackgroundTextFieldState
                 fontSize: fontSize,
                 leadingDistribution: TextLeadingDistribution.proportional,
               ),
+              minLines: 1,
               textAlign: widget.textAlign,
               maxLines: widget.maxLines,
               keyboardType: widget.keyboardType,
