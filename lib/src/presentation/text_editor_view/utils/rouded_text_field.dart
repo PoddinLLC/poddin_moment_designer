@@ -585,7 +585,7 @@ class _RoundedBackgroundTextFieldState
               ),
               minLines: 1,
               textAlign: widget.textAlign,
-              maxLines: widget.maxLines,
+              maxLines: null,
               keyboardType: widget.keyboardType,
               backgroundCursorColor: CupertinoColors.inactiveGray,
               cursorColor: widget.cursorColor ??

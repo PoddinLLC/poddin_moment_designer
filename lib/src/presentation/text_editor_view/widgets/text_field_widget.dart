@@ -21,8 +21,8 @@ class TextFieldWidget extends StatelessWidget {
             constraints: BoxConstraints(
               maxWidth: _size.width - 100,
             ),
-            child: IntrinsicWidth(
-                child: Stack(
+            // child: IntrinsicWidth(
+            child: Stack(
               alignment: Alignment.center,
               children: [
                 RoundedBackgroundTextField(
@@ -44,7 +44,6 @@ class TextFieldWidget extends StatelessWidget {
                   cursorColor:
                       controlNotifier.colorList![editorNotifier.textColor],
                   keyboardType: TextInputType.multiline,
-                  maxLines: null,
                   onChanged: (value) {
                     editorNotifier.text = value;
                   },
@@ -56,7 +55,8 @@ class TextFieldWidget extends StatelessWidget {
                 //   paintingStyle: PaintingStyle.stroke,
                 // )
               ],
-            )),
+              // ),
+            ),
           ),
         );
       },
