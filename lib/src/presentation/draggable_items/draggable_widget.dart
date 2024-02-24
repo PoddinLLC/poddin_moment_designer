@@ -46,6 +46,7 @@ class DraggableWidget extends StatelessWidget {
     Widget overlayWidget;
 
     switch (draggableWidget.type) {
+      // show text with or without background
       case ItemType.text:
         overlayWidget = Container(
           constraints: BoxConstraints(
@@ -58,77 +59,36 @@ class DraggableWidget extends StatelessWidget {
           child: AnimatedOnTapButton(
             onTap: () => _onTap(context, draggableWidget, _controlProvider),
             onLongPress: longPress,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // show text with or without background
-                RoundedBackgroundText(
-                  draggableWidget.text,
-                  backgroundColor: draggableWidget.backGroundColor,
-                  color: draggableWidget.textColor,
-                  textAlign: draggableWidget.textAlign,
-                  style: AppFonts.getTextThemeENUM(_controlProvider
-                          .fontList![draggableWidget.fontFamily])
-                      .bodyLarge!
-                      .merge(
-                        TextStyle(
-                          color: draggableWidget.textColor,
-                          fontWeight: FontWeight.w500,
-                          height: 1.4,
-                          leadingDistribution:
-                              TextLeadingDistribution.proportional,
-                          fontSize: draggableWidget.deletePosition
-                              ? 0
-                              : draggableWidget.fontSize,
-                          shadows: !_controlProvider.enableTextShadow
-                              ? []
-                              : <Shadow>[
-                                  Shadow(
-                                      offset: const Offset(0, 0),
-                                      blurRadius: 3.0,
-                                      color: draggableWidget.textColor ==
-                                              Colors.black
+            child: RoundedBackgroundText(
+              draggableWidget.text,
+              backgroundColor: draggableWidget.backGroundColor,
+              textAlign: draggableWidget.textAlign,
+              style: AppFonts.getTextThemeENUM(
+                      _controlProvider.fontList![draggableWidget.fontFamily])
+                  .bodyLarge!
+                  .merge(
+                    TextStyle(
+                      color: draggableWidget.textColor,
+                      fontWeight: FontWeight.w500,
+                      height: 1.4,
+                      leadingDistribution: TextLeadingDistribution.proportional,
+                      fontSize: draggableWidget.deletePosition
+                          ? 0
+                          : draggableWidget.fontSize,
+                      shadows: !_controlProvider.enableTextShadow
+                          ? []
+                          : <Shadow>[
+                              Shadow(
+                                  offset: const Offset(0, 0),
+                                  blurRadius: 3.0,
+                                  color:
+                                      draggableWidget.textColor == Colors.black
                                           ? Colors.white54
                                           : Colors.black)
-                                ],
-                        ),
-                      ),
-                  maxLines: null,
-                ),
-                // show this when text has background
-                // Center(
-                //   child: text(
-                //     background: true,
-                //     paintingStyle: PaintingStyle.fill,
-                //     controlNotifier: _controlProvider,
-                //   ),
-                // ),
-                // // add stroke when text has background
-                // IgnorePointer(
-                //   ignoring: true,
-                //   child: Center(
-                //     child: text(
-                //       background: true,
-                //       paintingStyle: PaintingStyle.stroke,
-                //       controlNotifier: _controlProvider,
-                //     ),
-                //   ),
-                // ),
-                // // default text displayed
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 0, top: 0),
-                //   child: Stack(
-                //     children: [
-                //       Center(
-                //         child: text(
-                //           paintingStyle: PaintingStyle.fill,
-                //           controlNotifier: _controlProvider,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // )
-              ],
+                            ],
+                    ),
+                  ),
+              maxLines: null,
             ),
           ),
         );

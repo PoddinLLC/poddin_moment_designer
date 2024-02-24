@@ -21,7 +21,6 @@ class RoundedBackgroundText extends StatelessWidget {
     this.textDirection,
     this.textAlign,
     this.backgroundColor,
-    this.color,
     this.textWidthBasis,
     this.ellipsis,
     this.locale,
@@ -48,7 +47,6 @@ class RoundedBackgroundText extends StatelessWidget {
     this.textHeightBehavior,
     this.innerRadius = kDefaultInnerRadius,
     this.outerRadius = kDefaultOuterRadius,
-    this.color,
   })  : assert(innerRadius >= 0.0 && innerRadius <= 20.0),
         assert(outerRadius >= 0.0 && outerRadius <= 20.0);
 
@@ -64,8 +62,6 @@ class RoundedBackgroundText extends StatelessWidget {
   /// If null, a trasparent color will be used.
   /// {@endtemplate}
   final Color? backgroundColor;
-
-  final Color? color;
 
   /// How the text should be aligned horizontally.
   final TextAlign? textAlign;

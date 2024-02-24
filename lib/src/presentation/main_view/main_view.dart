@@ -269,14 +269,6 @@ class _MainViewState extends State<MainView> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                /// in this case photo view works as a main background container to manage
-                                /// the gestures of all movable items.
-                                // PhotoView.customChild(
-                                //   backgroundDecoration: const BoxDecoration(
-                                //       color: Colors.transparent),
-                                //   child: Container(),
-                                // ),
-
                                 /// list content items
                                 ...itemProvider.draggableWidget.map(
                                   (editableItem) => DraggableWidget(
