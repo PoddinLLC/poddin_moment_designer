@@ -47,11 +47,7 @@ class DraggableWidget extends StatelessWidget {
 
     switch (draggableWidget.type) {
       case ItemType.text:
-        overlayWidget =
-            // IntrinsicWidth(
-            //   child: IntrinsicHeight(
-            //     child:
-            Container(
+        overlayWidget = Container(
           constraints: BoxConstraints(
             minHeight: 50,
             minWidth: 50,
@@ -76,7 +72,11 @@ class DraggableWidget extends StatelessWidget {
                       .bodyLarge!
                       .merge(
                         TextStyle(
+                          color: draggableWidget.textColor,
                           fontWeight: FontWeight.w500,
+                          height: 1.4,
+                          leadingDistribution:
+                              TextLeadingDistribution.proportional,
                           fontSize: draggableWidget.deletePosition
                               ? 0
                               : draggableWidget.fontSize,
@@ -131,8 +131,6 @@ class DraggableWidget extends StatelessWidget {
               ],
             ),
           ),
-          //   ),
-          // ),
         );
         break;
 

@@ -126,19 +126,12 @@ class RoundedBackgroundText extends StatelessWidget {
     final painter = TextPainter(
       text: TextSpan(
         children: [text],
-        style: TextStyle(
-          color: color,
-          leadingDistribution: TextLeadingDistribution.proportional,
-          fontSize: style.fontSize,
-        ).merge(style),
+        style: style,
       ),
-      textDirection:
-          textDirection ?? Directionality.maybeOf(context) ?? TextDirection.ltr,
-      maxLines: maxLines ?? defaultTextStyle.maxLines,
-      textAlign: textAlign ?? defaultTextStyle.textAlign ?? TextAlign.start,
+      textDirection: textDirection ?? TextDirection.ltr,
+      maxLines: maxLines,
+      textAlign: textAlign ?? TextAlign.start,
       textWidthBasis: textWidthBasis ?? defaultTextStyle.textWidthBasis,
-      strutStyle: strutStyle,
-      locale: locale,
       textHeightBehavior:
           textHeightBehavior ?? defaultTextStyle.textHeightBehavior,
       ellipsis: ellipsis,
@@ -219,7 +212,6 @@ class RoundedBackgroundTextPainter extends CustomPainter {
     for (final lineInfo in lineInfos) {
       paintBackground(canvas, lineInfo);
     }
-
     text.paint(canvas, Offset.zero);
   }
 

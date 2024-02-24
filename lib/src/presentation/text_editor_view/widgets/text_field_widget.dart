@@ -21,41 +21,26 @@ class TextFieldWidget extends StatelessWidget {
             constraints: BoxConstraints(
               maxWidth: _size.width - 100,
             ),
-            // child: IntrinsicWidth(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                RoundedBackgroundTextField(
-                  focusNode: _textNode,
-                  autofocus: true,
-                  textInputAction: TextInputAction.newline,
-                  controller: editorNotifier.textController,
-                  style: AppFonts.getTextThemeENUM(controlNotifier
-                          .fontList![editorNotifier.fontFamilyIndex])
-                      .bodyLarge!
-                      .copyWith(
-                        color: controlNotifier
-                            .colorList![editorNotifier.textColor],
-                        height: 1.4,
-                        fontSize: editorNotifier.textSize,
-                      ),
-                  backgroundColor: editorNotifier.backGroundColor,
-                  textAlign: editorNotifier.textAlign,
-                  cursorColor:
-                      controlNotifier.colorList![editorNotifier.textColor],
-                  keyboardType: TextInputType.multiline,
-                  onChanged: (value) {
-                    editorNotifier.text = value;
-                  },
-                ),
-                // textField(
-                //   editorNotifier: editorNotifier,
-                //   textNode: _textNode,
-                //   controlNotifier: controlNotifier,
-                //   paintingStyle: PaintingStyle.stroke,
-                // )
-              ],
-              // ),
+            child: RoundedBackgroundTextField(
+              focusNode: _textNode,
+              autofocus: true,
+              textInputAction: TextInputAction.newline,
+              controller: editorNotifier.textController,
+              style: AppFonts.getTextThemeENUM(
+                      controlNotifier.fontList![editorNotifier.fontFamilyIndex])
+                  .bodyLarge!
+                  .copyWith(
+                    color: controlNotifier.colorList![editorNotifier.textColor],
+                    height: 1.4,
+                    fontSize: editorNotifier.textSize,
+                  ),
+              backgroundColor: editorNotifier.backGroundColor,
+              textAlign: editorNotifier.textAlign,
+              cursorColor: controlNotifier.colorList![editorNotifier.textColor],
+              keyboardType: TextInputType.multiline,
+              onChanged: (value) {
+                editorNotifier.text = value;
+              },
             ),
           ),
         );
