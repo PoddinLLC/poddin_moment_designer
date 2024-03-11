@@ -452,6 +452,12 @@ class _MainViewState extends State<MainView> {
                               widget.onDone!(bytes);
                             });
                           },
+                          iosAction: () {
+                            // switch to gallery view
+                            setState(() {
+                              switchToGallery = true;
+                            });
+                          },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
                           editorBackgroundColor: widget.editorBackgroundColor,
                         ),
@@ -479,7 +485,8 @@ class _MainViewState extends State<MainView> {
                         saveConfig: SaveConfig.photo(
                           mirrorFrontCamera: true,
                           pathBuilder: (sensors) async {
-                            final extDir = await getTemporaryDirectory();
+                            final extDir =
+                                await getApplicationDocumentsDirectory();
                             final testDir =
                                 await Directory('${extDir.path}/poddin_moments')
                                     .create(recursive: true);
@@ -505,7 +512,7 @@ class _MainViewState extends State<MainView> {
                         sensorConfig: SensorConfig.single(
                           aspectRatio: CameraAspectRatios.ratio_16_9,
                           sensor: Sensor.position(SensorPosition.front),
-                          flashMode: FlashMode.auto,
+                          flashMode: FlashMode.none,
                         ),
                         topActionsBuilder: (state) => AwesomeTopActions(
                           padding: const EdgeInsets.only(

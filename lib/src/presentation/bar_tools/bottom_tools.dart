@@ -1,5 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, library_private_types_in_public_api, unused_import
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,6 +15,7 @@ import 'package:poddin_moment_designer/src/domain/sevices/save_as_image.dart';
 import 'package:poddin_moment_designer/src/presentation/utils/constants/item_type.dart';
 import 'package:poddin_moment_designer/src/presentation/utils/constants/text_animation_type.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
+import 'package:vs_media_picker/vs_media_picker.dart';
 import '../../domain/models/editable_items.dart';
 
 // import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
@@ -22,6 +25,7 @@ class BottomTools extends StatefulWidget {
   final Function(String imageUri) onDone;
   final Widget? onDoneButtonStyle;
   final Function? renderWidget;
+  final Function? iosAction;
 
   /// editor background color
   final Color? editorBackgroundColor;
@@ -32,7 +36,8 @@ class BottomTools extends StatefulWidget {
       required this.onDone,
       this.renderWidget,
       this.onDoneButtonStyle,
-      this.editorBackgroundColor});
+      this.editorBackgroundColor,
+      this.iosAction});
 
   @override
   _BottomToolsState createState() => _BottomToolsState();
@@ -64,19 +69,40 @@ class _BottomToolsState extends State<BottomTools> {
                 padding: const EdgeInsets.only(left: 15),
                 onLongPress: null,
                 onTap: () {
-                  // if page = 1, initial mode is camera
-                  // camera page index is 0, editor page index is 1
-                  scrollNotifier.pageController.animateToPage(
-                    page == 1 ? 0 : 1,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.ease,
-                  );
+                  // IOS
+                  if (kIsWeb || Platform.isIOS) {
+                    widget.iosAction?.call();
+                  } else {
+                    // if page = 1, initial mode is camera
+                    // camera page index is 0, editor page index is 1
+                    scrollNotifier.pageController.animateToPage(
+                      page == 1 ? 0 : 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    );
+                  }
                 },
-                child: const Icon(
-                  Icons.camera,
-                  color: Colors.white,
-                  size: 40,
-                ),
+                child: kIsWeb || Platform.isIOS
+                    ? Container(
+                        height: 43.5,
+                        width: 43.5,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: const CoverThumbnail(),
+                        ),
+                      )
+                    : const Icon(
+                        Icons.camera,
+                        color: Colors.white,
+                        size: 40,
+                      ),
               ),
 
               /// center logo
@@ -126,10 +152,10 @@ class _BottomToolsState extends State<BottomTools> {
                       }
                     }
                     if (_createVideo) {
-                       if (kDebugMode) debugPrint('creating video');
+                      if (kDebugMode) debugPrint('creating video');
                       await widget.renderWidget!();
                     } else {
-                       if (kDebugMode) debugPrint('creating image');
+                      if (kDebugMode) debugPrint('creating image');
                       await takePicture(
                               contentKey: widget.contentKey,
                               context: context,
