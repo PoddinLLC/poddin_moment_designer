@@ -105,6 +105,7 @@ class _BottomToolsState extends State<BottomTools> {
                         child: Container(
                           height: 45,
                           width: 45,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Colors.black45,
                             shape: BoxShape.circle,
@@ -114,7 +115,7 @@ class _BottomToolsState extends State<BottomTools> {
                             ),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(500.0),
+                            borderRadius: BorderRadius.circular(50.0),
                             child: const CoverThumbnail(),
                           ),
                         ),

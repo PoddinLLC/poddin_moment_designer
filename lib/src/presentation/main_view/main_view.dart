@@ -452,10 +452,10 @@ class _MainViewState extends State<MainView> {
                           },
                           iosAction: () {
                             // switch to gallery view
-                            scrollProvider.pageController.jumpToPage(1);
                             setState(() {
                               switchToGallery = true;
                             });
+                            scrollProvider.pageController.jumpToPage(1);
                             debugPrint('Switch to gallery');
                           },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
