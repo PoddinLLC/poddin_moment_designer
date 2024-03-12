@@ -83,12 +83,8 @@ class _BottomToolsState extends State<BottomTools> {
                   }
                 },
                 child: kIsWeb || Platform.isIOS
-                    ? Container(
-                        height: 45,
-                        width: 45,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
+                    ? SizedBox.square(
+                        dimension: 45,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: const CoverThumbnail(),
