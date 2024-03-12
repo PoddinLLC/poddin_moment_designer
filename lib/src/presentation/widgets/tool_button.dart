@@ -19,7 +19,7 @@ class ToolButton extends StatelessWidget {
     this.padding,
     this.onLongPress,
     this.colorBorder = Colors.white,
-    this.size = const Size(40, 40),
+    this.size,
     this.borderHide = false,
     this.topPadding = true,
   });
