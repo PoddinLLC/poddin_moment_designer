@@ -66,7 +66,6 @@ class _FileImageBGState extends State<FileImageBG> {
   @override
   Widget build(BuildContext context) {
     final colorProvider = Provider.of<GradientNotifier>(context, listen: false);
-    //
     return RepaintBoundary(
       key: paintKey,
       child: ImagePixels(
@@ -75,9 +74,13 @@ class _FileImageBGState extends State<FileImageBG> {
         builder: (context, img) {
           var color1 = img.pixelColorAtAlignment!(color1alignment[value]);
           var color2 = img.pixelColorAtAlignment!(color2alignment[value]);
-          colorProvider.color1 = color1;
-          colorProvider.color2 = color2;
           //
+          Future.delayed(Duration.zero, () {
+            if (mounted && img.hasImage) {
+              colorProvider.color1 = color1;
+              colorProvider.color2 = color2;
+            }
+          });
           return Image.file(
             File(widget.filePath!.path),
             key: imageKey,

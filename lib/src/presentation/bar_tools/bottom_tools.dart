@@ -2,8 +2,10 @@
 
 import 'dart:io';
 
+import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 import 'package:provider/provider.dart';
@@ -62,17 +64,14 @@ class _BottomToolsState extends State<BottomTools> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              /// go to camera screen
-              ToolButton(
-                size: const Size.square(45),
-                backGroundColor: Colors.black12,
-                padding: const EdgeInsets.only(left: 15),
-                onLongPress: null,
-                onTap: () {
-                  // IOS
-                  if (kIsWeb || Platform.isIOS) {
-                    widget.iosAction!();
-                  } else {
+              // open camera
+              if (Platform.isAndroid)
+                ToolButton(
+                  size: const Size.square(45),
+                  backGroundColor: Colors.black12,
+                  padding: const EdgeInsets.only(left: 15),
+                  onLongPress: null,
+                  onTap: () {
                     // if page = 1, initial mode is camera
                     // camera page index is 0, editor page index is 1
                     scrollNotifier.pageController.animateToPage(
@@ -80,22 +79,47 @@ class _BottomToolsState extends State<BottomTools> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease,
                     );
-                  }
-                },
-                child: kIsWeb || Platform.isIOS
-                    ? SizedBox.square(
-                        dimension: 45,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: const CoverThumbnail(),
+                  },
+                  child: const Icon(
+                    Icons.camera,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ),
+              // open gallery
+              if (!Platform.isAndroid)
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 8),
+                  child: AwesomeOrientedWidget(
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        widget.iosAction!();
+                      },
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 1.2,
+                          ),
                         ),
-                      )
-                    : const Icon(
-                        Icons.camera,
-                        color: Colors.white,
-                        size: 40,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: const CoverThumbnail(thumbnailQuality: 200),
+                        ),
                       ),
-              ),
+                    ),
+                  ),
+                ),
 
               /// center logo
               Padding(
