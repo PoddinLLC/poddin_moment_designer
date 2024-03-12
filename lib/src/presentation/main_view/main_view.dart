@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:poddin_moment_designer/src/presentation/thumbnail/gallery_thumbnail.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
 import 'package:poddin_moment_designer/src/domain/models/painting_model.dart';
@@ -602,7 +603,8 @@ class _MainViewState extends State<MainView> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
-                                    child: const CoverThumbnail(),
+                                    child:
+                                        GalleryThumbnail(height: 40, width: 40),
                                   ),
                                 ),
                               ),

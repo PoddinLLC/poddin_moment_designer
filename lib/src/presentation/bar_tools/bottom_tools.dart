@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:poddin_moment_designer/src/presentation/thumbnail/gallery_thumbnail.dart';
 import 'package:poddin_moment_designer/src/presentation/widgets/tool_button.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/providers/notifiers/control_provider.dart';
@@ -116,7 +117,7 @@ class _BottomToolsState extends State<BottomTools> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.0),
-                            child: const CoverThumbnail(),
+                            child: const GalleryThumbnail(height: 45, width: 45),
                           ),
                         ),
                       ),
