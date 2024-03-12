@@ -111,12 +111,12 @@ class _BottomToolsState extends State<BottomTools> {
                           shape: BoxShape.circle,
                           border: Border.all(
                               color: Colors.white,
-                              width: 1.2,
-                              strokeAlign: BorderSide.strokeAlignOutside),
+                              width: 1.2,),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(22.5),
-                          child: const GalleryThumbnail(height: 45, width: 45),
+                          borderRadius: BorderRadius.circular(50),
+                          child: const GalleryThumbnail(
+                              height: 45, width: 45, thumbnailQuality: 200),
                         ),
                       ),
                     ),
