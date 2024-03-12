@@ -101,20 +101,22 @@ class _BottomToolsState extends State<BottomTools> {
                         HapticFeedback.lightImpact();
                         widget.iosAction!();
                       },
-                      child: Container(
-                        height: 45,
-                        width: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.black45,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.2,
+                      child: ClipOval(
+                        child: Container(
+                          height: 45,
+                          width: 45,
+                          decoration: BoxDecoration(
+                            color: Colors.black45,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 1.2,
+                            ),
                           ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50.0),
-                          child: const CoverThumbnail(thumbnailQuality: 200),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50.0),
+                            child: const CoverThumbnail(thumbnailQuality: 200),
+                          ),
                         ),
                       ),
                     ),
