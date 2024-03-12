@@ -117,11 +117,8 @@ class _BottomToolsState extends State<BottomTools> {
                               width: 1.2,
                             ),
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(90),
-                            child: const GalleryThumbnail(
-                                height: 45, width: 45, thumbnailQuality: 200),
-                          ),
+                          child: const GalleryThumbnail(
+                              height: 45, width: 45, thumbnailQuality: 200),
                         ),
                       ),
                     ),
