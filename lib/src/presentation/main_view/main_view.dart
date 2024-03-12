@@ -315,9 +315,7 @@ class _MainViewState extends State<MainView> {
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
+                                      decoration: BoxDecoration(),
                                       child: RepaintBoundary(
                                         child: SizedBox(
                                           width: width,
@@ -457,6 +455,8 @@ class _MainViewState extends State<MainView> {
                             setState(() {
                               switchToGallery = true;
                             });
+                            scrollProvider.pageController
+                                .jumpToPage(1); // switch to next page
                             debugPrint('Switch to gallery');
                           },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
