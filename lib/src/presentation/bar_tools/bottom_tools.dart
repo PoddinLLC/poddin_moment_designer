@@ -102,7 +102,7 @@ class _BottomToolsState extends State<BottomTools> {
                         HapticFeedback.lightImpact();
                         widget.iosAction!();
                       },
-                      child:Container(
+                      child: Container(
                         height: 45,
                         width: 45,
                         alignment: Alignment.center,
@@ -110,12 +110,12 @@ class _BottomToolsState extends State<BottomTools> {
                           color: Colors.black45,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: Colors.white,
-                            width: 1.2,
-                          ),
+                              color: Colors.white,
+                              width: 1.2,
+                              strokeAlign: BorderSide.strokeAlignOutside),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50.0),
+                          borderRadius: BorderRadius.circular(22.5),
                           child: const GalleryThumbnail(height: 45, width: 45),
                         ),
                       ),
