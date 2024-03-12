@@ -457,6 +457,7 @@ class _MainViewState extends State<MainView> {
                             setState(() {
                               switchToGallery = true;
                             });
+                            debugPrint('Switch to gallery');
                           },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
                           editorBackgroundColor: widget.editorBackgroundColor,

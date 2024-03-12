@@ -71,7 +71,7 @@ class _BottomToolsState extends State<BottomTools> {
                 onTap: () {
                   // IOS
                   if (kIsWeb || Platform.isIOS) {
-                    widget.iosAction?.call();
+                    widget.iosAction!();
                   } else {
                     // if page = 1, initial mode is camera
                     // camera page index is 0, editor page index is 1
@@ -84,17 +84,13 @@ class _BottomToolsState extends State<BottomTools> {
                 },
                 child: kIsWeb || Platform.isIOS
                     ? Container(
-                        height: 43.5,
-                        width: 43.5,
-                        decoration: BoxDecoration(
+                        height: 45,
+                        width: 45,
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.5,
-                          ),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50.0),
+                          borderRadius: BorderRadius.circular(100.0),
                           child: const CoverThumbnail(),
                         ),
                       )
