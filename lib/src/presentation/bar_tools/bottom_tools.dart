@@ -104,7 +104,8 @@ class _BottomToolsState extends State<BottomTools> {
                       },
                       child: Material(
                         color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(90),
+                        type: MaterialType.circle,
+                        // borderRadius: BorderRadius.circular(90),
                         child: Container(
                           height: 45,
                           width: 45,
@@ -118,6 +119,7 @@ class _BottomToolsState extends State<BottomTools> {
                             ),
                           ),
                           child: ClipRRect(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
                             borderRadius: BorderRadius.circular(90),
                             child: const GalleryThumbnail(
                                 height: 45, width: 45, thumbnailQuality: 200),
