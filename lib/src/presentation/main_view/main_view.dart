@@ -746,7 +746,11 @@ class _MainViewState extends State<MainView> {
                         closeWidget: CloseButton(
                           color: Colors.white,
                           onPressed: () {
-                            setState(() => switchToGallery = false);
+                            if (Platform.isIOS) {
+                              scrollProvider.pageController.jumpToPage(0);
+                            } else {
+                              setState(() => switchToGallery = false);
+                            }
                           },
                         ),
                         thumbnailQuality: 300,
