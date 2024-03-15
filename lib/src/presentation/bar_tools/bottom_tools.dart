@@ -65,8 +65,8 @@ class _BottomToolsState extends State<BottomTools> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // open camera
-              if (Platform.isAndroid)
+              // open camera on android only
+              if (!kIsWeb && Platform.isAndroid)
                 ToolButton(
                   size: const Size.square(45),
                   backGroundColor: Colors.black12,
@@ -87,11 +87,12 @@ class _BottomToolsState extends State<BottomTools> {
                     size: 40,
                   ),
                 ),
-              // open gallery
-              if (!Platform.isAndroid)
+              // open gallery on web or ios
+              if (kIsWeb || Platform.isIOS)
                 Padding(
                   padding: const EdgeInsets.only(left: 15, top: 8),
                   child: AwesomeOrientedWidget(
+                    rotateWithDevice: false,
                     child: InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -105,7 +106,6 @@ class _BottomToolsState extends State<BottomTools> {
                       child: Material(
                         color: Colors.transparent,
                         type: MaterialType.circle,
-                        // borderRadius: BorderRadius.circular(90),
                         child: Container(
                           height: 45,
                           width: 45,
