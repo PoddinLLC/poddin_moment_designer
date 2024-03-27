@@ -20,7 +20,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   # camerawesome: ^2.0.0-dev.1
   camerawesome: ^2.0.1
-  album_image: 0.0.3+1
+  #album_image: 0.0.3+1
   vs_media_picker: ^1.0.1
 
   # modal_gif_picker: ^0.0.2
@@ -36,6 +36,7 @@ dependencies:
   flutter_screenutil: ^5.6.1
   flutter_image_compress: ^2.1.0
   image_pixels: ^3.0.1
+  photo_manager: ^3.0.0-dev.5
   
 
 dev_dependencies:
@@ -45,7 +46,6 @@ dev_dependencies:
   # dotted_border: ^2.0.0+3
 
 dependency_overrides:
-  photo_manager: ^3.0.0-dev.5
 
 flutter:
 

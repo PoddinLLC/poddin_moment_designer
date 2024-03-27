@@ -1,17 +1,13 @@
-// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, unused_import, prefer_const_constructors
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, prefer_const_constructors
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-import 'package:camerawesome/pigeon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:poddin_moment_designer/src/presentation/thumbnail/gallery_thumbnail.dart';
 import 'package:provider/provider.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -40,9 +36,8 @@ import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageV
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:vs_media_picker/vs_media_picker.dart';
-import 'package:album_image/album_image.dart';
 
-import '../widgets/tool_button.dart';
+import '../widgets/animated_onTap_button.dart';
 
 class MainView extends StatefulWidget {
   /// editor custom font families
@@ -483,6 +478,7 @@ class _MainViewState extends State<MainView> {
                     // Camera
                     if (!switchToGallery)
                       CameraAwesomeBuilder.awesome(
+                        enablePhysicalButton: true,
                         saveConfig: SaveConfig.photo(
                           mirrorFrontCamera: true,
                           pathBuilder: (sensors) async {
@@ -677,20 +673,35 @@ class _MainViewState extends State<MainView> {
                       ),
                     // Gallery
                     if (switchToGallery)
-                      AlbumImagePicker(
-                        onSelected: (images) async {
-                          final selected = await images.first.file;
-                          final path = selected?.path;
-                          if (path != null) {
+                      VSMediaPicker(
+                        maxPickImages: 1,
+                        gridViewController: scrollProvider.gridController,
+                        thumbnailQuality: widget.galleryThumbnailQuality,
+                        singlePick: true,
+                        onlyImages: true,
+                        selectedBackgroundColor: const Color(0xFFD91C54),
+                        imageBackgroundColor: Colors.black,
+                        appBarIconColor: Colors.white,
+                        albumBackGroundColor: Colors.black,
+                        albumDividerColor: Color(0xEE272727),
+                        gridViewBackgroundColor: Colors.black,
+                        childAspectRatio: 0.6,
+                        crossAxisCount: 3,
+                        appBarHeight: 50,
+                        gridPadding: EdgeInsets.zero,
+                        appBarColor:
+                            widget.editorBackgroundColor ?? Colors.black,
+                        gridViewPhysics: const NeverScrollableScrollPhysics(),
+                        pathList: (path) {
+                          if (path.isNotEmpty) {
                             // set media path value
                             if (mediaContent == 0) {
-                              controlNotifier.mediaPath = path;
-                              setState(() {});
+                              controlNotifier.mediaPath = path[0].path!;
                             }
                             // add photo to editor view
                             itemProvider.addItem(EditableItem()
                               ..type = ItemType.image
-                              ..path = path
+                              ..path = path[0].path!
                               ..scale = mediaContent < 1 ? 1.2 : 0.8
                               ..position = const Offset(0, 0));
                             if (mediaContent >= 1) {
@@ -705,56 +716,95 @@ class _MainViewState extends State<MainView> {
                             switchToGallery = false;
                           }
                         },
-                        selectionBuilder: (_, selected, index) {
-                          if (selected) {
-                            return CircleAvatar(
-                              backgroundColor: const Color(0xFFD91C54),
-                              radius: 10,
-                              child: Text(
-                                '${index + 1}',
-                                style: const TextStyle(
-                                    fontSize: 10,
-                                    height: 1.4,
-                                    color: Colors.white),
+                        appBarLeadingWidget: Padding(
+                          padding: const EdgeInsets.only(bottom: 15, right: 15),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: AnimatedOnTapButton(
+                              onTap: () {
+                                if (Platform.isIOS) {
+                                  scrollProvider.pageController.jumpToPage(0);
+                                } else {
+                                  setState(() => switchToGallery = false);
+                                }
+                              },
+                              child: CloseButton(
+                                color: Colors.white,
+                                onPressed: () {},
                               ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                        crossAxisCount: 3,
-                        maxSelection: 1,
-                        // onSelectedMax: () {
-                        //   Fluttertoast.showToast(
-                        //     msg: "You have reached the maximum allowed",
-                        //     toastLength: Toast.LENGTH_SHORT,
-                        //     gravity: ToastGravity.CENTER,
-                        //     textColor: Colors.white,
-                        //     fontSize: 14.0,
-                        //   );
-                        // },
-                        albumBackGroundColor: Colors.black87,
-                        itemBackgroundColor: Colors.black87,
-                        appBarColor: Colors.black,
-                        albumTextStyle:
-                            const TextStyle(color: Colors.white, fontSize: 14),
-                        albumSubTextStyle:
-                            const TextStyle(color: Colors.grey, fontSize: 10),
-                        albumDividerColor: Colors.black54,
-                        listBackgroundColor: Colors.black87,
-                        childAspectRatio: 0.6,
-                        type: AlbumType.image,
-                        closeWidget: CloseButton(
-                          color: Colors.white,
-                          onPressed: () {
-                            if (Platform.isIOS) {
-                              scrollProvider.pageController.jumpToPage(0);
-                            } else {
-                              setState(() => switchToGallery = false);
-                            }
-                          },
+                            ),
+                          ),
                         ),
-                        thumbnailQuality: 300,
                       ),
+                    // AlbumImagePicker(
+                    //   onSelected: (images) async {
+                    //     final selected = await images.first.file;
+                    //     final path = selected?.path;
+                    //     if (path != null) {
+                    //       // set media path value
+                    //       if (mediaContent == 0) {
+                    //         controlNotifier.mediaPath = path;
+                    //         setState(() {});
+                    //       }
+                    //       // add photo to editor view
+                    //       itemProvider.addItem(EditableItem()
+                    //         ..type = ItemType.image
+                    //         ..path = path
+                    //         ..scale = mediaContent < 1 ? 1.2 : 0.8
+                    //         ..position = const Offset(0, 0));
+                    //       if (mediaContent >= 1) {
+                    //         controlNotifier.mediaPath = '';
+                    //       }
+                    //       mediaContent++;
+                    //       // nav to editor view
+                    //       // if page = 1, initial view is camera mode
+                    //       // editor page index is 1, camera page index is 0
+                    //       scrollProvider.pageController.jumpToPage(page);
+                    //       // reset switch variabale
+                    //       switchToGallery = false;
+                    //     }
+                    //   },
+                    //   selectionBuilder: (_, selected, index) {
+                    //     if (selected) {
+                    //       return CircleAvatar(
+                    //         backgroundColor: const Color(0xFFD91C54),
+                    //         radius: 10,
+                    //         child: Text(
+                    //           '${index + 1}',
+                    //           style: const TextStyle(
+                    //               fontSize: 10,
+                    //               height: 1.4,
+                    //               color: Colors.white),
+                    //         ),
+                    //       );
+                    //     }
+                    //     return const SizedBox();
+                    //   },
+                    //   crossAxisCount: 3,
+                    //   maxSelection: 1,
+                    //   albumBackGroundColor: Colors.black87,
+                    //   itemBackgroundColor: Colors.black87,
+                    //   appBarColor: Colors.black,
+                    //   albumTextStyle:
+                    //       const TextStyle(color: Colors.white, fontSize: 14),
+                    //   albumSubTextStyle:
+                    //       const TextStyle(color: Colors.grey, fontSize: 10),
+                    //   albumDividerColor: Colors.black54,
+                    //   listBackgroundColor: Colors.black87,
+                    //   childAspectRatio: 0.6,
+                    //   type: AlbumType.image,
+                    //   closeWidget: CloseButton(
+                    //     color: Colors.white,
+                    //     onPressed: () {
+                    //       if (Platform.isIOS) {
+                    //         scrollProvider.pageController.jumpToPage(0);
+                    //       } else {
+                    //         setState(() => switchToGallery = false);
+                    //       }
+                    //     },
+                    //   ),
+                    //   thumbnailQuality: 300,
+                    // ),
                   ],
                 ),
               ),

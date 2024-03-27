@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports
+// ignore_for_file: implementation_imports, depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:vs_media_picker/src/core/decode_image.dart';

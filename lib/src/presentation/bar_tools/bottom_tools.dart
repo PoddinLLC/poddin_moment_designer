@@ -122,7 +122,7 @@ class _BottomToolsState extends State<BottomTools> {
                             clipBehavior: Clip.antiAliasWithSaveLayer,
                             borderRadius: BorderRadius.circular(90),
                             child: const GalleryThumbnail(
-                                height: 45, width: 45, thumbnailQuality: 200),
+                                height: 45, width: 45, thumbnailQuality: 150),
                           ),
                         ),
                       ),
