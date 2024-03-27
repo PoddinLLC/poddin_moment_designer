@@ -21,7 +21,7 @@ dependencies:
   # camerawesome: ^2.0.0-dev.1
   camerawesome: ^2.0.1
   #album_image: 0.0.3+1
-  vs_media_picker: ^1.0.1
+  vs_media_picker: 1.0.1
 
   # modal_gif_picker: ^0.0.2
   # painting

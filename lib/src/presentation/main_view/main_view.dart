@@ -36,8 +36,7 @@ import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageV
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:vs_media_picker/vs_media_picker.dart';
-
-import '../widgets/animated_onTap_button.dart';
+import '../widgets/tool_button.dart';
 
 class MainView extends StatefulWidget {
   /// editor custom font families
@@ -476,7 +475,7 @@ class _MainViewState extends State<MainView> {
                 camera: Stack(
                   children: [
                     // Camera
-                    if (!switchToGallery)
+                    if (!switchToGallery && !kIsWeb && Platform.isAndroid)
                       CameraAwesomeBuilder.awesome(
                         enablePhysicalButton: true,
                         saveConfig: SaveConfig.photo(
@@ -485,7 +484,7 @@ class _MainViewState extends State<MainView> {
                             final extDir =
                                 await getApplicationDocumentsDirectory();
                             final testDir =
-                                await Directory('${extDir.path}/poddin_moments')
+                                await Directory('${extDir.path}/moments')
                                     .create(recursive: true);
                             // 2.
                             if (sensors.length == 1) {
@@ -715,11 +714,16 @@ class _MainViewState extends State<MainView> {
                             switchToGallery = false;
                           }
                         },
-                        appBarLeadingWidget: Padding(
-                          padding: const EdgeInsets.only(bottom: 15, right: 15),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: AnimatedOnTapButton(
+                        appBarLeadingWidget: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(bottom: 5, right: 15),
+                            child: ToolButton(
+                              topPadding: false,
+                              padding: EdgeInsets.zero,
+                              borderHide: true,
+                              backGroundColor: Colors.black,
                               onTap: () {
                                 if (Platform.isIOS) {
                                   scrollProvider.pageController.jumpToPage(0);
