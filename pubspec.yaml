@@ -36,7 +36,6 @@ dependencies:
   flutter_screenutil: ^5.6.1
   flutter_image_compress: ^2.1.0
   image_pixels: ^3.0.1
-  photo_manager: ^3.0.0-dev.5
   
 
 dev_dependencies:
