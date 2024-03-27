@@ -675,7 +675,7 @@ class _MainViewState extends State<MainView> {
                       VSMediaPicker(
                         maxPickImages: 1,
                         gridViewController: scrollProvider.gridController,
-                        thumbnailQuality: 120,
+                        thumbnailQuality: 300,
                         singlePick: true,
                         onlyImages: true,
                         selectedBackgroundColor: const Color(0xFFD91C54),
@@ -733,7 +733,7 @@ class _MainViewState extends State<MainView> {
                               },
                               child: const Icon(
                                 Icons.close,
-                                size: 25,
+                                size: 28,
                                 color: Colors.white,
                               ),
                             ),
