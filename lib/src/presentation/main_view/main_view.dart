@@ -676,7 +676,7 @@ class _MainViewState extends State<MainView> {
                       VSMediaPicker(
                         maxPickImages: 1,
                         gridViewController: scrollProvider.gridController,
-                        thumbnailQuality: widget.galleryThumbnailQuality,
+                        thumbnailQuality: 120,
                         singlePick: true,
                         onlyImages: true,
                         selectedBackgroundColor: const Color(0xFFD91C54),
@@ -691,7 +691,6 @@ class _MainViewState extends State<MainView> {
                         gridPadding: EdgeInsets.zero,
                         appBarColor:
                             widget.editorBackgroundColor ?? Colors.black,
-                        gridViewPhysics: const NeverScrollableScrollPhysics(),
                         pathList: (path) {
                           if (path.isNotEmpty) {
                             // set media path value
@@ -728,9 +727,10 @@ class _MainViewState extends State<MainView> {
                                   setState(() => switchToGallery = false);
                                 }
                               },
-                              child: CloseButton(
+                              child: const Icon(
+                                Icons.close,
+                                size: 25,
                                 color: Colors.white,
-                                onPressed: () {},
                               ),
                             ),
                           ),
