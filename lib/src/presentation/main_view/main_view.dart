@@ -455,27 +455,29 @@ class _MainViewState extends State<MainView> {
                                     context: context)
                                 .then((media) {
                               if (media != null) {
-                                final path = media.file!.path;
-                                // set media path value
-                                if (mediaContent == 0) {
-                                  controlNotifier.mediaPath = path;
+                                final path = media.file?.path;
+                                if (path != null) {
+                                  // set media path value
+                                  if (mediaContent == 0) {
+                                    controlNotifier.mediaPath = path;
+                                  }
+                                  // add photo to editor view
+                                  itemProvider.addItem(EditableItem()
+                                    ..type = ItemType.image
+                                    ..path = path
+                                    ..scale = mediaContent < 1 ? 1.2 : 0.8
+                                    ..position = const Offset(0, 0));
+                                  if (mediaContent >= 1) {
+                                    controlNotifier.mediaPath = '';
+                                  }
+                                  mediaContent++;
+                                  // nav to editor view
+                                  // if page = 1, initial view is camera mode
+                                  // editor page index is 1, camera page index is 0
+                                  // scrollProvider.pageController.jumpToPage(page);
+                                  // reset switch variabale
+                                  // switchToGallery = false;
                                 }
-                                // add photo to editor view
-                                itemProvider.addItem(EditableItem()
-                                  ..type = ItemType.image
-                                  ..path = path
-                                  ..scale = mediaContent < 1 ? 1.2 : 0.8
-                                  ..position = const Offset(0, 0));
-                                if (mediaContent >= 1) {
-                                  controlNotifier.mediaPath = '';
-                                }
-                                mediaContent++;
-                                // nav to editor view
-                                // if page = 1, initial view is camera mode
-                                // editor page index is 1, camera page index is 0
-                                // scrollProvider.pageController.jumpToPage(page);
-                                // reset switch variabale
-                                // switchToGallery = false;
                               }
                             });
                             debugPrint('Opened gallery');
@@ -889,9 +891,9 @@ class _MainViewState extends State<MainView> {
       startWithRecent: true,
     );
     if (kDebugMode) {
-      print(media);
+      print(media?.map((e) => e.file?.path).toList());
     }
-    if (media!.isNotEmpty) {
+    if (media != null && media.isNotEmpty) {
       return media.first;
     }
     return null;
