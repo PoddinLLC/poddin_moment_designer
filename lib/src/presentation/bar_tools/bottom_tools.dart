@@ -91,18 +91,17 @@ class _BottomToolsState extends State<BottomTools> {
               if (kIsWeb || Platform.isIOS)
                 Padding(
                   padding: const EdgeInsets.only(left: 15, top: 8),
-                  child: AwesomeOrientedWidget(
-                    rotateWithDevice: false,
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      splashFactory: NoSplash.splashFactory,
-                      onTap: () {
-                        HapticFeedback.lightImpact();
-                        widget.iosAction!();
-                      },
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      widget.iosAction!();
+                    },
+                    child: ClipOval(
                       child: Container(
                         height: 45,
                         width: 45,
@@ -114,10 +113,9 @@ class _BottomToolsState extends State<BottomTools> {
                             width: 1.2,
                           ),
                         ),
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.black,
-                          radius: 22.5,
-                          child: GalleryThumbnail(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: const GalleryThumbnail(
                               height: 45, width: 45, thumbnailQuality: 150),
                         ),
                       ),

@@ -867,15 +867,15 @@ class _MainViewState extends State<MainView> {
     List<MediaFile>? media = await GalleryPicker.pickMedia(
       config: Config(
         mode: Mode.dark,
-        underlineColor: Color(0xEE272727),
+        underlineColor: const Color(0xEE272727),
         selectIcon: Container(
           width: 50,
           height: 50,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Color(0xFFD91C54),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.check,
             color: Colors.white,
           ),
