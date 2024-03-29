@@ -867,10 +867,10 @@ class _MainViewState extends State<MainView> {
     List<MediaFile>? media = await GalleryPicker.pickMedia(
       config: Config(
         mode: Mode.dark,
-        backgroundColor: Colors.black,
-        appbarColor: Colors.black,
-        bottomSheetColor: Colors.black,
-        underlineColor: const Color(0xFFD91C54),
+        // backgroundColor: Colors.black,
+        // appbarColor: Colors.black,
+        // bottomSheetColor: Colors.black,
+        // underlineColor: const Color(0xFFD91C54),
         selectIcon: Container(
           width: 50,
           height: 50,
