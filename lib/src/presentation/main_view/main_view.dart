@@ -447,44 +447,90 @@ class _MainViewState extends State<MainView> {
                             });
                           },
                           iosAction: () async {
-                            // switch to gallery view
-                            openMediaGallery(
-                                    controlNotifier: controlNotifier,
-                                    scrollProvider: scrollProvider,
-                                    itemProvider: itemProvider,
-                                    context: context)
-                                .then((media) {
-                              if (media != null) {
-                                final path = media.file?.path;
-                                if (path != null) {
-                                  // set media path value
-                                  if (mediaContent == 0) {
-                                    controlNotifier.mediaPath = path;
-                                  }
-                                  // add photo to editor view
-                                  itemProvider.addItem(EditableItem()
-                                    ..type = ItemType.image
-                                    ..path = path
-                                    ..scale = mediaContent < 1 ? 1.2 : 0.8
-                                    ..position = const Offset(0, 0));
-                                  if (mediaContent >= 1) {
-                                    controlNotifier.mediaPath = '';
-                                  }
-                                  mediaContent++;
-                                  // nav to editor view
-                                  // if page = 1, initial view is camera mode
-                                  // editor page index is 1, camera page index is 0
-                                  // scrollProvider.pageController.jumpToPage(page);
-                                  // reset switch variabale
-                                  // switchToGallery = false;
-                                }
-                              }
-                            });
                             debugPrint('Opened gallery');
-                            // setState(() {
-                            //   switchToGallery = true;
-                            // });
-                            // scrollProvider.pageController.jumpToPage(1);
+                            await showAdaptiveDialog(
+                              context: context,
+                              barrierColor: Colors.black,
+                              builder: (ctx) => GalleryPickerView(
+                                onSelect: (selectedMedia) {
+                                  if (kDebugMode) {
+                                    print(selectedMedia
+                                        .map((e) => e.file?.path)
+                                        .toList());
+                                  }
+                                  final media = selectedMedia.isNotEmpty
+                                      ? selectedMedia.first
+                                      : null;
+                                  if (media != null) {
+                                    final path = media.file?.path;
+                                    if (path != null) {
+                                      // set media path value
+                                      if (mediaContent == 0) {
+                                        controlNotifier.mediaPath = path;
+                                      }
+                                      // add photo to editor view
+                                      itemProvider.addItem(EditableItem()
+                                        ..type = ItemType.image
+                                        ..path = path
+                                        ..scale = mediaContent < 1 ? 1.2 : 0.8
+                                        ..position = const Offset(0, 0));
+                                      if (mediaContent >= 1) {
+                                        controlNotifier.mediaPath = '';
+                                      }
+                                      mediaContent++;
+                                    }
+                                  }
+                                  //
+                                },
+                                config: Config(
+                                  mode: Mode.dark,
+                                  backgroundColor: Colors.black,
+                                  appbarColor: Colors.black,
+                                  bottomSheetColor: Colors.black,
+                                  underlineColor: const Color(0xFFD91C54),
+                                ),
+                                singleMedia: true,
+                                startWithRecent: true,
+                              ),
+                            );
+                            // switch to gallery view
+                            //   openMediaGallery(
+                            //           controlNotifier: controlNotifier,
+                            //           scrollProvider: scrollProvider,
+                            //           itemProvider: itemProvider,
+                            //           context: context)
+                            //       .then((media) {
+                            //     if (media != null) {
+                            //       final path = media.file?.path;
+                            //       if (path != null) {
+                            //         // set media path value
+                            //         if (mediaContent == 0) {
+                            //           controlNotifier.mediaPath = path;
+                            //         }
+                            //         // add photo to editor view
+                            //         itemProvider.addItem(EditableItem()
+                            //           ..type = ItemType.image
+                            //           ..path = path
+                            //           ..scale = mediaContent < 1 ? 1.2 : 0.8
+                            //           ..position = const Offset(0, 0));
+                            //         if (mediaContent >= 1) {
+                            //           controlNotifier.mediaPath = '';
+                            //         }
+                            //         mediaContent++;
+                            //         // nav to editor view
+                            //         // if page = 1, initial view is camera mode
+                            //         // editor page index is 1, camera page index is 0
+                            //         // scrollProvider.pageController.jumpToPage(page);
+                            //         // reset switch variabale
+                            //         // switchToGallery = false;
+                            //       }
+                            //     }
+                            //   });
+                            //   debugPrint('Opened gallery');
+                            //   // setState(() {
+                            //   //   switchToGallery = true;
+                            //   // });
+                            //   // scrollProvider.pageController.jumpToPage(1);
                           },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
                           editorBackgroundColor: widget.editorBackgroundColor,
