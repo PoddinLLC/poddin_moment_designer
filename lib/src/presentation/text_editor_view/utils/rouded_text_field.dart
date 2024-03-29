@@ -545,7 +545,6 @@ class _RoundedBackgroundTextFieldState
         Padding(
           padding: padding,
           child: EditableText(
-            textScaleFactor: 1,
             key: fieldKey,
             autofocus: widget.autofocus,
             controller: textController,
