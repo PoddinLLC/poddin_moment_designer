@@ -75,14 +75,14 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
             });
           }
         } catch (e) {
-           if (kDebugMode) debugPrint(e.toString());
+          if (kDebugMode) debugPrint(e.toString());
         }
       },
       onTapCancel: () {
         _controllerA!.fling();
       },
-      onLongPress: () => widget.onLongPress!(),
-      onDoubleTap: () => widget.onDoubleTap!(),
+      onLongPress: () => widget.onLongPress?.call(),
+      onDoubleTap: () => widget.onDoubleTap?.call(),
       child: Transform.scale(
         scale: squareScaleA,
         child: widget.child,

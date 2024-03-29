@@ -103,27 +103,22 @@ class _BottomToolsState extends State<BottomTools> {
                         HapticFeedback.lightImpact();
                         widget.iosAction!();
                       },
-                      child: Material(
-                        color: Colors.transparent,
-                        type: MaterialType.circle,
-                        child: Container(
-                          height: 45,
-                          width: 45,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.black45,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1.2,
-                            ),
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 1.2,
                           ),
-                          child: ClipRRect(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            borderRadius: BorderRadius.circular(90),
-                            child: const GalleryThumbnail(
-                                height: 45, width: 45, thumbnailQuality: 150),
-                          ),
+                        ),
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.black,
+                          radius: 22.5,
+                          child: GalleryThumbnail(
+                              height: 45, width: 45, thumbnailQuality: 150),
                         ),
                       ),
                     ),

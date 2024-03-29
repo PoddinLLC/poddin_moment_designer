@@ -1,10 +1,11 @@
-// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, prefer_const_constructors
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, deprecated_member_use, unnecessary_import, prefer_const_constructors, unused_import
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_picker/gallery_picker.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -445,13 +446,43 @@ class _MainViewState extends State<MainView> {
                               widget.onDone!(bytes);
                             });
                           },
-                          iosAction: () {
+                          iosAction: () async {
                             // switch to gallery view
-                            setState(() {
-                              switchToGallery = true;
+                            openMediaGallery(
+                                    controlNotifier: controlNotifier,
+                                    scrollProvider: scrollProvider,
+                                    itemProvider: itemProvider,
+                                    context: context)
+                                .then((media) {
+                              if (media != null) {
+                                final path = media.file!.path;
+                                // set media path value
+                                if (mediaContent == 0) {
+                                  controlNotifier.mediaPath = path;
+                                }
+                                // add photo to editor view
+                                itemProvider.addItem(EditableItem()
+                                  ..type = ItemType.image
+                                  ..path = path
+                                  ..scale = mediaContent < 1 ? 1.2 : 0.8
+                                  ..position = const Offset(0, 0));
+                                if (mediaContent >= 1) {
+                                  controlNotifier.mediaPath = '';
+                                }
+                                mediaContent++;
+                                // nav to editor view
+                                // if page = 1, initial view is camera mode
+                                // editor page index is 1, camera page index is 0
+                                // scrollProvider.pageController.jumpToPage(page);
+                                // reset switch variabale
+                                // switchToGallery = false;
+                              }
                             });
-                            scrollProvider.pageController.jumpToPage(1);
-                            debugPrint('Switch to gallery');
+                            debugPrint('Opened gallery');
+                            // setState(() {
+                            //   switchToGallery = true;
+                            // });
+                            // scrollProvider.pageController.jumpToPage(1);
                           },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
                           editorBackgroundColor: widget.editorBackgroundColor,
@@ -671,75 +702,78 @@ class _MainViewState extends State<MainView> {
                         ),
                       ),
                     // Gallery
-                    if (switchToGallery)
-                      VSMediaPicker(
-                        maxPickImages: 1,
-                        gridViewController: scrollProvider.gridController,
-                        thumbnailQuality: 300,
-                        singlePick: true,
-                        onlyImages: true,
-                        selectedBackgroundColor: const Color(0xFFD91C54),
-                        imageBackgroundColor: Colors.black,
-                        appBarIconColor: Colors.white,
-                        albumBackGroundColor: Colors.black,
-                        albumDividerColor: Color(0xEE272727),
-                        gridViewBackgroundColor: Colors.black,
-                        childAspectRatio: 0.6,
-                        crossAxisCount: 3,
-                        appBarHeight: 50,
-                        gridPadding: EdgeInsets.zero,
-                        appBarColor:
-                            widget.editorBackgroundColor ?? Colors.black,
-                        pathList: (path) {
-                          if (path.isNotEmpty) {
-                            // set media path value
-                            if (mediaContent == 0) {
-                              controlNotifier.mediaPath = path[0].path!;
-                            }
-                            // add photo to editor view
-                            itemProvider.addItem(EditableItem()
-                              ..type = ItemType.image
-                              ..path = path[0].path!
-                              ..scale = mediaContent < 1 ? 1.2 : 0.8
-                              ..position = const Offset(0, 0));
-                            if (mediaContent >= 1) {
-                              controlNotifier.mediaPath = '';
-                            }
-                            mediaContent++;
-                            // nav to editor view
-                            // if page = 1, initial view is camera mode
-                            // editor page index is 1, camera page index is 0
-                            scrollProvider.pageController.jumpToPage(page);
-                            // reset switch variabale
-                            switchToGallery = false;
-                          }
-                        },
-                        appBarLeadingWidget: Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: 5, right: 15),
-                            child: ToolButton(
-                              topPadding: false,
-                              padding: EdgeInsets.zero,
-                              borderHide: true,
-                              backGroundColor: Colors.black,
-                              onTap: () {
-                                if (Platform.isIOS) {
-                                  scrollProvider.pageController.jumpToPage(0);
-                                } else {
-                                  setState(() => switchToGallery = false);
-                                }
-                              },
-                              child: const Icon(
-                                Icons.close,
-                                size: 28,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    //
+                    // if (switchToGallery)
+                    // Visibility(
+                    //   child: VSMediaPicker(
+                    //     maxPickImages: 1,
+                    //     gridViewController: scrollProvider.gridController,
+                    //     thumbnailQuality: 300,
+                    //     singlePick: true,
+                    //     onlyImages: true,
+                    //     selectedBackgroundColor: const Color(0xFFD91C54),
+                    //     imageBackgroundColor: Colors.black,
+                    //     appBarIconColor: Colors.white,
+                    //     albumBackGroundColor: Colors.black,
+                    //     albumDividerColor: Color(0xEE272727),
+                    //     gridViewBackgroundColor: Colors.black,
+                    //     childAspectRatio: 0.6,
+                    //     crossAxisCount: 3,
+                    //     appBarHeight: 50,
+                    //     gridPadding: EdgeInsets.zero,
+                    //     appBarColor:
+                    //         widget.editorBackgroundColor ?? Colors.black,
+                    //     pathList: (path) {
+                    //       if (path.isNotEmpty) {
+                    //         // set media path value
+                    //         if (mediaContent == 0) {
+                    //           controlNotifier.mediaPath = path[0].path!;
+                    //         }
+                    //         // add photo to editor view
+                    //         itemProvider.addItem(EditableItem()
+                    //           ..type = ItemType.image
+                    //           ..path = path[0].path!
+                    //           ..scale = mediaContent < 1 ? 1.2 : 0.8
+                    //           ..position = const Offset(0, 0));
+                    //         if (mediaContent >= 1) {
+                    //           controlNotifier.mediaPath = '';
+                    //         }
+                    //         mediaContent++;
+                    //         // nav to editor view
+                    //         // if page = 1, initial view is camera mode
+                    //         // editor page index is 1, camera page index is 0
+                    //         scrollProvider.pageController.jumpToPage(page);
+                    //         // reset switch variabale
+                    //         switchToGallery = false;
+                    //       }
+                    //     },
+                    //     appBarLeadingWidget: Align(
+                    //       alignment: Alignment.centerRight,
+                    //       child: Padding(
+                    //         padding:
+                    //             const EdgeInsets.only(bottom: 5, right: 15),
+                    //         child: ToolButton(
+                    //           topPadding: false,
+                    //           padding: EdgeInsets.zero,
+                    //           borderHide: true,
+                    //           backGroundColor: Colors.black,
+                    //           onTap: () {
+                    //             if (Platform.isIOS) {
+                    //               scrollProvider.pageController.jumpToPage(0);
+                    //             } else {
+                    //               setState(() => switchToGallery = false);
+                    //             }
+                    //           },
+                    //           child: const Icon(
+                    //             Icons.close,
+                    //             size: 28,
+                    //             color: Colors.white,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     // AlbumImagePicker(
                     //   onSelected: (images) async {
                     //     final selected = await images.first.file;
@@ -821,6 +855,40 @@ class _MainViewState extends State<MainView> {
         ),
       ),
     );
+  }
+
+  /// Pop gallery
+  Future<MediaFile?> openMediaGallery({
+    required ControlNotifier controlNotifier,
+    required ScrollNotifier scrollProvider,
+    required DraggableWidgetNotifier itemProvider,
+    required BuildContext context,
+  }) async {
+    List<MediaFile>? media = await GalleryPicker.pickMedia(
+      config: Config(
+        mode: Mode.dark,
+        underlineColor: Color(0xEE272727),
+        selectIcon: Container(
+          width: 50,
+          height: 50,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color(0xFFD91C54),
+          ),
+          child: const Icon(
+            Icons.check,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      context: context,
+      singleMedia: true,
+      startWithRecent: true,
+    );
+    if (media!.isNotEmpty) {
+      return media.first;
+    }
+    return null;
   }
 
   /// get active item offet
