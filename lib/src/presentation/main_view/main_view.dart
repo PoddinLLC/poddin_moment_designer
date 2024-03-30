@@ -616,9 +616,41 @@ class _MainViewState extends State<MainView> {
                               child: GestureDetector(
                                 onTap: () {
                                   // switch to gallery view
-                                  setState(() {
-                                    switchToGallery = true;
+                                  openMediaGallery().then((byte) async {
+                                    if (byte != null) {
+                                      /// create file
+                                      final String dir =
+                                          (await getApplicationDocumentsDirectory())
+                                              .path;
+                                      String path =
+                                          '$dir/gallery_${DateTime.now().millisecondsSinceEpoch}.png';
+                                      File capturedFile = File(path);
+                                      await capturedFile.writeAsBytes(byte);
+                                      // set media path value
+                                      if (mediaContent == 0) {
+                                        controlNotifier.mediaPath = path;
+                                      }
+                                      // add photo to editor view
+                                      itemProvider.addItem(EditableItem()
+                                        ..type = ItemType.image
+                                        ..path = path
+                                        ..scale = mediaContent < 1 ? 1.2 : 0.8
+                                        ..position = const Offset(0, 0));
+                                      if (mediaContent >= 1) {
+                                        controlNotifier.mediaPath = '';
+                                      }
+                                      mediaContent++;
+                                      // nav to editor view
+                                      // if page = 1, initial view is camera mode
+                                      // editor page index is 1, camera page index is 0
+                                      // scrollProvider.pageController.jumpToPage(page);
+                                      // reset switch variabale
+                                      // switchToGallery = false;
+                                    }
                                   });
+                                  // setState(() {
+                                  //   switchToGallery = true;
+                                  // });
                                 },
                                 child: Container(
                                   height: 40,
