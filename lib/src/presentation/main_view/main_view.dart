@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -37,6 +36,7 @@ import 'package:poddin_moment_designer/src/presentation/widgets/scrollable_pageV
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:vs_media_picker/vs_media_picker.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import '../widgets/tool_button.dart';
 
 class MainView extends StatefulWidget {
@@ -449,16 +449,8 @@ class _MainViewState extends State<MainView> {
                           iosAction: () async {
                             debugPrint('Opened gallery');
                             // switch to gallery view
-                            openMediaGallery().then((byte) async {
-                              if (byte != null) {
-                                /// create file
-                                final String dir =
-                                    (await getApplicationDocumentsDirectory())
-                                        .path;
-                                String path =
-                                    '$dir/gallery_${DateTime.now().millisecondsSinceEpoch}.png';
-                                File capturedFile = File(path);
-                                await capturedFile.writeAsBytes(byte);
+                            openMediaGallery().then((path) async {
+                              if (path != null) {
                                 // set media path value
                                 if (mediaContent == 0) {
                                   controlNotifier.mediaPath = path;
@@ -473,12 +465,6 @@ class _MainViewState extends State<MainView> {
                                   controlNotifier.mediaPath = '';
                                 }
                                 mediaContent++;
-                                // nav to editor view
-                                // if page = 1, initial view is camera mode
-                                // editor page index is 1, camera page index is 0
-                                // scrollProvider.pageController.jumpToPage(page);
-                                // reset switch variabale
-                                // switchToGallery = false;
                               }
                             });
                             //   debugPrint('Opened gallery');
@@ -616,16 +602,8 @@ class _MainViewState extends State<MainView> {
                               child: GestureDetector(
                                 onTap: () {
                                   // switch to gallery view
-                                  openMediaGallery().then((byte) async {
-                                    if (byte != null) {
-                                      /// create file
-                                      final String dir =
-                                          (await getApplicationDocumentsDirectory())
-                                              .path;
-                                      String path =
-                                          '$dir/gallery_${DateTime.now().millisecondsSinceEpoch}.png';
-                                      File capturedFile = File(path);
-                                      await capturedFile.writeAsBytes(byte);
+                                  openMediaGallery().then((path) async {
+                                    if (path != null) {
                                       // set media path value
                                       if (mediaContent == 0) {
                                         controlNotifier.mediaPath = path;
@@ -640,12 +618,6 @@ class _MainViewState extends State<MainView> {
                                         controlNotifier.mediaPath = '';
                                       }
                                       mediaContent++;
-                                      // nav to editor view
-                                      // if page = 1, initial view is camera mode
-                                      // editor page index is 1, camera page index is 0
-                                      // scrollProvider.pageController.jumpToPage(page);
-                                      // reset switch variabale
-                                      // switchToGallery = false;
                                     }
                                   });
                                   // setState(() {
@@ -893,106 +865,54 @@ class _MainViewState extends State<MainView> {
   }
 
   /// Pop gallery
-  Future<Uint8List?> openMediaGallery() async {
-    //
-    const AlbumSetting albumSetting = AlbumSetting(
-      fetchResults: {
-        PHFetchResult(
-          type: PHAssetCollectionType.smartAlbum,
-          subtype: PHAssetCollectionSubtype.smartAlbumUserLibrary,
-        ),
-        PHFetchResult(
-          type: PHAssetCollectionType.smartAlbum,
-          subtype: PHAssetCollectionSubtype.smartAlbumFavorites,
-        ),
-        PHFetchResult(
-          type: PHAssetCollectionType.album,
-          subtype: PHAssetCollectionSubtype.albumRegular,
-        ),
-        PHFetchResult(
-          type: PHAssetCollectionType.smartAlbum,
-          subtype: PHAssetCollectionSubtype.smartAlbumSelfPortraits,
-        ),
-        PHFetchResult(
-          type: PHAssetCollectionType.smartAlbum,
-          subtype: PHAssetCollectionSubtype.smartAlbumPanoramas,
-        ),
-        PHFetchResult(
-          type: PHAssetCollectionType.album,
-          subtype: PHAssetCollectionSubtype.albumImported,
-        ),
-      },
-    );
-    //
-    const SelectionSetting selectionSetting =
-        SelectionSetting(min: 1, max: 1, unselectOnReachingMax: true);
-    //
-    const DismissSetting dismissSetting =
-        DismissSetting(enabled: true, allowSwipe: true);
-    //
-    final ThemeSetting themeSetting = ThemeSetting(
-      backgroundColor: Colors.black,
-      selectionFillColor: Color(0xFFD91C54),
-      selectionStrokeColor: Colors.white,
-      previewSubtitleAttributes: const TitleAttribute(
-          fontSize: 12.0, foregroundColor: Color.fromARGB(255, 178, 178, 178)),
-      previewTitleAttributes: TitleAttribute(
-        foregroundColor: Colors.white,
-      ),
-      albumTitleAttributes: TitleAttribute(
-        foregroundColor: Colors.white,
-      ),
-    );
-    //
-    const ListSetting listSetting = ListSetting(spacing: 3.0, cellsPerRow: 4);
-    //
-    final CupertinoSettings iosSettings = CupertinoSettings(
-      fetch: const FetchSetting(album: albumSetting),
-      theme: themeSetting,
-      selection: selectionSetting,
-      dismiss: dismissSetting,
-      list: listSetting,
-      previewEnabled: false,
-    );
-    //
-
-    final media = await MultiImagePicker.pickImages(
-      selectedAssets: [],
-      iosOptions: IOSOptions(
-        settings: iosSettings,
-        doneButton: UIBarButtonItem(
-            title: 'Confirm',
-            tintColor: const Color.fromARGB(255, 102, 194, 105)),
-        cancelButton: UIBarButtonItem(
-            title: 'Cancel', tintColor: const Color.fromARGB(255, 224, 55, 43)),
-        albumButtonColor: Color(0xFFD91C54),
-      ),
-      androidOptions: const AndroidOptions(
-        maxImages: 1,
-        hasCameraInPickerPage: false,
-        startInAllView: true,
-        lightStatusBar: false,
-        textOnNothingSelected: 'Choose a photo',
-        autoCloseOnSelectionLimit: true,
-        actionBarTitle: "Gallery",
-        allViewTitle: "All",
-        useDetailsView: false,
-        exceptMimeType: {MimeType.PNG, MimeType.JPEG},
-        actionBarColor: Colors.black,
-        statusBarColor: Colors.black,
-        actionBarTitleColor: Colors.white,
-        selectCircleStrokeColor: Color(0xFFD91C54),
+  Future<String?> openMediaGallery() async {
+    final media = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: 1,
+        requestType: RequestType.image,
+        keepScrollOffset: true,
+        sortPathsByModifiedDate: true,
+        gridCount: 3,
+        pageSize: 90,
+        themeColor: Color(0xFFD91C54),
+        specialPickerType: SpecialPickerType.noPreview,
+        textDelegate: EnglishAssetPickerTextDelegate(),
+        pickerTheme: ThemeData.dark(),
+        loadingIndicatorBuilder: (context, isAssetsEmpty) {
+          if (isAssetsEmpty) {
+            return Center(
+              child: Text(
+                'No photos found',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
+          return SizedBox.square(
+            dimension: 45,
+            child: CircularProgressIndicator.adaptive(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+              backgroundColor: Colors.transparent,
+              strokeWidth: 1.5,
+            ),
+          );
+        },
       ),
     );
     if (kDebugMode) {
-      print(media.map((e) async {
-        final data = await e.getByteData();
-        return data.buffer.asUint8List();
+      print(media?.map((e) async {
+        File? data = await e.file;
+        return data?.path;
       }).toList());
     }
-    if (media.isNotEmpty) {
-      final data = await media.first.getByteData(quality: 80);
-      return data.buffer.asUint8List();
+    if (media != null && media.isNotEmpty) {
+      final file = await media.first.file;
+      return file!.path;
     }
     return null;
   }
