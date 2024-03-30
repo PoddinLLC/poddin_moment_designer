@@ -382,25 +382,24 @@ class _MainViewState extends State<MainView> {
                             alignment: Alignment.center,
                             children: [
                               // Vertical Alignment
-                              if (_activeItem!.position.direction ==
+                              if (_activeItem?.position.direction ==
                                       1.5707963267948966 ||
-                                  _activeItem!.position.direction ==
+                                  _activeItem?.position.direction ==
                                       -1.5707963267948966)
                                 Container(
-                                  width: 2,
+                                  width: 1,
                                   height: height,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 0, 76),
+                                    color: Color.fromARGB(255, 255, 66, 123),
                                   ),
                                 ),
                               // Horizontal Alignment
-                              if (_activeItem!.position.direction ==
-                                  1.5707963267948966)
+                              if (_activeItem?.position == Offset(0.0, 0.0))
                                 Container(
                                   width: width,
-                                  height: 2,
+                                  height: 1,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 0, 76),
+                                    color: Color.fromARGB(255, 255, 66, 123),
                                   ),
                                 ),
                             ],
@@ -1147,19 +1146,22 @@ class _MainViewState extends State<MainView> {
     final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
     if (_itemProvider.draggableWidget.length > 1) {
-      // current item index
+      // active item index
       final itemIndex = _itemProvider.draggableWidget.indexOf(item);
-      // replace item with the last widget
-      _itemProvider.draggableWidget
-          .insert(itemIndex, _itemProvider.draggableWidget.last);
-      // remove item
-      _itemProvider.draggableWidget.remove(item);
-      // add item to new position
-      _itemProvider.draggableWidget.insert(
-          _itemProvider.draggableWidget
-                  .indexOf(_itemProvider.draggableWidget.last) +
-              1,
-          item);
+      if (itemIndex > 0) {
+        // replace active item with the one before it
+        _itemProvider.draggableWidget[itemIndex] =
+            _itemProvider.draggableWidget[itemIndex - 1];
+        // move active item to new position
+        _itemProvider.draggableWidget[itemIndex - 1] = item;
+      }
+      if (itemIndex == 0) {
+        // replace active item with the one after it
+        _itemProvider.draggableWidget[itemIndex] =
+            _itemProvider.draggableWidget[itemIndex + 1];
+        // move active item to new position
+        _itemProvider.draggableWidget[itemIndex + 1] = item;
+      }
       setState(() {});
       // vibrate
       HapticFeedback.lightImpact();
