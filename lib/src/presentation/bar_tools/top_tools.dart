@@ -47,7 +47,7 @@ class _TopToolsState extends State<TopTools> {
                 ToolButton(
                   backGroundColor: Colors.black12,
                   onTap: () async {
-                    if (itemNotifier.draggableWidget.isEmpty ||
+                    if (itemNotifier.draggableWidget.isEmpty &&
                         paintingNotifier.lines.isEmpty) {
                       Navigator.pop(context);
                     } else {
@@ -197,10 +197,10 @@ class _TopToolsState extends State<TopTools> {
                         }
                       }
                       if (_createVideo) {
-                         if (kDebugMode) debugPrint('creating video');
+                        if (kDebugMode) debugPrint('creating video');
                         await widget.renderWidget!();
                       } else {
-                         if (kDebugMode) debugPrint('creating image');
+                        if (kDebugMode) debugPrint('creating image');
                         var response = await takePicture(
                             contentKey: widget.contentKey,
                             context: context,

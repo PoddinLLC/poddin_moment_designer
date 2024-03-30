@@ -875,7 +875,6 @@ class _MainViewState extends State<MainView> {
         sortPathsByModifiedDate: true,
         gridCount: 3,
         pageSize: 90,
-        //themeColor: Color(0xFFD91C54),
         specialPickerType: SpecialPickerType.noPreview,
         textDelegate: EnglishAssetPickerTextDelegate(),
         pickerTheme: ThemeData.dark(),
@@ -904,15 +903,11 @@ class _MainViewState extends State<MainView> {
         },
       ),
     );
-    if (kDebugMode) {
-      print(media?.map((e) async {
-        File? data = await e.file;
-        return data?.path;
-      }).toList());
-    }
+    debugPrint('Selected: ${media?.length}');
     if (media != null && media.isNotEmpty) {
       final file = await media.first.file;
-      return file!.path;
+      debugPrint(file!.path);
+      return file.path;
     }
     return null;
   }
@@ -933,7 +928,7 @@ class _MainViewState extends State<MainView> {
     //         'Content Offset: $position, Active Offset: ${_activeItem?.position}',
     //     gravity: ToastGravity.TOP);
     if (kDebugMode) {
-      debugPrint('''Content Offset: $position\nRaw position: $position''');
+      debugPrint('''-Content Offset: $position\n-Raw position: $position''');
     }
   }
 
@@ -1058,9 +1053,7 @@ class _MainViewState extends State<MainView> {
     }
 
     /// show close dialog
-    else if (!controlNotifier.isTextEditing &&
-        !controlNotifier.isPainting &&
-        content.draggableWidget.isNotEmpty) {
+    else if (content.draggableWidget.isNotEmpty) {
       return widget.onBackPress ??
           exitDialog(
               context: context,
@@ -1075,7 +1068,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
-    if (kDebugMode) debugPrint('onScaleStart callback detected');
+    // if (kDebugMode) debugPrint('onScaleStart callback detected');
 
     setState(() {
       _initPos = details.focalPoint;
@@ -1106,6 +1099,7 @@ class _MainViewState extends State<MainView> {
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
     });
+    debugPrint('Item position: ${_activeItem!.position}');
   }
 
   /// update content deletePosition when dragged to delete region
@@ -1157,7 +1151,7 @@ class _MainViewState extends State<MainView> {
     if (_inAction) {
       return;
     }
-    if (kDebugMode) debugPrint('Update item position callback detected!');
+    //if (kDebugMode) debugPrint('Update item position callback detected!');
 
     setState(() {
       _inAction = true;
