@@ -114,7 +114,7 @@ class DraggableWidget extends StatelessWidget {
               child: FileImageBG(
                 dimension: dimension,
                 scale: draggableWidget.scale,
-                filePath: File(draggableWidget.path),
+                file: File(draggableWidget.path),
               ),
             ),
           ),

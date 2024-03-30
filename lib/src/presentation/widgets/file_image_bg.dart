@@ -9,12 +9,12 @@ import 'package:poddin_moment_designer/src/domain/providers/notifiers/gradient_n
 import 'package:provider/provider.dart';
 
 class FileImageBG extends StatefulWidget {
-  final File? filePath;
+  final File? file;
   final Size? dimension;
   final double? scale;
   const FileImageBG({
     super.key,
-    required this.filePath,
+    required this.file,
     required this.dimension,
     required this.scale,
   });
@@ -48,7 +48,7 @@ class _FileImageBGState extends State<FileImageBG> {
   void initState() {
     // get image size
     Timer(Duration.zero, () async {
-      final fileByte = await widget.filePath!.readAsBytes();
+      final fileByte = await widget.file!.readAsBytes();
       final buffer = await ui.ImmutableBuffer.fromUint8List(fileByte);
       final descriptor = await ui.ImageDescriptor.encoded(buffer);
       final width = descriptor.width * 1.0;
@@ -68,28 +68,30 @@ class _FileImageBGState extends State<FileImageBG> {
     final colorProvider = Provider.of<GradientNotifier>(context, listen: false);
     return RepaintBoundary(
       key: paintKey,
-      child: ImagePixels(
-        imageProvider: FileImage(File(widget.filePath!.path)),
-        defaultColor: Colors.black,
-        builder: (context, img) {
-          var color1 = img.pixelColorAtAlignment!(color1alignment[value]);
-          var color2 = img.pixelColorAtAlignment!(color2alignment[value]);
-          //
-          Future.delayed(Duration.zero, () {
-            if (mounted && img.hasImage) {
-              colorProvider.color1 = color1;
-              colorProvider.color2 = color2;
-            }
-          });
-          return Image.file(
-            File(widget.filePath!.path),
-            key: imageKey,
-            width: (imgWidth ?? widget.dimension!.width) * widget.scale!,
-            height: (imgHeight ?? widget.dimension!.height) * widget.scale!,
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
-          );
-        },
+      child: SizedBox(
+        width: (imgWidth ?? widget.dimension!.width) * widget.scale!,
+        height: (imgHeight ?? widget.dimension!.height) * widget.scale!,
+        child: ImagePixels(
+          imageProvider: FileImage(widget.file!),
+          defaultColor: Colors.black,
+          builder: (context, img) {
+            var color1 = img.pixelColorAtAlignment!(color1alignment[value]);
+            var color2 = img.pixelColorAtAlignment!(color2alignment[value]);
+            //
+            Future.delayed(Duration.zero, () {
+              if (mounted && img.hasImage) {
+                colorProvider.color1 = color1;
+                colorProvider.color2 = color2;
+              }
+            });
+            return Image.file(
+              widget.file!,
+              key: imageKey,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.low,
+            );
+          },
+        ),
       ),
     );
   }
