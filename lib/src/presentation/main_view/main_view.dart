@@ -374,7 +374,7 @@ class _MainViewState extends State<MainView> {
 
                     /// Show item alignment indicator
                     if (_activeItem != null && !_isDeletePosition)
-                      IgnorePointer(
+                      RepaintBoundary(
                         child: SizedBox(
                           width: width,
                           height: height,
@@ -382,8 +382,10 @@ class _MainViewState extends State<MainView> {
                             alignment: Alignment.center,
                             children: [
                               // Vertical Alignment
-                              if (_activeItem!.position.direction == pi / 2 ||
-                                  _activeItem!.position.direction == -pi / 2)
+                              if (_activeItem!.position.direction ==
+                                      1.5707963267948966 ||
+                                  _activeItem!.position.direction ==
+                                      -1.5707963267948966)
                                 Container(
                                   width: 2,
                                   height: height,
@@ -392,7 +394,8 @@ class _MainViewState extends State<MainView> {
                                   ),
                                 ),
                               // Horizontal Alignment
-                              if (_activeItem!.position == Offset.zero)
+                              if (_activeItem!.position.direction ==
+                                  1.5707963267948966)
                                 Container(
                                   width: width,
                                   height: 2,
@@ -1144,13 +1147,20 @@ class _MainViewState extends State<MainView> {
     final _itemProvider =
         Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
     if (_itemProvider.draggableWidget.length > 1) {
-      _itemProvider.removeItem(item);
-      await Future.delayed(const Duration(milliseconds: 100));
-      _itemProvider.insertAt(
+      // current item index
+      final itemIndex = _itemProvider.draggableWidget.indexOf(item);
+      // replace item with the last widget
+      _itemProvider.draggableWidget
+          .insert(itemIndex, _itemProvider.draggableWidget.last);
+      // remove item
+      _itemProvider.draggableWidget.remove(item);
+      // add item to new position
+      _itemProvider.draggableWidget.insert(
           _itemProvider.draggableWidget
                   .indexOf(_itemProvider.draggableWidget.last) +
               1,
           item);
+      setState(() {});
       // vibrate
       HapticFeedback.lightImpact();
     }

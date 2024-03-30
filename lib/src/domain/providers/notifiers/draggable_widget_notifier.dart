@@ -13,13 +13,13 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   /// Insert item at index
   insertAt(int index, EditableItem element) {
     _draggableWidget.insert(index, element);
-    notifyListeners();
+   // notifyListeners();
   }
 
   /// Remove item at index
   removeAt(int index) {
     _draggableWidget.removeAt(index);
-    notifyListeners();
+   // notifyListeners();
   }
 
   /// Add item
