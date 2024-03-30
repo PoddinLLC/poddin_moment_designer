@@ -382,8 +382,8 @@ class _MainViewState extends State<MainView> {
                             alignment: Alignment.center,
                             children: [
                               // Vertical Alignment
-                              if (activeOffset.dx == screenSize.width / 2 &&
-                                  activeOffset.dy <= screenSize.height)
+                              if (_activeItem!.position.direction == pi / 2 ||
+                                  _activeItem!.position.direction == -pi / 2)
                                 Container(
                                   width: 2,
                                   height: height,
@@ -392,8 +392,7 @@ class _MainViewState extends State<MainView> {
                                   ),
                                 ),
                               // Horizontal Alignment
-                              if (activeOffset.dx <= screenSize.width &&
-                                  activeOffset.dy == screenSize.height / 2)
+                              if (_activeItem!.position == Offset.zero)
                                 Container(
                                   width: width,
                                   height: 2,
@@ -467,11 +466,6 @@ class _MainViewState extends State<MainView> {
                                 mediaContent++;
                               }
                             });
-                            //   debugPrint('Opened gallery');
-                            //   // setState(() {
-                            //   //   switchToGallery = true;
-                            //   // });
-                            //   // scrollProvider.pageController.jumpToPage(1);
                           },
                           onDoneButtonStyle: widget.onDoneButtonStyle,
                           editorBackgroundColor: widget.editorBackgroundColor,
@@ -620,9 +614,6 @@ class _MainViewState extends State<MainView> {
                                       mediaContent++;
                                     }
                                   });
-                                  // setState(() {
-                                  //   switchToGallery = true;
-                                  // });
                                 },
                                 child: Container(
                                   height: 40,
@@ -912,26 +903,6 @@ class _MainViewState extends State<MainView> {
     return null;
   }
 
-  /// get active item offet
-  void currentItemOffset(ScaleUpdateDetails details) async {
-    // final RenderBox renderBox =
-    //     activeItemKey.currentContext!.findRenderObject()! as RenderBox;
-    // final size = renderBox.size;
-    final position = details.focalPoint; //renderBox.localToGlobal(Offset.zero);
-    // Offset myOffset =
-    //     Offset(position.dx / size.width, position.dy / size.height);
-    setState(() {
-      activeOffset = position;
-    });
-    // Fluttertoast.showToast(
-    //     msg:
-    //         'Content Offset: $position, Active Offset: ${_activeItem?.position}',
-    //     gravity: ToastGravity.TOP);
-    if (kDebugMode) {
-      debugPrint('''-Content Offset: $position\n-Raw position: $position''');
-    }
-  }
-
   /// Preview tap action
   onPreviewTap(
     MediaCapture? media,
@@ -1084,7 +1055,6 @@ class _MainViewState extends State<MainView> {
       return;
     }
     if (kDebugMode) debugPrint('onScaleUpdate callback detected');
-    currentItemOffset(details);
     final padding = MediaQuery.paddingOf(context);
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
@@ -1099,7 +1069,8 @@ class _MainViewState extends State<MainView> {
       _activeItem!.rotation = details.rotation + _currentRotation;
       _activeItem!.scale = details.scale * _currentScale;
     });
-    debugPrint('Item position: ${_activeItem!.position}');
+    debugPrint(
+        'Item position: ${_activeItem!.position} || Item direction: ${_activeItem!.position.direction}');
   }
 
   /// update content deletePosition when dragged to delete region
