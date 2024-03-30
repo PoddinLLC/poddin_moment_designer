@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gallery_picker/gallery_picker.dart';
+import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -448,84 +448,39 @@ class _MainViewState extends State<MainView> {
                           },
                           iosAction: () async {
                             debugPrint('Opened gallery');
-                            await showAdaptiveDialog(
-                              context: context,
-                              barrierColor: Colors.black,
-                              builder: (ctx) => GalleryPickerView(
-                                onSelect: (selectedMedia) {
-                                  if (kDebugMode) {
-                                    print(selectedMedia
-                                        .map((e) => e.file?.path)
-                                        .toList());
-                                  }
-                                  final media = selectedMedia.isNotEmpty
-                                      ? selectedMedia.first
-                                      : null;
-                                  if (media != null) {
-                                    final path = media.file?.path;
-                                    if (path != null) {
-                                      // set media path value
-                                      if (mediaContent == 0) {
-                                        controlNotifier.mediaPath = path;
-                                      }
-                                      // add photo to editor view
-                                      itemProvider.addItem(EditableItem()
-                                        ..type = ItemType.image
-                                        ..path = path
-                                        ..scale = mediaContent < 1 ? 1.2 : 0.8
-                                        ..position = const Offset(0, 0));
-                                      if (mediaContent >= 1) {
-                                        controlNotifier.mediaPath = '';
-                                      }
-                                      mediaContent++;
-                                    }
-                                  }
-                                  //
-                                },
-                                config: Config(
-                                  mode: Mode.dark,
-                                  // backgroundColor: Colors.black,
-                                  // appbarColor: Colors.black,
-                                  // bottomSheetColor: Colors.black,
-                                  // underlineColor: const Color(0xFFD91C54),
-                                ),
-                                singleMedia: true,
-                                startWithRecent: true,
-                              ),
-                            );
                             // switch to gallery view
-                            //   openMediaGallery(
-                            //           controlNotifier: controlNotifier,
-                            //           scrollProvider: scrollProvider,
-                            //           itemProvider: itemProvider,
-                            //           context: context)
-                            //       .then((media) {
-                            //     if (media != null) {
-                            //       final path = media.file?.path;
-                            //       if (path != null) {
-                            //         // set media path value
-                            //         if (mediaContent == 0) {
-                            //           controlNotifier.mediaPath = path;
-                            //         }
-                            //         // add photo to editor view
-                            //         itemProvider.addItem(EditableItem()
-                            //           ..type = ItemType.image
-                            //           ..path = path
-                            //           ..scale = mediaContent < 1 ? 1.2 : 0.8
-                            //           ..position = const Offset(0, 0));
-                            //         if (mediaContent >= 1) {
-                            //           controlNotifier.mediaPath = '';
-                            //         }
-                            //         mediaContent++;
-                            //         // nav to editor view
-                            //         // if page = 1, initial view is camera mode
-                            //         // editor page index is 1, camera page index is 0
-                            //         // scrollProvider.pageController.jumpToPage(page);
-                            //         // reset switch variabale
-                            //         // switchToGallery = false;
-                            //       }
-                            //     }
-                            //   });
+                            openMediaGallery().then((byte) async {
+                              if (byte != null) {
+                                /// create file
+                                final String dir =
+                                    (await getApplicationDocumentsDirectory())
+                                        .path;
+                                String path =
+                                    '$dir/gallery_${DateTime.now().millisecondsSinceEpoch}.png';
+                                File capturedFile = File(path);
+                                await capturedFile.writeAsBytes(byte);
+                                // set media path value
+                                if (mediaContent == 0) {
+                                  controlNotifier.mediaPath = path;
+                                }
+                                // add photo to editor view
+                                itemProvider.addItem(EditableItem()
+                                  ..type = ItemType.image
+                                  ..path = path
+                                  ..scale = mediaContent < 1 ? 1.2 : 0.8
+                                  ..position = const Offset(0, 0));
+                                if (mediaContent >= 1) {
+                                  controlNotifier.mediaPath = '';
+                                }
+                                mediaContent++;
+                                // nav to editor view
+                                // if page = 1, initial view is camera mode
+                                // editor page index is 1, camera page index is 0
+                                // scrollProvider.pageController.jumpToPage(page);
+                                // reset switch variabale
+                                // switchToGallery = false;
+                              }
+                            });
                             //   debugPrint('Opened gallery');
                             //   // setState(() {
                             //   //   switchToGallery = true;
@@ -906,41 +861,106 @@ class _MainViewState extends State<MainView> {
   }
 
   /// Pop gallery
-  Future<MediaFile?> openMediaGallery({
-    required ControlNotifier controlNotifier,
-    required ScrollNotifier scrollProvider,
-    required DraggableWidgetNotifier itemProvider,
-    required BuildContext context,
-  }) async {
-    List<MediaFile>? media = await GalleryPicker.pickMedia(
-      config: Config(
-        mode: Mode.dark,
-        // backgroundColor: Colors.black,
-        // appbarColor: Colors.black,
-        // bottomSheetColor: Colors.black,
-        // underlineColor: const Color(0xFFD91C54),
-        selectIcon: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xFFD91C54),
-          ),
-          child: Icon(
-            Icons.check,
-            color: Colors.white,
-          ),
+  Future<Uint8List?> openMediaGallery() async {
+    //
+    const AlbumSetting albumSetting = AlbumSetting(
+      fetchResults: {
+        PHFetchResult(
+          type: PHAssetCollectionType.smartAlbum,
+          subtype: PHAssetCollectionSubtype.smartAlbumUserLibrary,
         ),
+        PHFetchResult(
+          type: PHAssetCollectionType.smartAlbum,
+          subtype: PHAssetCollectionSubtype.smartAlbumFavorites,
+        ),
+        PHFetchResult(
+          type: PHAssetCollectionType.album,
+          subtype: PHAssetCollectionSubtype.albumRegular,
+        ),
+        PHFetchResult(
+          type: PHAssetCollectionType.smartAlbum,
+          subtype: PHAssetCollectionSubtype.smartAlbumSelfPortraits,
+        ),
+        PHFetchResult(
+          type: PHAssetCollectionType.smartAlbum,
+          subtype: PHAssetCollectionSubtype.smartAlbumPanoramas,
+        ),
+        PHFetchResult(
+          type: PHAssetCollectionType.album,
+          subtype: PHAssetCollectionSubtype.albumImported,
+        ),
+      },
+    );
+    //
+    const SelectionSetting selectionSetting =
+        SelectionSetting(min: 1, max: 1, unselectOnReachingMax: true);
+    //
+    const DismissSetting dismissSetting =
+        DismissSetting(enabled: true, allowSwipe: true);
+    //
+    final ThemeSetting themeSetting = ThemeSetting(
+      backgroundColor: Colors.black,
+      selectionFillColor: Color(0xFFD91C54),
+      selectionStrokeColor: Colors.white,
+      previewSubtitleAttributes: const TitleAttribute(
+          fontSize: 12.0, foregroundColor: Color.fromARGB(255, 178, 178, 178)),
+      previewTitleAttributes: TitleAttribute(
+        foregroundColor: Colors.white,
       ),
-      context: context,
-      singleMedia: true,
-      startWithRecent: true,
+      albumTitleAttributes: TitleAttribute(
+        foregroundColor: Colors.white,
+      ),
+    );
+    //
+    const ListSetting listSetting = ListSetting(spacing: 3.0, cellsPerRow: 4);
+    //
+    final CupertinoSettings iosSettings = CupertinoSettings(
+      fetch: const FetchSetting(album: albumSetting),
+      theme: themeSetting,
+      selection: selectionSetting,
+      dismiss: dismissSetting,
+      list: listSetting,
+      previewEnabled: false,
+    );
+    //
+
+    final media = await MultiImagePicker.pickImages(
+      selectedAssets: [],
+      iosOptions: IOSOptions(
+        settings: iosSettings,
+        doneButton: UIBarButtonItem(
+            title: 'Confirm',
+            tintColor: const Color.fromARGB(255, 102, 194, 105)),
+        cancelButton: UIBarButtonItem(
+            title: 'Cancel', tintColor: const Color.fromARGB(255, 224, 55, 43)),
+        albumButtonColor: Color(0xFFD91C54),
+      ),
+      androidOptions: const AndroidOptions(
+        maxImages: 1,
+        hasCameraInPickerPage: false,
+        startInAllView: true,
+        lightStatusBar: false,
+        textOnNothingSelected: 'Choose a photo',
+        autoCloseOnSelectionLimit: true,
+        actionBarTitle: "Gallery",
+        allViewTitle: "All",
+        useDetailsView: false,
+        exceptMimeType: {MimeType.PNG, MimeType.JPEG},
+        actionBarColor: Colors.black,
+        statusBarColor: Colors.black,
+        actionBarTitleColor: Colors.white,
+        selectCircleStrokeColor: Color(0xFFD91C54),
+      ),
     );
     if (kDebugMode) {
-      print(media?.map((e) => e.file?.path).toList());
+      print(media.map((e) async {
+        final data = await e.getByteData();
+        return data.buffer.asUint8List();
+      }).toList());
     }
-    if (media != null && media.isNotEmpty) {
-      return media.first;
+    if (media.isNotEmpty) {
+      final data = await media.first.getByteData(quality: 80);
+      return data.buffer.asUint8List();
     }
     return null;
   }
