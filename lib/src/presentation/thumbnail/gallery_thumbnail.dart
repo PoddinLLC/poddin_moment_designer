@@ -13,7 +13,7 @@ class GalleryThumbnail extends StatefulWidget {
   final double? width;
   const GalleryThumbnail({
     super.key,
-    this.thumbnailQuality = 120,
+    this.thumbnailQuality = 150,
     this.thumbnailScale = 1.0,
     this.thumbnailFit = BoxFit.cover,
     this.height,
@@ -56,7 +56,7 @@ class _GalleryThumbnailState extends State<GalleryThumbnail> {
             fit: widget.thumbnailFit,
             height: widget.height,
             width: widget.width,
-            filterQuality: FilterQuality.high,
+            filterQuality: FilterQuality.low,
           )
         : const SizedBox();
   }

@@ -621,6 +621,7 @@ class _MainViewState extends State<MainView> {
                                   height: 40,
                                   width: 40,
                                   decoration: BoxDecoration(
+                                    color: Colors.black54,
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       color: Colors.white,
@@ -1148,7 +1149,8 @@ class _MainViewState extends State<MainView> {
     if (_itemProvider.draggableWidget.length > 1) {
       // active item index
       final itemIndex = _itemProvider.draggableWidget.indexOf(item);
-      if (itemIndex > 0) {
+      if (itemIndex == -1) return;
+      if (itemIndex >= 1) {
         // replace active item with the one before it
         _itemProvider.draggableWidget[itemIndex] =
             _itemProvider.draggableWidget[itemIndex - 1];
