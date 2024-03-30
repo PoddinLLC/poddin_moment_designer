@@ -875,7 +875,7 @@ class _MainViewState extends State<MainView> {
         sortPathsByModifiedDate: true,
         gridCount: 3,
         pageSize: 90,
-        themeColor: Color(0xFFD91C54),
+        //themeColor: Color(0xFFD91C54),
         specialPickerType: SpecialPickerType.noPreview,
         textDelegate: EnglishAssetPickerTextDelegate(),
         pickerTheme: ThemeData.dark(),
