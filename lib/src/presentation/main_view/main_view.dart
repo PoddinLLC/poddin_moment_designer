@@ -301,6 +301,8 @@ class _MainViewState extends State<MainView> {
                                         debugPrint(
                                             'longPress callback detected');
                                       }
+                                      // vibrate
+                                      HapticFeedback.lightImpact();
                                       reorder(context, editableItem);
                                     },
                                   ),
@@ -1162,9 +1164,7 @@ class _MainViewState extends State<MainView> {
         // remove active item from its former position
         _itemProvider.draggableWidget.removeAt(itemIndex);
       }
-      // setState(() {});
-      // vibrate
-      HapticFeedback.lightImpact();
+      setState(() {});
     }
   }
 }
