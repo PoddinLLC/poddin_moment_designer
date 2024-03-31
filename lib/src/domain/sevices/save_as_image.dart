@@ -30,7 +30,7 @@ Future takePicture({
 
     /// compress image
     String targetpath =
-        '$dir/${fileName}_${DateTime.now().millisecondsSinceEpoch}.png';
+        '$dir/${fileName}_${DateTime.now().microsecondsSinceEpoch}.png';
     final compressedImage = await FlutterImageCompress.compressAndGetFile(
       imagePath,
       targetpath,
@@ -54,7 +54,7 @@ Future takePicture({
       return finalpath;
     }
   } catch (e) {
-     if (kDebugMode) debugPrint('exception => $e');
+    if (kDebugMode) debugPrint('exception => $e');
     return false;
   }
 }

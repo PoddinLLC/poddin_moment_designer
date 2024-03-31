@@ -60,9 +60,8 @@ Future<bool> exitDialog(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               alignment: Alignment.center,
-              height: 250,
+              // height: 250,
               decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
                   color: themeType == ThemeType.light
                       ? Colors.white
                       : HexColor.fromHex('#262626'),
@@ -105,13 +104,13 @@ Future<bool> exitDialog(
                     textAlign: TextAlign.center,
                   ),
                   //
-                  const SizedBox(height: 20),
-                  //
                   const SizedBox(height: 15),
                   Divider(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
+                  const SizedBox(height: 15),
+
                   /// discard
                   AnimatedOnTapButton(
                     onTap: () async {
@@ -139,6 +138,7 @@ Future<bool> exitDialog(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
+                  const SizedBox(height: 15),
                   // save and exit
                   AnimatedOnTapButton(
                     onTap: () async {
@@ -172,7 +172,7 @@ Future<bool> exitDialog(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  //
+                  const SizedBox(height: 15),
                   /// cancel
                   AnimatedOnTapButton(
                     onTap: () {
