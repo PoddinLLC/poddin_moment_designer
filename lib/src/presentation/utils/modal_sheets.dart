@@ -61,6 +61,7 @@ Future<bool> exitDialog(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               alignment: Alignment.center,
               // height: 250,
+              constraints: const BoxConstraints(maxHeight: 350),
               decoration: BoxDecoration(
                   color: themeType == ThemeType.light
                       ? Colors.white
@@ -104,12 +105,12 @@ Future<bool> exitDialog(
                     textAlign: TextAlign.center,
                   ),
                   //
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   Divider(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 12),
 
                   /// discard
                   AnimatedOnTapButton(
@@ -133,12 +134,12 @@ Future<bool> exitDialog(
                     ),
                   ),
                   //
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 12),
                   Divider(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 12),
                   // save and exit
                   AnimatedOnTapButton(
                     onTap: () async {
@@ -167,12 +168,13 @@ Future<bool> exitDialog(
                     ),
                   ),
                   //
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 12),
                   Divider(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 12),
+
                   /// cancel
                   AnimatedOnTapButton(
                     onTap: () {
