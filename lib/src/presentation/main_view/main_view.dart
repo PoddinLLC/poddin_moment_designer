@@ -616,6 +616,11 @@ class _MainViewState extends State<MainView> {
                                         controlNotifier.mediaPath = '';
                                       }
                                       mediaContent++;
+                                      // nav to editor view
+                                      // if page = 1, initial view is camera mode
+                                      // editor page index is 1, camera page index is 0
+                                      scrollProvider.pageController
+                                          .jumpToPage(page);
                                     }
                                   });
                                 },
@@ -704,148 +709,6 @@ class _MainViewState extends State<MainView> {
                           ),
                         ),
                       ),
-                    // Gallery
-                    //
-                    // if (switchToGallery)
-                    // Visibility(
-                    //   child: VSMediaPicker(
-                    //     maxPickImages: 1,
-                    //     gridViewController: scrollProvider.gridController,
-                    //     thumbnailQuality: 300,
-                    //     singlePick: true,
-                    //     onlyImages: true,
-                    //     selectedBackgroundColor: const Color(0xFFD91C54),
-                    //     imageBackgroundColor: Colors.black,
-                    //     appBarIconColor: Colors.white,
-                    //     albumBackGroundColor: Colors.black,
-                    //     albumDividerColor: Color(0xEE272727),
-                    //     gridViewBackgroundColor: Colors.black,
-                    //     childAspectRatio: 0.6,
-                    //     crossAxisCount: 3,
-                    //     appBarHeight: 50,
-                    //     gridPadding: EdgeInsets.zero,
-                    //     appBarColor:
-                    //         widget.editorBackgroundColor ?? Colors.black,
-                    //     pathList: (path) {
-                    //       if (path.isNotEmpty) {
-                    //         // set media path value
-                    //         if (mediaContent == 0) {
-                    //           controlNotifier.mediaPath = path[0].path!;
-                    //         }
-                    //         // add photo to editor view
-                    //         itemProvider.addItem(EditableItem()
-                    //           ..type = ItemType.image
-                    //           ..path = path[0].path!
-                    //           ..scale = mediaContent < 1 ? 1.2 : 0.8
-                    //           ..position = const Offset(0, 0));
-                    //         if (mediaContent >= 1) {
-                    //           controlNotifier.mediaPath = '';
-                    //         }
-                    //         mediaContent++;
-                    //         // nav to editor view
-                    //         // if page = 1, initial view is camera mode
-                    //         // editor page index is 1, camera page index is 0
-                    //         scrollProvider.pageController.jumpToPage(page);
-                    //         // reset switch variabale
-                    //         switchToGallery = false;
-                    //       }
-                    //     },
-                    //     appBarLeadingWidget: Align(
-                    //       alignment: Alignment.centerRight,
-                    //       child: Padding(
-                    //         padding:
-                    //             const EdgeInsets.only(bottom: 5, right: 15),
-                    //         child: ToolButton(
-                    //           topPadding: false,
-                    //           padding: EdgeInsets.zero,
-                    //           borderHide: true,
-                    //           backGroundColor: Colors.black,
-                    //           onTap: () {
-                    //             if (Platform.isIOS) {
-                    //               scrollProvider.pageController.jumpToPage(0);
-                    //             } else {
-                    //               setState(() => switchToGallery = false);
-                    //             }
-                    //           },
-                    //           child: const Icon(
-                    //             Icons.close,
-                    //             size: 28,
-                    //             color: Colors.white,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // AlbumImagePicker(
-                    //   onSelected: (images) async {
-                    //     final selected = await images.first.file;
-                    //     final path = selected?.path;
-                    //     if (path != null) {
-                    //       // set media path value
-                    //       if (mediaContent == 0) {
-                    //         controlNotifier.mediaPath = path;
-                    //         setState(() {});
-                    //       }
-                    //       // add photo to editor view
-                    //       itemProvider.addItem(EditableItem()
-                    //         ..type = ItemType.image
-                    //         ..path = path
-                    //         ..scale = mediaContent < 1 ? 1.2 : 0.8
-                    //         ..position = const Offset(0, 0));
-                    //       if (mediaContent >= 1) {
-                    //         controlNotifier.mediaPath = '';
-                    //       }
-                    //       mediaContent++;
-                    //       // nav to editor view
-                    //       // if page = 1, initial view is camera mode
-                    //       // editor page index is 1, camera page index is 0
-                    //       scrollProvider.pageController.jumpToPage(page);
-                    //       // reset switch variabale
-                    //       switchToGallery = false;
-                    //     }
-                    //   },
-                    //   selectionBuilder: (_, selected, index) {
-                    //     if (selected) {
-                    //       return CircleAvatar(
-                    //         backgroundColor: const Color(0xFFD91C54),
-                    //         radius: 10,
-                    //         child: Text(
-                    //           '${index + 1}',
-                    //           style: const TextStyle(
-                    //               fontSize: 10,
-                    //               height: 1.4,
-                    //               color: Colors.white),
-                    //         ),
-                    //       );
-                    //     }
-                    //     return const SizedBox();
-                    //   },
-                    //   crossAxisCount: 3,
-                    //   maxSelection: 1,
-                    //   albumBackGroundColor: Colors.black87,
-                    //   itemBackgroundColor: Colors.black87,
-                    //   appBarColor: Colors.black,
-                    //   albumTextStyle:
-                    //       const TextStyle(color: Colors.white, fontSize: 14),
-                    //   albumSubTextStyle:
-                    //       const TextStyle(color: Colors.grey, fontSize: 10),
-                    //   albumDividerColor: Colors.black54,
-                    //   listBackgroundColor: Colors.black87,
-                    //   childAspectRatio: 0.6,
-                    //   type: AlbumType.image,
-                    //   closeWidget: CloseButton(
-                    //     color: Colors.white,
-                    //     onPressed: () {
-                    //       if (Platform.isIOS) {
-                    //         scrollProvider.pageController.jumpToPage(0);
-                    //       } else {
-                    //         setState(() => switchToGallery = false);
-                    //       }
-                    //     },
-                    //   ),
-                    //   thumbnailQuality: 300,
-                    // ),
                   ],
                 ),
               ),
@@ -1152,17 +1015,27 @@ class _MainViewState extends State<MainView> {
       // active item index
       final itemIndex = _itemProvider.draggableWidget.indexOf(item);
       if (itemIndex == -1) return;
-      if (itemIndex >= 1) {
-        // move active item backward
+      if (itemIndex > 0 &&
+          itemIndex <= _itemProvider.draggableWidget.length - 1) {
+        // remove active item
+        _itemProvider.draggableWidget.remove(item);
+        // insert item to new position backwards
         _itemProvider.draggableWidget.insert(itemIndex - 1, item);
+        //
+        // move active item backward
+        // _itemProvider.draggableWidget.insert(itemIndex - 1, item);
         // remove active item from its former position
-        _itemProvider.draggableWidget.removeAt(itemIndex + 1);
+        // _itemProvider.draggableWidget.removeAt(itemIndex + 1);
       }
       if (itemIndex == 0) {
+        // remove active item
+        _itemProvider.draggableWidget.remove(item);
+        // insert item to new position forward
+        _itemProvider.draggableWidget.insert(itemIndex + 1, item);
         // move active item forward
-        _itemProvider.draggableWidget.insert(1 + 1, item);
+        // _itemProvider.draggableWidget.insert(itemIndex + 1, item);
         // remove active item from its former position
-        _itemProvider.draggableWidget.removeAt(itemIndex);
+        // _itemProvider.draggableWidget.removeAt(itemIndex);
       }
       setState(() {});
     }
