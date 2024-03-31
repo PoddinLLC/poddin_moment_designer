@@ -114,8 +114,8 @@ Future<bool> exitDialog(
                   /// discard
                   AnimatedOnTapButton(
                     onTap: () async {
-                      _resetDefaults(context: context);
                       Navigator.of(context).pop(true);
+                      _resetDefaults(context: context);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -223,7 +223,7 @@ _resetDefaults({required BuildContext context}) {
 }
 
 _dispose({required context, required message}) {
-  _resetDefaults(context: context);
   Fluttertoast.showToast(msg: message);
+  _resetDefaults(context: context);
   Navigator.of(context).pop(true);
 }
