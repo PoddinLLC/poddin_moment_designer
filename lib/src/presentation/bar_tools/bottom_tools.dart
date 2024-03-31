@@ -137,7 +137,6 @@ class _BottomToolsState extends State<BottomTools> {
 
               /// save final image to gallery
               AnimatedOnTapButton(
-                hideChild: true,
                 onTap: () async {
                   String pngUri;
                   if (paintingNotifier.lines.isNotEmpty ||

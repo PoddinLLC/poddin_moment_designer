@@ -9,17 +9,15 @@ class AnimatedOnTapButton extends StatefulWidget {
   final Function() onTap;
   final void Function()? onLongPress;
   final void Function()? onDoubleTap;
-  final bool? showLoading;
-  final bool? hideChild;
+  final bool showLoading;
 
   const AnimatedOnTapButton({
     super.key,
     required this.onTap,
     required this.child,
     this.onLongPress,
-    this.showLoading,
+    this.showLoading = false,
     this.onDoubleTap,
-    this.hideChild,
   });
 
   @override
@@ -30,7 +28,6 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
     with TickerProviderStateMixin {
   double squareScaleA = 1;
   bool loading = false;
-  bool showChild = true;
   AnimationController? _controllerA;
   Timer _timer = Timer(const Duration(milliseconds: 300), () {});
 
@@ -67,13 +64,12 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
-        if (widget.showLoading ?? false) {
+        if (widget.showLoading) {
           if (loading) {
             return;
           }
           _controllerA!.reverse();
           setState(() {
-            showChild = widget.hideChild != null ? false : true;
             loading = true;
           });
           try {
@@ -81,7 +77,6 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
           } finally {
             if (mounted) {
               setState(() {
-                showChild = true;
                 loading = true;
               });
             }
@@ -115,13 +110,13 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (showChild) widget.child,
+            widget.child,
             if (loading)
-              Padding(
-                padding: const EdgeInsets.only(left: 12),
+              const Padding(
+                padding: EdgeInsets.only(left: 12),
                 child: SizedBox.square(
-                  dimension: widget.hideChild != null ? 22 : 18,
-                  child: const CircularProgressIndicator(
+                  dimension: 18,
+                  child: CircularProgressIndicator(
                     strokeWidth: 1.2,
                     valueColor: AlwaysStoppedAnimation(Colors.white),
                   ),
