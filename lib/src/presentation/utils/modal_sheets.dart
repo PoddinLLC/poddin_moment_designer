@@ -60,8 +60,7 @@ Future<bool> exitDialog(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               alignment: Alignment.center,
-              // height: 250,
-              constraints: const BoxConstraints(maxHeight: 320),
+              constraints: const BoxConstraints(maxHeight: 300),
               decoration: BoxDecoration(
                   color: themeType == ThemeType.light
                       ? Colors.white
@@ -110,7 +109,7 @@ Future<bool> exitDialog(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
 
                   /// discard
                   AnimatedOnTapButton(
@@ -134,12 +133,12 @@ Future<bool> exitDialog(
                     ),
                   ),
                   //
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Divider(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   // save and exit
                   AnimatedOnTapButton(
                     showLoading: true,
@@ -169,12 +168,12 @@ Future<bool> exitDialog(
                     ),
                   ),
                   //
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Divider(
                       color: themeType == ThemeType.light
                           ? Colors.black26
                           : Colors.white10),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
 
                   /// cancel
                   AnimatedOnTapButton(

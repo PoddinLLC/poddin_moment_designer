@@ -109,10 +109,10 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
             widget.child,
             if (loading)
               const Padding(
-                padding: EdgeInsets.only(left: 8),
+                padding: EdgeInsets.only(left: 10),
                 child: SizedBox.square(
                   dimension: 18,
-                  child: CircularProgressIndicator.adaptive(
+                  child: CircularProgressIndicator(
                     strokeWidth: 1.5,
                     valueColor: AlwaysStoppedAnimation(Colors.white),
                   ),
