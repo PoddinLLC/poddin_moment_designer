@@ -108,7 +108,7 @@ Future<bool> exitDialog(
                   const SizedBox(height: 20),
                   //
                   SizedBox(
-                    height: 10,
+                    height: 25,
                     child: Divider(
                         color: themeType == ThemeType.light
                             ? Colors.black26
@@ -138,7 +138,7 @@ Future<bool> exitDialog(
                   ),
                   //
                   SizedBox(
-                    height: 15,
+                    height: 25,
                     child: Divider(
                         color: themeType == ThemeType.light
                             ? Colors.black26
@@ -173,7 +173,7 @@ Future<bool> exitDialog(
                   ),
                   //
                   SizedBox(
-                    height: 15,
+                    height: 25,
                     child: Divider(
                         color: themeType == ThemeType.light
                             ? Colors.black26
