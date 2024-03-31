@@ -64,7 +64,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
-        if (widget.showLoading!) {
+        if (widget.showLoading ?? false) {
           if (loading) {
             return;
           }
