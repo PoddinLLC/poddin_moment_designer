@@ -65,13 +65,13 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         widget.onTap();
       },
       onTapDown: (dp) {
-        _controllerA!.reverse();
+      //  _controllerA!.reverse();
       },
       onTapUp: (dp) {
         try {
           if (mounted) {
             _timer = Timer(const Duration(milliseconds: 100), () {
-              _controllerA!.fling();
+            //  _controllerA!.fling();
             });
           }
         } catch (e) {
@@ -79,7 +79,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         }
       },
       onTapCancel: () {
-        _controllerA!.fling();
+       // _controllerA!.fling();
       },
       onLongPress: () => widget.onLongPress?.call(),
       onDoubleTap: () => widget.onDoubleTap?.call(),

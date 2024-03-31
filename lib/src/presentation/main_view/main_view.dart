@@ -1021,23 +1021,14 @@ class _MainViewState extends State<MainView> {
         _itemProvider.draggableWidget.remove(item);
         // insert item to new position backwards
         _itemProvider.draggableWidget.insert(itemIndex - 1, item);
-        //
-        // move active item backward
-        // _itemProvider.draggableWidget.insert(itemIndex - 1, item);
-        // remove active item from its former position
-        // _itemProvider.draggableWidget.removeAt(itemIndex + 1);
       }
       if (itemIndex == 0) {
         // remove active item
         _itemProvider.draggableWidget.remove(item);
         // insert item to new position forward
         _itemProvider.draggableWidget.insert(itemIndex + 1, item);
-        // move active item forward
-        // _itemProvider.draggableWidget.insert(itemIndex + 1, item);
-        // remove active item from its former position
-        // _itemProvider.draggableWidget.removeAt(itemIndex);
       }
-      setState(() {});
+      //setState(() {});
     }
   }
 }
