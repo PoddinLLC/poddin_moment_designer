@@ -296,7 +296,7 @@ class _MainViewState extends State<MainView> {
                                       }
                                       _deletePosition(editableItem);
                                     },
-                                    longPress: () {
+                                    doubleTap: () {
                                       if (kDebugMode) {
                                         debugPrint(
                                             'longPress callback detected');
@@ -1028,7 +1028,7 @@ class _MainViewState extends State<MainView> {
         // insert item to new position forward
         _itemProvider.draggableWidget.insert(itemIndex + 1, item);
       }
-      //setState(() {});
+      setState(() {});
     }
   }
 }

@@ -37,12 +37,12 @@ class _GalleryThumbnailState extends State<GalleryThumbnail> {
   @override
   void dispose() {
     if (mounted) {
-      provider.pickedFile.clear();
-      provider.picked.clear();
-      provider.pathList.clear();
+      // provider.pickedFile.clear();
+      // provider.picked.clear();
+      // provider.pathList.clear();
       PhotoManager.stopChangeNotify();
-      super.dispose();
     }
+    super.dispose();
   }
 
   @override

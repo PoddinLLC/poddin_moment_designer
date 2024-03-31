@@ -23,7 +23,7 @@ class DraggableWidget extends StatelessWidget {
   final Function(PointerDownEvent)? onPointerDown;
   final Function(PointerUpEvent)? onPointerUp;
   final Function(PointerMoveEvent)? onPointerMove;
-  final void Function()? longPress;
+  final void Function()? doubleTap;
   final Size? dimension;
   final BuildContext context;
   const DraggableWidget({
@@ -34,7 +34,7 @@ class DraggableWidget extends StatelessWidget {
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerMove,
-    this.longPress,
+    this.doubleTap,
   });
 
   @override
@@ -58,7 +58,7 @@ class DraggableWidget extends StatelessWidget {
           height: draggableWidget.deletePosition ? 0 : null,
           child: AnimatedOnTapButton(
             onTap: () => _onTap(context, draggableWidget, _controlProvider),
-            onLongPress: longPress,
+            onDoubleTap: doubleTap,
             child: RoundedBackgroundText(
               draggableWidget.text,
               backgroundColor: draggableWidget.backGroundColor,
@@ -97,7 +97,7 @@ class DraggableWidget extends StatelessWidget {
       /// image [file_image_gb.dart]
       case ItemType.image:
         overlayWidget = AnimatedOnTapButton(
-          onLongPress: longPress,
+          onDoubleTap: doubleTap,
           onTap: () {},
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
