@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_getters_setters
+
 import 'package:flutter/material.dart';
 // import 'package:modal_gif_picker/modal_gif_picker.dart';
 import 'package:poddin_moment_designer/src/domain/models/editable_items.dart';
@@ -7,7 +9,7 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   List<EditableItem> get draggableWidget => _draggableWidget;
   set draggableWidget(List<EditableItem> item) {
     _draggableWidget = item;
-    notifyListeners();
+   // notifyListeners();
   }
 
   /// Insert item at index
