@@ -15,6 +15,8 @@ import 'package:poddin_moment_designer/src/presentation/utils/Extensions/hexColo
 import 'package:poddin_moment_designer/src/presentation/widgets/animated_onTap_button.dart';
 import 'package:poddin_moment_designer/poddin_moment_designer.dart';
 
+import '../../domain/sevices/save_as_image.dart';
+
 /// create item of type GIF
 // Future createGiphyItem(
 //     {required BuildContext context, required giphyKey}) async {
@@ -79,33 +81,39 @@ Future<bool> exitDialog(
                   Text(
                     'Discard Moment?',
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: themeType == ThemeType.light
                             ? Colors.black
                             : Colors.white,
-                        letterSpacing: 0.5),
+                        letterSpacing: 0),
                   ),
+                  //
                   const SizedBox(
                     height: 20,
                   ),
+                  //
                   Text(
                     "If you go back now, you'll lose all the edits you've made.",
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: themeType == ThemeType.light
                             ? Colors.grey
                             : Colors.white54,
-                        letterSpacing: 0.1),
+                        letterSpacing: 0),
                     textAlign: TextAlign.center,
                   ),
+                  //
                   const SizedBox(height: 20),
-                  Divider(
-                      color: themeType == ThemeType.light
-                          ? Colors.black26
-                          : Colors.white10),
-                  const SizedBox(height: 10),
+                  //
+                  SizedBox(
+                    height: 10,
+                    child: Divider(
+                        color: themeType == ThemeType.light
+                            ? Colors.black26
+                            : Colors.white10),
+                  ),
 
                   /// discard
                   AnimatedOnTapButton(
@@ -119,65 +127,60 @@ Future<bool> exitDialog(
                         Text(
                           'Discard',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15,
                               color: Colors.redAccent.shade200,
                               fontWeight: FontWeight.bold,
-                              letterSpacing: 0.1),
+                              letterSpacing: 0),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
-                  // const SizedBox(
-                  //   height: 18,
-                  //   child: Divider(
-                  //     color: Colors.white10,
-                  //   ),
-                  // ),
+                  //
+                  SizedBox(
+                    height: 15,
+                    child: Divider(
+                        color: themeType == ThemeType.light
+                            ? Colors.black26
+                            : Colors.white10),
+                  ),
+                  // save and exit
+                  AnimatedOnTapButton(
+                    onTap: () async {
+                      /// save image
+                      var response = await takePicture(
+                          contentKey: contentKey,
+                          context: context,
+                          saveToGallery: true,
+                          fileName: "poddin_moment_draft");
+                      if (response) {
+                        _dispose(
+                            context: context, message: 'Successfully saved');
+                      } else {
+                        _dispose(
+                            context: context, message: 'Unable to save draft');
+                      }
+                    },
+                    child: const Text(
+                      'Save Draft',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  //
+                  SizedBox(
+                    height: 15,
+                    child: Divider(
+                        color: themeType == ThemeType.light
+                            ? Colors.black26
+                            : Colors.white10),
+                  ),
 
-                  /// save and exit
-                  // AnimatedOnTapButton(
-                  //   onTap: () async {
-                  //     final _paintingProvider =
-                  //         Provider.of<PaintingNotifier>(context, listen: false);
-                  //     final _widgetProvider =
-                  //         Provider.of<DraggableWidgetNotifier>(context,
-                  //             listen: false);
-                  //     if (_paintingProvider.lines.isNotEmpty ||
-                  //         _widgetProvider.draggableWidget.isNotEmpty) {
-                  //       /// save image
-                  //       var response = await takePicture(
-                  //           contentKey: contentKey,
-                  //           context: context,
-                  //           saveToGallery: true);
-                  //       if (response) {
-                  //         _dispose(
-                  //             context: context, message: 'Successfully saved');
-                  //       } else {
-                  //         _dispose(context: context, message: 'Error');
-                  //       }
-                  //     } else {
-                  //       _dispose(context: context, message: 'Draft Empty');
-                  //     }
-                  //   },
-                  //   child: const Text(
-                  //     'Save Draft',
-                  //     style: TextStyle(
-                  //         fontSize: 16,
-                  //         color: Colors.white,
-                  //         fontWeight: FontWeight.bold,
-                  //         letterSpacing: 0.5),
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
-                  const SizedBox(height: 10),
-                  Divider(
-                      color: themeType == ThemeType.light
-                          ? Colors.black26
-                          : Colors.white10),
-                  const SizedBox(height: 10),
-
-                  ///cancel
+                  /// cancel
                   AnimatedOnTapButton(
                     onTap: () {
                       Navigator.of(context).pop(false);
@@ -188,12 +191,12 @@ Future<bool> exitDialog(
                         Text(
                           'Cancel',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15,
                               color: themeType == ThemeType.light
                                   ? Colors.black
                                   : Colors.white,
                               fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5),
+                              letterSpacing: 0),
                           textAlign: TextAlign.center,
                         ),
                       ],

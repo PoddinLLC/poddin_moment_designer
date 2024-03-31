@@ -60,7 +60,7 @@ class _BottomToolsState extends State<BottomTools> {
         final page = controlNotifier.initialPage;
         //
         return Container(
-          height: 90,
+          height: 80,
           alignment: Alignment.center,
           padding: const EdgeInsets.only(bottom: 20, left: 5, right: 5),
           child: Row(

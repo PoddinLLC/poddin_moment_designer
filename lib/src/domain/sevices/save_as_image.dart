@@ -22,7 +22,7 @@ Future takePicture({
     Uint8List pngBytes = byteData!.buffer.asUint8List();
 
     /// create file
-    final String dir = (await getApplicationDocumentsDirectory()).path;
+    final String dir = (await getApplicationSupportDirectory()).path;
     String imagePath =
         '$dir/${fileName}_${DateTime.now().millisecondsSinceEpoch}.png';
     File capturedFile = File(imagePath);
@@ -36,7 +36,7 @@ Future takePicture({
       targetpath,
       minWidth: 1080,
       minHeight: 1920,
-      quality: 70,
+      quality: 65,
       format: CompressFormat.png,
     );
     String finalpath = compressedImage!.path;
