@@ -22,7 +22,7 @@ class DeleteItem extends StatelessWidget {
     var _mediaQuery = MediaQuery.sizeOf(context);
 
     return Visibility(
-      visible: isDeletePosition, // _activeItem != null,
+      visible: _activeItem != null,
       child: Positioned(
           bottom: 100,
           child: SizedBox(

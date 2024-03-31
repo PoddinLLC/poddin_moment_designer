@@ -81,6 +81,7 @@ class _FileImageBGState extends State<FileImageBG> {
             if (mounted && img.hasImage) {
               colorProvider.color1 = color1;
               colorProvider.color2 = color2;
+              setState(() {});
             }
             return AnimatedOpacity(
               opacity: img.hasImage ? 1 : 0,
