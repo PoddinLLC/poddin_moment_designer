@@ -84,7 +84,7 @@ class _FileImageBGState extends State<FileImageBG> {
             }
             return AnimatedOpacity(
               opacity: img.hasImage ? 1 : 0,
-              duration: const Duration(milliseconds: 800),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.easeInOut,
               child: Image.file(
                 widget.file!,

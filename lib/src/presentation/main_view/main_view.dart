@@ -1155,26 +1155,14 @@ class _MainViewState extends State<MainView> {
         _itemProvider.draggableWidget.insert(itemIndex - 1, item);
         // remove active item from its former position
         _itemProvider.draggableWidget.removeAt(itemIndex + 1);
-        //
-        // replace active item with the one before it
-        // _itemProvider.draggableWidget[itemIndex] =
-        //     _itemProvider.draggableWidget[itemIndex - 1];
-        // move active item to new position
-        // _itemProvider.draggableWidget[itemIndex - 1] = item;
       }
       if (itemIndex == 0) {
         // move active item forward
         _itemProvider.draggableWidget.insert(1 + 1, item);
         // remove active item from its former position
         _itemProvider.draggableWidget.removeAt(itemIndex);
-        //
-        // replace active item with the one after it
-        // _itemProvider.draggableWidget[itemIndex] =
-        //     _itemProvider.draggableWidget[itemIndex + 1];
-        // move active item to new position
-        // _itemProvider.draggableWidget[itemIndex + 1] = item;
       }
-      setState(() {});
+      // setState(() {});
       // vibrate
       HapticFeedback.lightImpact();
     }
