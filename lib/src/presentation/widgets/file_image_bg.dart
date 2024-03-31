@@ -78,17 +78,22 @@ class _FileImageBGState extends State<FileImageBG> {
             var color1 = img.pixelColorAtAlignment!(color1alignment[value]);
             var color2 = img.pixelColorAtAlignment!(color2alignment[value]);
             //
-            Future.delayed(Duration.zero, () {
-              if (mounted && img.hasImage) {
-                colorProvider.color1 = color1;
-                colorProvider.color2 = color2;
-              }
-            });
-            return Image.file(
-              widget.file!,
-              key: imageKey,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
+            // Future.delayed(Duration.zero, () {
+            if (mounted && img.hasImage) {
+              colorProvider.color1 = color1;
+              colorProvider.color2 = color2;
+            }
+            // });
+            return AnimatedOpacity(
+              opacity: img.hasImage ? 1 : 0,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeInOut,
+              child: Image.file(
+                widget.file!,
+                key: imageKey,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.low,
+              ),
             );
           },
         ),
