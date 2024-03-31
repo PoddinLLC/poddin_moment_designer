@@ -1,5 +1,4 @@
 // ignore_for_file: file_names, library_private_types_in_public_api, unused_import
-
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +6,19 @@ import 'package:flutter/services.dart';
 
 class AnimatedOnTapButton extends StatefulWidget {
   final Widget child;
-  final void Function() onTap;
+  final Function() onTap;
   final void Function()? onLongPress;
   final void Function()? onDoubleTap;
+  final bool? showLoading;
 
-  const AnimatedOnTapButton(
-      {super.key,
-      required this.onTap,
-      required this.child,
-      this.onLongPress,
-      this.onDoubleTap});
+  const AnimatedOnTapButton({
+    super.key,
+    required this.onTap,
+    required this.child,
+    this.onLongPress,
+    this.showLoading,
+    this.onDoubleTap,
+  });
 
   @override
   _AnimatedOnTapButtonState createState() => _AnimatedOnTapButtonState();
@@ -25,6 +27,7 @@ class AnimatedOnTapButton extends StatefulWidget {
 class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
     with TickerProviderStateMixin {
   double squareScaleA = 1;
+  bool loading = false;
   AnimationController? _controllerA;
   Timer _timer = Timer(const Duration(milliseconds: 300), () {});
 
@@ -60,9 +63,24 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {
-        _controllerA!.reverse();
-        widget.onTap();
+      onTap: () async {
+        if (widget.showLoading!) {
+          if (loading) {
+            return;
+          }
+          _controllerA!.reverse();
+          setState(() => loading = true);
+          try {
+            await widget.onTap();
+          } finally {
+            if (mounted) {
+              setState(() => loading = false);
+            }
+          }
+        } else {
+          _controllerA!.reverse();
+          widget.onTap();
+        }
       },
       onTapDown: (dp) {
         _controllerA!.reverse();
@@ -85,7 +103,23 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
       onDoubleTap: () => widget.onDoubleTap?.call(),
       child: Transform.scale(
         scale: squareScaleA,
-        child: widget.child,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            widget.child,
+            if (loading)
+              const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: SizedBox.square(
+                  dimension: 18,
+                  child: CircularProgressIndicator.adaptive(
+                    strokeWidth: 1.5,
+                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
