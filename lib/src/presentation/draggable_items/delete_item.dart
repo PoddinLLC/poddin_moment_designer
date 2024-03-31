@@ -10,8 +10,9 @@ class DeleteItem extends StatelessWidget {
     required EditableItem? activeItem,
     required this.isDeletePosition,
     required this.animationsDuration,
-  })  : _activeItem = activeItem;
+  }) : _activeItem = activeItem;
 
+  // ignore: unused_field
   final EditableItem? _activeItem;
   final bool isDeletePosition;
   final Duration animationsDuration;
@@ -21,16 +22,14 @@ class DeleteItem extends StatelessWidget {
     var _mediaQuery = MediaQuery.sizeOf(context);
 
     return Visibility(
-      visible: _activeItem != null,
+      visible: isDeletePosition, // _activeItem != null,
       child: Positioned(
           bottom: 100,
           child: SizedBox(
             width: _mediaQuery.width,
             child: Center(
               child: AnimatedContainer(
-                onEnd: () {
-                  
-                },
+                onEnd: () {},
                 alignment: Alignment.center,
                 duration: animationsDuration,
                 height: isDeletePosition ? 55.0 : 45,
