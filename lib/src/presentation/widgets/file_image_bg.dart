@@ -67,7 +67,7 @@ class _FileImageBGState extends State<FileImageBG> {
   Widget build(BuildContext context) {
     final colorProvider = Provider.of<GradientNotifier>(context, listen: false);
     return RepaintBoundary(
-      key: paintKey,
+      //key: paintKey,
       child: SizedBox(
         width: (imgWidth ?? widget.dimension!.width) * widget.scale!,
         height: (imgHeight ?? widget.dimension!.height) * widget.scale!,
@@ -88,7 +88,7 @@ class _FileImageBGState extends State<FileImageBG> {
               curve: Curves.easeInOut,
               child: Image.file(
                 widget.file!,
-                key: imageKey,
+                //  key: imageKey,
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
               ),

@@ -411,8 +411,7 @@ class _MainViewState extends State<MainView> {
 
                     /// top tools
                     if (controlNotifier.isTextEditing == false &&
-                        controlNotifier.isPainting == false &&
-                        _activeItem == null)
+                        controlNotifier.isPainting == false)
                       Align(
                         alignment: Alignment.topCenter,
                         child: TopTools(
@@ -434,8 +433,7 @@ class _MainViewState extends State<MainView> {
 
                     /// bottom tools
                     if (controlNotifier.isTextEditing == false &&
-                        controlNotifier.isPainting == false &&
-                        _activeItem == null)
+                        controlNotifier.isPainting == false)
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: BottomTools(
@@ -462,7 +460,7 @@ class _MainViewState extends State<MainView> {
                                 itemProvider.addItem(EditableItem()
                                   ..type = ItemType.image
                                   ..path = path
-                                  ..scale = mediaContent < 1 ? 1 : 0.8
+                                  ..scale = mediaContent < 1 ? 1.2 : 0.8
                                   ..position = const Offset(0, 0));
                                 if (mediaContent >= 1) {
                                   controlNotifier.mediaPath = '';
@@ -489,7 +487,7 @@ class _MainViewState extends State<MainView> {
                     )
                   ],
                 ),
-                // Show camera and gallery
+                // Show camera
                 camera: Stack(
                   children: [
                     // Camera
@@ -610,7 +608,7 @@ class _MainViewState extends State<MainView> {
                                       itemProvider.addItem(EditableItem()
                                         ..type = ItemType.image
                                         ..path = path
-                                        ..scale = mediaContent < 1 ? 1 : 0.8
+                                        ..scale = mediaContent < 1 ? 1.2 : 0.8
                                         ..position = const Offset(0, 0));
                                       if (mediaContent >= 1) {
                                         controlNotifier.mediaPath = '';
