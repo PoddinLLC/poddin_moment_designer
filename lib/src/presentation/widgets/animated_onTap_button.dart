@@ -10,6 +10,7 @@ class AnimatedOnTapButton extends StatefulWidget {
   final void Function()? onLongPress;
   final void Function()? onDoubleTap;
   final bool? showLoading;
+  final bool? hideChild;
 
   const AnimatedOnTapButton({
     super.key,
@@ -18,6 +19,7 @@ class AnimatedOnTapButton extends StatefulWidget {
     this.onLongPress,
     this.showLoading,
     this.onDoubleTap,
+    this.hideChild,
   });
 
   @override
@@ -28,6 +30,7 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
     with TickerProviderStateMixin {
   double squareScaleA = 1;
   bool loading = false;
+  bool showChild = true;
   AnimationController? _controllerA;
   Timer _timer = Timer(const Duration(milliseconds: 300), () {});
 
@@ -69,12 +72,18 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
             return;
           }
           _controllerA!.reverse();
-          setState(() => loading = true);
+          setState(() {
+            showChild = widget.hideChild != null ? false : true;
+            loading = true;
+          });
           try {
             await widget.onTap();
           } finally {
             if (mounted) {
-              setState(() => loading = false);
+              setState(() {
+                showChild = true;
+                loading = true;
+              });
             }
           }
         } else {
@@ -106,13 +115,13 @@ class _AnimatedOnTapButtonState extends State<AnimatedOnTapButton>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            widget.child,
+            if (showChild) widget.child,
             if (loading)
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
+              Padding(
+                padding: const EdgeInsets.only(left: 12),
                 child: SizedBox.square(
-                  dimension: 18,
-                  child: CircularProgressIndicator(
+                  dimension: widget.hideChild != null ? 22 : 18,
+                  child: const CircularProgressIndicator(
                     strokeWidth: 1.2,
                     valueColor: AlwaysStoppedAnimation(Colors.white),
                   ),
