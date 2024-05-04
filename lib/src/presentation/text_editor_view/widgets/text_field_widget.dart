@@ -24,6 +24,7 @@ class TextFieldWidget extends StatelessWidget {
             child: RoundedBackgroundTextField(
               focusNode: _textNode,
               autofocus: true,
+              showSelectionHandles: false,
               textInputAction: TextInputAction.newline,
               controller: editorNotifier.textController,
               style: AppFonts.getTextThemeENUM(
