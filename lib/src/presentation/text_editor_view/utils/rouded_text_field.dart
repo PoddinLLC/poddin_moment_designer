@@ -518,18 +518,13 @@ class _RoundedBackgroundTextFieldState
         if (textController.text.isNotEmpty)
           IgnorePointer(
             child: Container(
-              padding: const EdgeInsets.only(
-                right: 2.0,
-                left: 1.0,
-                bottom: 3.0,
-              ),
+              padding: const EdgeInsets.only(right: 2, left: 1, bottom: 3),
               margin: padding,
               child: RoundedBackgroundText.rich(
                 text: textController.buildTextSpan(
-                  context: context,
-                  withComposing: !widget.readOnly,
-                  style: style,
-                ),
+                    context: context,
+                    withComposing: !widget.readOnly,
+                    style: style),
                 textAlign: widget.textAlign,
                 backgroundColor: widget.backgroundColor,
                 innerRadius: widget.innerRadius,

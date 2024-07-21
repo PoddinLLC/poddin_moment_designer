@@ -46,17 +46,17 @@ class _FileImageBGState extends State<FileImageBG> {
 
   @override
   void initState() {
+    imgWidth = widget.dimension!.width;
     // get image size
     Timer(Duration.zero, () async {
       final fileByte = await widget.file!.readAsBytes();
       final buffer = await ui.ImmutableBuffer.fromUint8List(fileByte);
       final descriptor = await ui.ImageDescriptor.encoded(buffer);
-      final width = descriptor.width * 1.0;
-      final height = descriptor.height * 1.0;
+      final width = descriptor.width;
+      final height = descriptor.height;
       // get image aspect ratio
       final aspectRatio = width / height;
       // resize image to fit screen width
-      imgWidth = widget.dimension!.width;
       imgHeight = (widget.dimension!.width ~/ aspectRatio).toDouble();
       if (mounted) setState(() {});
     });
@@ -67,7 +67,6 @@ class _FileImageBGState extends State<FileImageBG> {
   Widget build(BuildContext context) {
     final colorProvider = Provider.of<GradientNotifier>(context, listen: false);
     return RepaintBoundary(
-      //key: paintKey,
       child: SizedBox(
         width: (imgWidth ?? widget.dimension!.width) * widget.scale!,
         height: (imgHeight ?? widget.dimension!.height) * widget.scale!,
@@ -75,8 +74,8 @@ class _FileImageBGState extends State<FileImageBG> {
           imageProvider: FileImage(widget.file!),
           defaultColor: Colors.black,
           builder: (context, img) {
-            var color1 = img.pixelColorAtAlignment!(color1alignment[value]);
-            var color2 = img.pixelColorAtAlignment!(color2alignment[value]);
+            Color color1 = img.pixelColorAtAlignment!(color1alignment[value]);
+            Color color2 = img.pixelColorAtAlignment!(color2alignment[value]);
             //
             if (mounted && img.hasImage) {
               colorProvider.color1 = color1;
@@ -88,7 +87,6 @@ class _FileImageBGState extends State<FileImageBG> {
               curve: Curves.easeInOut,
               child: Image.file(
                 widget.file!,
-                //  key: imageKey,
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
               ),

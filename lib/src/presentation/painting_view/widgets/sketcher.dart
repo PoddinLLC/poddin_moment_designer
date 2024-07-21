@@ -11,7 +11,7 @@ class Sketcher extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
-    List<Point>? outlinePoints;
+    List<PointVector>? outlinePoints;
 
     for (int i = 0; i < lines.length; ++i) {
       switch (lines[i].paintingType) {
@@ -22,24 +22,23 @@ class Sketcher extends CustomPainter {
 
               /// coordinates
               lines[i].points,
+              options: StrokeOptions(
+                // line width
+                size: lines[i].size,
 
-              /// line width
-              size: lines[i].size,
+                /// line thin
+                thinning: 1,
 
-              /// line thin
-              thinning: 1,
+                /// line smooth
+                smoothing: 1,
 
-              /// line smooth
-              smoothing: 1,
-
-              /// on complete line
-              isComplete: lines[i].isComplete,
-              streamline: 1,
-              taperEnd: 0,
-              taperStart: 0,
-              capEnd: true,
-              simulatePressure: true,
-              capStart: true);
+                /// on complete line
+                isComplete: lines[i].isComplete,
+                streamline: 1,
+                start: StrokeEndOptions.start(cap: true, taperEnabled: false),
+                end: StrokeEndOptions.end(cap: true, taperEnabled: false),
+                simulatePressure: true,
+              )).cast<PointVector>();
           break;
         case PaintingType.marker:
           paint = Paint()
@@ -52,19 +51,20 @@ class Sketcher extends CustomPainter {
           outlinePoints = getStroke(
             /// coordinates
             lines[i].points,
+            options: StrokeOptions(
+              // line width
+              size: lines[i].size,
 
-            /// line width
-            size: lines[i].size,
+              /// line thin
+              thinning: 1,
 
-            /// line thin
-            thinning: 1,
+              /// line smooth
+              smoothing: 1,
 
-            /// line smooth
-            smoothing: 1,
-
-            /// on complete line
-            isComplete: lines[i].isComplete,
-          );
+              /// on complete line
+              isComplete: lines[i].isComplete,
+            ),
+          ).cast<PointVector>();
           break;
         case PaintingType.neon:
           paint = Paint()
@@ -78,15 +78,14 @@ class Sketcher extends CustomPainter {
             ..style = PaintingStyle.stroke;
 
           outlinePoints = getStroke(
-
-              /// coordinates
-              lines[i].points,
-
-              /// line width
+            /// coordinates
+            lines[i].points,
+            options: StrokeOptions(
+              // line width
               size: lines[i].size,
 
               /// line thin
-              thinning: -0.1,
+              thinning: 1,
 
               /// line smooth
               smoothing: 1,
@@ -94,11 +93,11 @@ class Sketcher extends CustomPainter {
               /// on complete line
               isComplete: lines[i].isComplete,
               streamline: lines[i].streamline,
+              start: StrokeEndOptions.start(cap: true, taperEnabled: false),
+              end: StrokeEndOptions.end(cap: true, taperEnabled: false),
               simulatePressure: lines[i].simulatePressure,
-              taperStart: 0,
-              taperEnd: 0,
-              capStart: true,
-              capEnd: true);
+            ),
+          ).cast<PointVector>();
           break;
       }
 

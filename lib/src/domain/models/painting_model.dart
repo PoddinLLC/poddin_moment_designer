@@ -4,7 +4,7 @@ import 'package:poddin_moment_designer/src/presentation/utils/constants/painting
 
 class PaintingModel {
   /// lines coordinates
-  List<Point> points;
+  List<PointVector> points;
 
   /// The base size (diameter) of the stroke.
   double size = 10;

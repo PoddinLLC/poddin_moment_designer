@@ -50,10 +50,7 @@ class DraggableWidget extends StatelessWidget {
       case ItemType.text:
         overlayWidget = Container(
           constraints: BoxConstraints(
-            minHeight: 50,
-            minWidth: 50,
-            maxWidth: dimension!.width - 100,
-          ),
+              minHeight: 50, minWidth: 50, maxWidth: dimension!.width - 100),
           width: draggableWidget.deletePosition ? 0 : null,
           height: draggableWidget.deletePosition ? 0 : null,
           child: AnimatedOnTapButton(
@@ -79,8 +76,8 @@ class DraggableWidget extends StatelessWidget {
                           ? []
                           : <Shadow>[
                               Shadow(
-                                  offset: const Offset(0, 0),
-                                  blurRadius: 3.0,
+                                  offset: Offset.zero,
+                                  blurRadius: 3,
                                   color:
                                       draggableWidget.textColor == Colors.black
                                           ? Colors.white54
@@ -120,6 +117,7 @@ class DraggableWidget extends StatelessWidget {
           ),
         );
         break;
+
       case ItemType.gif:
         overlayWidget = SizedBox(
           width: 150,
@@ -145,6 +143,9 @@ class DraggableWidget extends StatelessWidget {
 
       case ItemType.video:
         overlayWidget = const Center();
+
+      default:
+        overlayWidget = const SizedBox();
     }
 
     /// set widget data position on main screen

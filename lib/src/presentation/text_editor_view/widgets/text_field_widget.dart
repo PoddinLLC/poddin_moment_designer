@@ -12,15 +12,14 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _size = MediaQuery.of(context).size;
+    final _size = MediaQuery.of(context).size;
     FocusNode _textNode = FocusNode();
+
     return Consumer2<TextEditingNotifier, ControlNotifier>(
       builder: (context, editorNotifier, controlNotifier, child) {
         return Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: _size.width - 100,
-            ),
+            constraints: BoxConstraints(maxWidth: _size.width - 100),
             child: RoundedBackgroundTextField(
               focusNode: _textNode,
               autofocus: true,
@@ -31,10 +30,10 @@ class TextFieldWidget extends StatelessWidget {
                       controlNotifier.fontList![editorNotifier.fontFamilyIndex])
                   .bodyLarge!
                   .copyWith(
-                    color: controlNotifier.colorList![editorNotifier.textColor],
-                    height: 1.4,
-                    fontSize: editorNotifier.textSize,
-                  ),
+                      color:
+                          controlNotifier.colorList![editorNotifier.textColor],
+                      height: 1.5,
+                      fontSize: editorNotifier.textSize),
               backgroundColor: editorNotifier.backGroundColor,
               textAlign: editorNotifier.textAlign,
               cursorColor: controlNotifier.colorList![editorNotifier.textColor],

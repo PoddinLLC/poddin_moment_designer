@@ -178,7 +178,7 @@ class _MainViewState extends State<MainView> {
         _control.colorList = widget.colorList;
       }
       //
-      if (kDebugMode) debugPrint('Screen size: $screenSize');
+      if (kDebugMode) debugPrint('Main view screen size: $screenSize');
     });
     super.initState();
   }
@@ -241,9 +241,7 @@ class _MainViewState extends State<MainView> {
                           key: contentKey,
                           child: AnimatedContainer(
                             constraints: BoxConstraints(
-                              maxHeight: height,
-                              maxWidth: width,
-                            ),
+                                maxHeight: height, maxWidth: width),
                             duration: const Duration(milliseconds: 200),
                             decoration: BoxDecoration(
                               gradient: controlNotifier.mediaPath.isEmpty
@@ -268,41 +266,37 @@ class _MainViewState extends State<MainView> {
                                 /// list content items
                                 ...itemProvider.draggableWidget.map(
                                   (editableItem) => DraggableWidget(
+                                    key: ValueKey(
+                                        '${editableItem.type.name}_widget_${editableItem.type == ItemType.text ? editableItem.text.substring(0, editableItem.text.length - 100 >= 0 ? 100 : editableItem.text.length) : editableItem.path.split('/').last}'),
                                     dimension: Size(width, height),
                                     context: context,
                                     draggableWidget: editableItem,
                                     onPointerDown: (details) {
                                       if (kDebugMode) {
-                                        debugPrint(
-                                            'onPointerDown callback detected');
+                                        debugPrint('onPointerDown detected');
                                       }
                                       _updateItemPosition(
-                                        editableItem,
-                                        details,
-                                      );
+                                          editableItem, details);
                                     },
                                     onPointerUp: (details) {
                                       if (kDebugMode) {
-                                        debugPrint(
-                                            'onPointerUp callback detected');
+                                        debugPrint('onPointerUp detected');
                                       }
                                       _deleteItemOnCoordinates(
                                           editableItem, details);
                                     },
                                     onPointerMove: (details) async {
                                       if (kDebugMode) {
-                                        debugPrint(
-                                            'onPointerMove callback detected');
+                                        debugPrint('onPointerMove detected');
                                       }
                                       _deletePosition(editableItem);
                                     },
                                     doubleTap: () {
-                                      if (kDebugMode) {
-                                        debugPrint(
-                                            'longPress callback detected');
-                                      }
                                       // vibrate
                                       HapticFeedback.lightImpact();
+                                      if (kDebugMode) {
+                                        debugPrint('doubleTap detected');
+                                      }
                                       reorder(context, editableItem);
                                     },
                                   ),
@@ -376,7 +370,7 @@ class _MainViewState extends State<MainView> {
 
                     /// Show item alignment indicator
                     if (_activeItem != null && !_isDeletePosition)
-                      RepaintBoundary(
+                      IgnorePointer(
                         child: SizedBox(
                           width: width,
                           height: height,
@@ -384,9 +378,9 @@ class _MainViewState extends State<MainView> {
                             alignment: Alignment.center,
                             children: [
                               // Vertical Alignment
-                              if (_activeItem?.position.direction ==
+                              if (_activeItem!.position.direction ==
                                       1.5707963267948966 ||
-                                  _activeItem?.position.direction ==
+                                  _activeItem!.position.direction ==
                                       -1.5707963267948966)
                                 Container(
                                   width: 1,
@@ -396,7 +390,7 @@ class _MainViewState extends State<MainView> {
                                   ),
                                 ),
                               // Horizontal Alignment
-                              if (_activeItem?.position == Offset(0.0, 0.0))
+                              if (_activeItem!.position == Offset(0.0, 0.0))
                                 Container(
                                   width: width,
                                   height: 1,
@@ -571,20 +565,16 @@ class _MainViewState extends State<MainView> {
                                         color: const Color(0xFFD91C54),
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: Colors.white,
-                                          width: 1.5,
-                                        ),
+                                            color: Colors.white, width: 1.5),
                                       ),
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
+                                        borderRadius: BorderRadius.circular(50),
                                         child: const ImageIcon(
-                                          AssetImage('assets/icons/text.png',
-                                              package:
-                                                  'poddin_moment_designer'),
-                                          color: Colors.white,
-                                          size: 18,
-                                        ),
+                                            AssetImage('assets/icons/text.png',
+                                                package:
+                                                    'poddin_moment_designer'),
+                                            color: Colors.white,
+                                            size: 18),
                                       ),
                                     ),
                                   );
@@ -629,12 +619,10 @@ class _MainViewState extends State<MainView> {
                                     color: Colors.black54,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: Colors.white,
-                                      width: 1.5,
-                                    ),
+                                        color: Colors.white, width: 1.5),
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50.0),
+                                    borderRadius: BorderRadius.circular(50),
                                     child:
                                         GalleryThumbnail(height: 40, width: 40),
                                   ),
@@ -658,20 +646,17 @@ class _MainViewState extends State<MainView> {
                         },
                         bottomActionsBuilder: (state) => AwesomeBottomActions(
                           onMediaTap: (mediaCapture) => onPreviewTap(
-                            mediaCapture,
-                            controlNotifier,
-                            itemProvider,
-                            scrollProvider,
-                            page,
-                          ),
+                              mediaCapture,
+                              controlNotifier,
+                              itemProvider,
+                              scrollProvider,
+                              page),
                           state: state,
                           left: AwesomeCameraSwitchButton(
                             state: state,
                             iconBuilder: () {
                               return const AwesomeCircleWidget.icon(
-                                icon: Icons.cameraswitch,
-                                scale: 1.2,
-                              );
+                                  icon: Icons.cameraswitch, scale: 1.2);
                             },
                           ),
                         ),
@@ -687,9 +672,7 @@ class _MainViewState extends State<MainView> {
                                     color: Colors.transparent,
                                     shape: const CircleBorder(),
                                     child: GestureDetector(
-                                      onTap: onTap,
-                                      child: child,
-                                    ),
+                                        onTap: onTap, child: child),
                                   ),
                                 ),
                               );
@@ -702,8 +685,7 @@ class _MainViewState extends State<MainView> {
                             width: 30,
                             height: 30,
                             child: CircularProgressIndicator.adaptive(
-                              strokeWidth: 2,
-                            ),
+                                strokeWidth: 2),
                           ),
                         ),
                       ),
@@ -725,6 +707,7 @@ class _MainViewState extends State<MainView> {
   Future<String?> openMediaGallery() async {
     final media = await AssetPicker.pickAssets(
       context,
+      permissionRequestOption: PermissionRequestOption(),
       pickerConfig: AssetPickerConfig(
         maxAssets: 1,
         requestType: RequestType.image,
@@ -920,7 +903,7 @@ class _MainViewState extends State<MainView> {
     if (_activeItem == null) {
       return;
     }
-    if (kDebugMode) debugPrint('onScaleUpdate callback detected');
+    if (kDebugMode) debugPrint('onScaleUpdate detected');
     final padding = MediaQuery.paddingOf(context);
     final height = screenSize.height - padding.vertical;
     final width = min(screenSize.width, 500).toDouble();
@@ -1005,28 +988,28 @@ class _MainViewState extends State<MainView> {
   /// onLongPress content
   Future<void> reorder(
     BuildContext context,
-    EditableItem item,
+    EditableItem widget,
   ) async {
     final _itemProvider =
-        Provider.of<DraggableWidgetNotifier>(this.context, listen: false);
+        Provider.of<DraggableWidgetNotifier>(context, listen: false);
     if (_itemProvider.draggableWidget.length > 1) {
-      // active item index
-      final itemIndex = _itemProvider.draggableWidget.indexOf(item);
-      if (itemIndex == -1) return;
-      if (itemIndex > 0 &&
-          itemIndex <= _itemProvider.draggableWidget.length - 1) {
-        // remove active item
-        _itemProvider.draggableWidget.remove(item);
-        // insert item to new position backwards
-        _itemProvider.draggableWidget.insert(itemIndex - 1, item);
+      // widget index
+      final index = _itemProvider.draggableWidget.indexOf(widget);
+      // index of widget at end of the list
+      final lastIndex = _itemProvider.draggableWidget.length - 1;
+      // widget not found
+      if (index == -1 || index > lastIndex) return;
+      // remove widget from the list
+      _itemProvider.removeItem(widget);
+      // insert widget to a new position backward
+      if (index == lastIndex) {
+        _itemProvider.insertAt(index - 1, widget);
       }
-      if (itemIndex == 0) {
-        // remove active item
-        _itemProvider.draggableWidget.remove(item);
-        // insert item to new position forward
-        _itemProvider.draggableWidget.insert(itemIndex + 1, item);
+      // insert widget to a new position forward
+      else if (index < lastIndex) {
+        _itemProvider.insertAt(index + 1, widget);
       }
-      setState(() {});
+      // setState(() {});
     }
   }
 }

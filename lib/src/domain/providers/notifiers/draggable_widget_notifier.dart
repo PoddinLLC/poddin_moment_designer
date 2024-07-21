@@ -9,31 +9,31 @@ class DraggableWidgetNotifier extends ChangeNotifier {
   List<EditableItem> get draggableWidget => _draggableWidget;
   set draggableWidget(List<EditableItem> item) {
     _draggableWidget = item;
-   // notifyListeners();
+    // notifyListeners();
   }
 
-  /// Insert item at index
+  /// Insert item at [index]
   insertAt(int index, EditableItem element) {
     _draggableWidget.insert(index, element);
-   // notifyListeners();
+    notifyListeners();
   }
 
-  /// Remove item at index
+  /// Remove item at [index] (this reduces length of the list)
   removeAt(int index) {
     _draggableWidget.removeAt(index);
-   // notifyListeners();
+    notifyListeners();
   }
 
-  /// Add item
+  /// Add [item] to the end of the list
   addItem(EditableItem item) {
     _draggableWidget.add(item);
     notifyListeners();
   }
 
-  /// Remove item
+  /// Remove [item] from the list (this reduces length of the list)
   removeItem(EditableItem item) {
-    _draggableWidget.removeAt(_draggableWidget.indexOf(item));
-   // notifyListeners();
+    _draggableWidget.remove(item);
+    notifyListeners();
   }
 
   // GiphyGif? _gif;

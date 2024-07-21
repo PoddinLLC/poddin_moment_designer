@@ -134,9 +134,7 @@ class RoundedBackgroundText extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, constraints) {
       painter.layout(
-        maxWidth: constraints.maxWidth,
-        minWidth: constraints.minWidth,
-      );
+          maxWidth: constraints.maxWidth, minWidth: constraints.minWidth);
       return CustomPaint(
         isComplex: true,
         size: Size(

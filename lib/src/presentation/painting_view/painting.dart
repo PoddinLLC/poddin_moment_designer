@@ -43,7 +43,7 @@ class _PaintingState extends State<Painting> {
     PaintingModel? line;
 
     /// screen size
-    var screenSize = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    final screenSize = MediaQuery.of(context);
 
     /// on gestures start
     void _onPanStart(DragStartDetails details,
@@ -126,8 +126,7 @@ class _PaintingState extends State<Painting> {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   width: screenSize.size.width,
-                  height: screenSize.size.height -
-                      screenSize.viewPadding.top,
+                  height: screenSize.size.height - screenSize.viewPadding.top,
                   child: StreamBuilder<PaintingModel>(
                       stream:
                           paintingNotifier.currentLineStreamController.stream,
@@ -152,7 +151,7 @@ class _PaintingState extends State<Painting> {
             controlNotifier.isPainting = false;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               paintingNotifier.closeConnection();
-            }); 
+            });
             return true;
           },
           child: Scaffold(
@@ -166,9 +165,8 @@ class _PaintingState extends State<Painting> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 140),
-                    child: SizeSliderWidget(),
-                  ),
+                      padding: EdgeInsets.only(bottom: 140),
+                      child: SizeSliderWidget()),
                 ),
 
                 /// top painting tools
@@ -178,9 +176,8 @@ class _PaintingState extends State<Painting> {
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: ColorSelector(),
-                  ),
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: ColorSelector()),
                 ),
               ],
             ),
